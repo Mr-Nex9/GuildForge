@@ -11,6 +11,9 @@ EditorUserSettings:
     RecentlyUsedSceneGuid-1:
       value: 55020d5357010a5a54595c7b49700a4446151a792f78776029784962bab96039
       flags: 0
+    UIBuilder.ProjectBlockedNotifications:
+      value: 01445d0a01501b161d1c09341926485d1b181c2f61262924242f1430e3f43d37ec
+      flags: 0
     vcSharedLogLevel:
       value: 0d5e400f0650
       flags: 0
