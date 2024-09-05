@@ -5,7 +5,8 @@ public class UIManager : MonoBehaviour
 {
 
     [SerializeField] private GameState gameState;
-    [SerializeField] VisualTreeAsset m_ListEntryTemplate;
+    [SerializeField] VisualTreeAsset m_RosterListEntryTemplate;
+    [SerializeField] VisualTreeAsset m_MissionListEntryTemplate;
     private VisualElement curPage;
 
     private void OnEnable()
@@ -47,7 +48,7 @@ public class UIManager : MonoBehaviour
         curPage.style.display = DisplayStyle.Flex;
 
         var adventurerlistcontroller = new AdventurerListController();
-        adventurerlistcontroller.InitializeRosterList(RosterPage, m_ListEntryTemplate);
+        adventurerlistcontroller.InitializeRosterList(RosterPage, m_RosterListEntryTemplate);
 
     }
 

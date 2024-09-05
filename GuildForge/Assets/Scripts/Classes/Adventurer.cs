@@ -6,11 +6,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Adventurer", menuName = "Scriptable Objects/Adventurer")]
 public class Adventurer : ScriptableObject
 {
-    enum AdventurerClasses { Archer, Swordsman, Sorcerer, Thief}
+    public enum AdventurerClasses { Archer, Swordsman, Sorcerer, Thief}
     public enum AdventurerRanks {S, A, B, C, D}
+
+    [SerializeField] public Sprite Icon;
     [SerializeField] public string Name;
     private int ID;
-    [SerializeField] private AdventurerClasses Class;
+    [SerializeField] public AdventurerClasses Class;
     public AdventurerRanks Rank
     {
         get
@@ -37,7 +39,7 @@ public class Adventurer : ScriptableObject
             return AdventurerRanks.D;
         }
     }
-    [SerializeField] private int Level;
+    [SerializeField] public int Level;
     public int EXP
     {
         get { return EXP; }

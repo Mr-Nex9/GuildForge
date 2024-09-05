@@ -286,7 +286,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameState: {fileID: 11400000, guid: f927e6ec532a2d74bbce682543b2f91c, type: 2}
-  m_ListEntryTemplate: {fileID: 9197481963319205126, guid: 3eb3080bf8114f545823c75c628bad75, type: 3}
+  m_RosterListEntryTemplate: {fileID: 9197481963319205126, guid: 3eb3080bf8114f545823c75c628bad75, type: 3}
+  m_MissionListEntryTemplate: {fileID: 9197481963319205126, guid: ea8abf8ab89be1548bfa09fd68bc0a2b, type: 3}
 --- !u!114 &2104832208
 MonoBehaviour:
   m_ObjectHideFlags: 0
