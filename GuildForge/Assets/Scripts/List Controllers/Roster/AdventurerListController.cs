@@ -8,11 +8,6 @@ public class AdventurerListController
     VisualTreeAsset m_listEntryTemplate;
 
     ListView m_rosterList;
-    Label m_adventurerClassLabel;
-    Label m_adventurerNameLabel;
-    Label m_adventurerLevelLabel;
-    VisualElement m_adventurerIcon;
-
 
     List<Adventurer> m_Roster;
 
@@ -23,12 +18,6 @@ public class AdventurerListController
         m_listEntryTemplate = listElementTemplate;
 
         m_rosterList = root.Q<ListView>("Roster-List");
-
-        m_adventurerClassLabel = root.Q<Label>("AdventurerClass");
-        m_adventurerNameLabel = root.Q<Label>("AdventurerName");
-        m_adventurerLevelLabel = root.Q<Label>("AdventurerLV");
-        m_adventurerIcon = root.Q<VisualElement>("AdventurerIcon");
-
 
         FillAdventurerList();
 
@@ -64,7 +53,7 @@ public class AdventurerListController
     }
     private void OnAdventurerSelected(IEnumerable<object> enumerable)
     {
-        Debug.Log(m_adventurerNameLabel.text);
+
     }
 
 }
