@@ -15,16 +15,18 @@ MonoBehaviour:
   Icon: {fileID: 0}
   Name: Jack
   Class: 0
+  Rank: 4
   Level: 10
+  OnMission: 0
+  EXP: 0
   HP: 0
   Mana: 0
   Attack: 0
   Defense: 0
   Magic: 0
   Speed: 0
-  Skills: []
-  OnMission: 0
   Armor: {fileID: 0}
   Weapon: {fileID: 0}
   AccessorySlot1: {fileID: 0}
   AccessorySlot2: {fileID: 0}
+  Skills: []

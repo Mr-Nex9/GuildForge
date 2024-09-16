@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 906536422}
   m_Layer: 0
   m_Name: GameMaster
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameState: {fileID: 11400000, guid: f927e6ec532a2d74bbce682543b2f91c, type: 2}
+  timePassed: 0
 --- !u!4 &906536423
 Transform:
   m_ObjectHideFlags: 0
@@ -268,7 +269,7 @@ GameObject:
   - component: {fileID: 2104832207}
   m_Layer: 5
   m_Name: UIMaster
-  m_TagString: Untagged
+  m_TagString: UI Manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -287,7 +288,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameState: {fileID: 11400000, guid: f927e6ec532a2d74bbce682543b2f91c, type: 2}
   m_RosterListEntryTemplate: {fileID: 9197481963319205126, guid: 3eb3080bf8114f545823c75c628bad75, type: 3}
-  m_MissionListEntryTemplate: {fileID: 9197481963319205126, guid: ea8abf8ab89be1548bfa09fd68bc0a2b, type: 3}
+  m_NewMissionListEntryTemplate: {fileID: 9197481963319205126, guid: 73308c0352caf2045af39619f503db88, type: 3}
+  m_ActiveMissionListEntryTemplate: {fileID: 9197481963319205126, guid: ea8abf8ab89be1548bfa09fd68bc0a2b, type: 3}
 --- !u!114 &2104832208
 MonoBehaviour:
   m_ObjectHideFlags: 0
