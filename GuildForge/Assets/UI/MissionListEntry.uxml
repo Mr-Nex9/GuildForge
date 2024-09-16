@@ -1,8 +1,0 @@
-<engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/MissionListEntry.uss?fileID=7433441132597879392&amp;guid=cd554788ad6394c47bcf40a79f97a8a4&amp;type=3#MissionListEntry" />
-    <engine:VisualElement class="ListEntry">
-        <engine:Label text="Label" style="width: 25%; align-self: center; justify-content: flex-start; align-items: auto; align-content: auto; font-size: 40px; -unity-text-align: upper-center;" />
-        <engine:ProgressBar value="33.2" class="ProgressBar" />
-        <engine:Button text="Complete" class="Button" />
-    </engine:VisualElement>
-</engine:UXML>

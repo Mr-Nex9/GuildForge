@@ -1,3 +1,4 @@
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -6,8 +7,11 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameState gameState;
     [SerializeField] VisualTreeAsset m_RosterListEntryTemplate;
-    [SerializeField] VisualTreeAsset m_MissionListEntryTemplate;
+    [SerializeField] VisualTreeAsset m_NewMissionListEntryTemplate;
+    [SerializeField] VisualTreeAsset m_ActiveMissionListEntryTemplate;
+
     private VisualElement curPage;
+    private float timePassed;
 
     private void OnEnable()
     {
@@ -17,6 +21,12 @@ public class UIManager : MonoBehaviour
         var Footer = uiDocument.rootVisualElement.Q<ToggleButtonGroup>("Footer");
         curPage = QuestPage;
         curPage.style.display = DisplayStyle.Flex;
+
+        var missionListController = new MissionListController();
+        missionListController.InitializeMissionList(QuestPage, m_NewMissionListEntryTemplate);
+        var activemissionListController = new ActiveMissionListController();
+        activemissionListController.InitializeMissionList(QuestPage, m_ActiveMissionListEntryTemplate);
+
 
 
         var AchievementsBtn = Footer.Q<Button>("AchievementsButton");
@@ -59,6 +69,11 @@ public class UIManager : MonoBehaviour
         var QuestPage = uiDocument.rootVisualElement.Q<VisualElement>("QuestPage");
         curPage = QuestPage;
         curPage.style.display = DisplayStyle.Flex;
+
+        var missionListController = new MissionListController();
+        missionListController.InitializeMissionList(QuestPage, m_NewMissionListEntryTemplate);
+        var activemissionListController = new ActiveMissionListController();
+        activemissionListController.InitializeMissionList(QuestPage, m_ActiveMissionListEntryTemplate);
     }
 
     private void InventoryBtn_clicked()
@@ -78,4 +93,5 @@ public class UIManager : MonoBehaviour
         curPage = AchievementsPage;
         curPage.style.display = DisplayStyle.Flex;
     }
+
 }
