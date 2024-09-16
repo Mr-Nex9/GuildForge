@@ -15,6 +15,7 @@ MonoBehaviour:
   MissionComplete:
     m_PersistentCalls:
       m_Calls: []
+  ID: 1
   Active: 1
   Name: test2
   Description: 

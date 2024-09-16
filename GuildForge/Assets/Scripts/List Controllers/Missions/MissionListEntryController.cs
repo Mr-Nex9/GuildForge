@@ -20,5 +20,6 @@ public class MissionListEntryController
     {
         m_NameLabel.text = mission.Name;
         m_MissionTypelLabel.text = mission.Type.ToString();
+
     }
 }

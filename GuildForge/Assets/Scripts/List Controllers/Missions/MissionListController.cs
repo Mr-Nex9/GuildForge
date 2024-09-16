@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UIElements;
 
 public class MissionListController
@@ -12,6 +13,7 @@ public class MissionListController
     ListView m_missionList;
 
     List<Mission> m_mission;
+
 
     public void InitializeMissionList(VisualElement root, VisualTreeAsset listElementTemplate)
     {
@@ -27,7 +29,7 @@ public class MissionListController
 
 
 
-        m_missionList.selectionChanged += OpenMissionDetails;
+
 
     }
 
@@ -59,19 +61,26 @@ public class MissionListController
             var newListEntryLogic = new MissionListEntryController();
             newListEntry.userData = newListEntryLogic;
             newListEntryLogic.SetVisualElement(newListEntry);
+            Button detailsButton = newListEntry.Q<Button>("DetailsButton");
+
+            detailsButton.RegisterCallback<ClickEvent>(e => OnDetailsButtonClicked(newListEntry));
             return newListEntry;
         };
 
         m_missionList.bindItem = (item, index) =>
         {
             (item.userData as MissionListEntryController)?.SetMissionData(m_mission[index]);
+            item.userData = index;
         };
 
         m_missionList.itemsSource = m_mission;
     }
 
-    void OpenMissionDetails(IEnumerable<object> obj)
+    public void OnDetailsButtonClicked(VisualElement element)
     {
-        Debug.Log(m_missionList.selectedIndex);
+        
+        int x = (int)element.userData;
+        UIManager uiManager = new UIManager();
+        uiManager.MissionDetails(x);
     }
 }

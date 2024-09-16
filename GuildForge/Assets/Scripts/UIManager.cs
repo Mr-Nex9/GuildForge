@@ -4,6 +4,22 @@ using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
+    #region Singleton
+    public static UIManager instance;
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(this);
+        }
+
+        DontDestroyOnLoad(this);
+    }
+    #endregion
 
     [SerializeField] private GameState gameState;
     [SerializeField] VisualTreeAsset m_RosterListEntryTemplate;
@@ -11,6 +27,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] VisualTreeAsset m_ActiveMissionListEntryTemplate;
 
     private VisualElement curPage;
+    private VisualElement curPopUp;
     private float timePassed;
 
     private void OnEnable()
@@ -40,7 +57,7 @@ public class UIManager : MonoBehaviour
         HomeBtn.clicked += HomeBtn_clicked;
         RosterBtn.clicked += RosterBtn_clicked;
         SettingsBtn.clicked += SettingsBtn_clicked;
-
+        
 
     }
 
@@ -92,6 +109,17 @@ public class UIManager : MonoBehaviour
         var AchievementsPage = uiDocument.rootVisualElement.Q<VisualElement>("AchievementsPage");
         curPage = AchievementsPage;
         curPage.style.display = DisplayStyle.Flex;
+    }
+
+    public void MissionDetails(int  missionId)
+    {
+        Debug.Log("Event Caught");
+        Debug.Log(missionId);
+        
+        var uiDocument = GetComponent<UIDocument>();
+        var MissionDetails = uiDocument.rootVisualElement.Q<VisualElement>("MissionDetailsPopIp");
+        curPopUp = MissionDetails;
+        curPopUp.style.display = DisplayStyle.Flex;
     }
 
 }

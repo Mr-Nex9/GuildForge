@@ -13,6 +13,7 @@ public class Mission : ScriptableObject
 
 
     [Header("Mission Details")]
+    public int ID;
     [SerializeField] public bool Active;
     [SerializeField] public string Name;
     [SerializeField] public string Description;
