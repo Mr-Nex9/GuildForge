@@ -10,22 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e829111cccd604f4a946dbbbc97d7913, type: 3}
-  m_Name: Test 3
+  m_Name: Test3
   m_EditorClassIdentifier: 
   MissionComplete:
     m_PersistentCalls:
       m_Calls: []
+  ID: 3
   Active: 0
+  Offered: 1
   Name: test 3
   Description: 
   Type: 2
   Difficulty: 1
   Rank: 1
   BaseEXPValue: 0
+  EXPValue: 0
   BaseGoldValue: 0
   BaseReputationValue: 0
   BaseLootValue: 0
+  GoldValue: 0
+  ReputationValue: 0
   MaxAssigned: 0
   AssignedAdventurers: []
-  TimeToCompleteInSeconds: 0
-  BaseSuccessChance: 90
+  TimeToCompleteInSeconds: 30
+  BaseCompletionTimeInSeconds: 300
+  BaseSuccessChance: 100

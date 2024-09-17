@@ -9,14 +9,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameState", menuName = "Scriptable Objects/GameState")]
 public class GameState : ScriptableObject
 {
-    [SerializeField] private List<Adventurer> Roster = new List<Adventurer>();
-    [SerializeField] private List<Adventurer> AllAdventurers = new List<Adventurer>();
-    [SerializeField] private List<Mission> AllMissions = new List<Mission>();
-    [SerializeField] private List<Mission> ActiveMissions = new List<Mission>();
+    [SerializeField] public List<Adventurer> Roster = new List<Adventurer>();
+    [SerializeField] public List<Adventurer> AllAdventurers = new List<Adventurer>();
+    [SerializeField] public List<Mission> AllMissions = new List<Mission>();
+    [SerializeField] public List<Mission> ActiveMissions = new List<Mission>();
 
-    [SerializeField] private int Gold;
-    [SerializeField] private int Loot;
-    [SerializeField] private int Reputation;
+    [SerializeField] public int Gold;
+    [SerializeField] public int Loot;
+    [SerializeField] public int Reputation;
 
 
     

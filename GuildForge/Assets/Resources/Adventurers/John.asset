@@ -12,20 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc21fb672447074fa406334334aef96, type: 3}
   m_Name: John
   m_EditorClassIdentifier: 
-  Icon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: d62a31aa663721244a5dc9c873ff0d30, type: 3}
   Name: John
-  Class: 1
+  Class: 0
+  Rank: 3
   Level: 2
+  OnMission: 0
+  EXP: 0
   HP: 28
   Mana: 12
   Attack: 24
   Defense: 17
   Magic: 37
   Speed: 28
-  Skills:
-  - {fileID: 0}
-  OnMission: 0
   Armor: {fileID: 0}
   Weapon: {fileID: 0}
   AccessorySlot1: {fileID: 0}
   AccessorySlot2: {fileID: 0}
+  Skills:
+  - {fileID: 0}

@@ -12,7 +12,7 @@ public class Adventurer : ScriptableObject
 
 
     private int ID;
-    [SerializeField] public Sprite Icon;
+    [SerializeField] public Texture Icon;
     [SerializeField] public string Name;
     [ReadOnly] public AdventurerClasses Class;
     [ReadOnly] public AdventurerRanks Rank;

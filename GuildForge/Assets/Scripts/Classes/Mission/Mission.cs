@@ -9,29 +9,28 @@ public class Mission : ScriptableObject
 {
     public enum MissionType {Collection, Treasure, Hunt, Target, Guard, Rescue};
     public enum MissionRank { S,A,B,C,D};
-    public UnityEvent<int,int,int> MissionComplete;
+    public UnityEvent<int,int> MissionComplete;
 
 
     [Header("Mission Details")]
     public int ID;
     [SerializeField] public bool Active;
+    [SerializeField] public bool Offered;
     [SerializeField] public string Name;
     [SerializeField] public string Description;
     [ReadOnly] public MissionType Type;
     [SerializeField][Range(1, 60)] public int Difficulty;
     [SerializeField] public MissionRank Rank;
     [SerializeField] private int BaseEXPValue;
-    private int EXPValue;
+    public int EXPValue;
     [SerializeField] private int BaseGoldValue;
     [SerializeField] private int BaseReputationValue;
     [SerializeField] private int BaseLootValue;
-    private int GoldValue;
-    private int ReputationValue;
-    private int LootValue;
+    public int GoldValue;
+    public int ReputationValue;
 
 
     [Header("Adventurer Details")]
-    [SerializeField] public int MaxAssigned;
     [SerializeField] public List<Adventurer> AssignedAdventurers = new List<Adventurer>();
 
     [Header("Completion Time Variables")]
@@ -44,9 +43,9 @@ public class Mission : ScriptableObject
             return x;
         }
     }
-    private System.DateTime StartTime;
+    public System.DateTime StartTime;
     public int TimeToCompleteInSeconds;
-    [SerializeField] private const int BaseCompletionTimeInSeconds = 300;        //Default time to complete is 5 minutes  
+    [SerializeField] public int BaseCompletionTimeInSeconds = 300;        //Default time to complete is 5 minutes  
     private float AdventurerReduction = 0;
 
     [Header("Success Chance Variables")]
@@ -66,38 +65,33 @@ public class Mission : ScriptableObject
             case MissionRank.S:
                 EXPValue = BaseEXPValue + (500 * (Difficulty / 6));
                 GoldValue = BaseGoldValue + (50 * (Difficulty / 6));
-                LootValue = BaseLootValue + (5 * (Difficulty / 6));
                 ReputationValue = BaseReputationValue + (5 * (Difficulty / 6));
                 break;
             case MissionRank.A:
                 EXPValue = BaseEXPValue + (400 * (Difficulty / 6));
                 GoldValue = BaseGoldValue + (40 * (Difficulty / 6));
-                LootValue = BaseLootValue + (4 * (Difficulty / 6));
                 ReputationValue = BaseReputationValue + (5 * (Difficulty / 6));
                 break;
             case MissionRank.B:
                 EXPValue = BaseEXPValue + (300 * (Difficulty / 6));
                 GoldValue = BaseGoldValue + (30 * (Difficulty / 6));
-                LootValue = BaseLootValue + (3 * (Difficulty / 6));
                 ReputationValue = BaseReputationValue + (5 * (Difficulty / 6));
                 break;
             case MissionRank.C:
                 EXPValue = BaseEXPValue + (200 * (Difficulty / 6));
                 GoldValue = BaseGoldValue + (20 * (Difficulty / 6));
-                LootValue = BaseLootValue + (2 * (Difficulty / 6));
                 ReputationValue = BaseReputationValue + (5 * (Difficulty / 6));
                 break;
             case MissionRank.D:
                 EXPValue = BaseEXPValue + (100 * (Difficulty / 6));
                 GoldValue = BaseGoldValue + (10 * (Difficulty / 6));
-                LootValue = BaseLootValue + (1 * (Difficulty / 6));
                 ReputationValue = BaseReputationValue + (5 * (Difficulty / 6));
                 break;
         }
     }
-    void CalculateTimeToComplete()
+    public int CalculateTimeToComplete(List<Adventurer> list)
     {
-        CalculateAdventurerReductions();
+        CalculateAdventurerReductions(list);
 
         switch (Rank)
         {
@@ -117,17 +111,18 @@ public class Mission : ScriptableObject
                 TimeToCompleteInSeconds = (int)(BaseCompletionTimeInSeconds * 1 * Difficulty * AdventurerReduction);
                 break;
         }
+        return TimeToCompleteInSeconds;
     }
 
-    void CalculateAdventurerReductions()
+    void CalculateAdventurerReductions(List<Adventurer> list)
     {
         //First adventurer is required to complete mission
         //Any past the first reduces completion time
-        int baseReductionPerAdventurer = BaseReduction / (MaxAssigned - 1);
+        int baseReductionPerAdventurer = BaseReduction / 2;
         AdventurerReduction = (AssignedAdventurers.Count -1) * baseReductionPerAdventurer;
 
 
-        foreach (Adventurer adventurer in AssignedAdventurers)
+        foreach (Adventurer adventurer in list)
         {
             AdventurerReduction = AdventurerReduction + adventurer.CalculateCompletionBonus();
         }
@@ -169,7 +164,7 @@ public class Mission : ScriptableObject
     }
     public virtual void CompleteMission()
     {
-        MissionComplete.Invoke(GoldValue, LootValue, ReputationValue);
+        MissionComplete.Invoke(GoldValue, ReputationValue);
     }
 
 }

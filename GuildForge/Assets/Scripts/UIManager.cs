@@ -4,23 +4,6 @@ using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
-    #region Singleton
-    public static UIManager instance;
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(this);
-        }
-
-        DontDestroyOnLoad(this);
-    }
-    #endregion
-
     [SerializeField] private GameState gameState;
     [SerializeField] VisualTreeAsset m_RosterListEntryTemplate;
     [SerializeField] VisualTreeAsset m_NewMissionListEntryTemplate;
@@ -30,6 +13,10 @@ public class UIManager : MonoBehaviour
     private VisualElement curPopUp;
     private float timePassed;
 
+    MissionDetailsController missionDetailsController;
+    MissionListController missionListController;
+    ActiveMissionListController activemissionListController;
+    AdventurerListController adventurerlistcontroller;
     private void OnEnable()
     {
 
@@ -37,13 +24,7 @@ public class UIManager : MonoBehaviour
         var QuestPage = uiDocument.rootVisualElement.Q<VisualElement>("QuestPage");
         var Footer = uiDocument.rootVisualElement.Q<ToggleButtonGroup>("Footer");
         curPage = QuestPage;
-        curPage.style.display = DisplayStyle.Flex;
-
-        var missionListController = new MissionListController();
-        missionListController.InitializeMissionList(QuestPage, m_NewMissionListEntryTemplate);
-        var activemissionListController = new ActiveMissionListController();
-        activemissionListController.InitializeMissionList(QuestPage, m_ActiveMissionListEntryTemplate);
-
+        HomeBtn_clicked();
 
 
         var AchievementsBtn = Footer.Q<Button>("AchievementsButton");
@@ -61,11 +42,35 @@ public class UIManager : MonoBehaviour
 
     }
 
-    private void SettingsBtn_clicked()
+    public void HomeBtn_clicked()
     {
-        throw new System.NotImplementedException();
-    }
+        curPage.style.display = DisplayStyle.None;
+        var uiDocument = GetComponent<UIDocument>();
+        var QuestPage = uiDocument.rootVisualElement.Q<VisualElement>("QuestPage");
+        curPage = QuestPage;
+        curPage.style.display = DisplayStyle.Flex;
 
+
+        if (missionListController == null)
+        {
+            missionListController = new MissionListController();
+            missionListController.InitializeMissionList(QuestPage, m_NewMissionListEntryTemplate);
+        }
+        else
+        {
+            missionListController.InitializeMissionList(QuestPage, m_NewMissionListEntryTemplate);
+        };
+        if (activemissionListController == null)
+        {
+            activemissionListController = new ActiveMissionListController();
+            activemissionListController.InitializeMissionList(QuestPage, m_ActiveMissionListEntryTemplate);
+        }
+        else
+        {
+            activemissionListController.InitializeMissionList(QuestPage, m_ActiveMissionListEntryTemplate);
+        };
+
+    }
     private void RosterBtn_clicked()
     {
         curPage.style.display = DisplayStyle.None;
@@ -74,23 +79,15 @@ public class UIManager : MonoBehaviour
         curPage = RosterPage;
         curPage.style.display = DisplayStyle.Flex;
 
-        var adventurerlistcontroller = new AdventurerListController();
-        adventurerlistcontroller.InitializeRosterList(RosterPage, m_RosterListEntryTemplate);
-
-    }
-
-    private void HomeBtn_clicked()
-    {
-        curPage.style.display = DisplayStyle.None;
-        var uiDocument = GetComponent<UIDocument>();
-        var QuestPage = uiDocument.rootVisualElement.Q<VisualElement>("QuestPage");
-        curPage = QuestPage;
-        curPage.style.display = DisplayStyle.Flex;
-
-        var missionListController = new MissionListController();
-        missionListController.InitializeMissionList(QuestPage, m_NewMissionListEntryTemplate);
-        var activemissionListController = new ActiveMissionListController();
-        activemissionListController.InitializeMissionList(QuestPage, m_ActiveMissionListEntryTemplate);
+        if (adventurerlistcontroller == null)
+        {
+            adventurerlistcontroller = new AdventurerListController();
+            adventurerlistcontroller.InitializeRosterList(RosterPage, m_RosterListEntryTemplate, gameState.Roster);
+        }
+        else
+        {
+            adventurerlistcontroller.InitializeRosterList(RosterPage, m_RosterListEntryTemplate, gameState.Roster);
+        };
     }
 
     private void InventoryBtn_clicked()
@@ -110,16 +107,34 @@ public class UIManager : MonoBehaviour
         curPage = AchievementsPage;
         curPage.style.display = DisplayStyle.Flex;
     }
+    private void SettingsBtn_clicked()
+    {
+        throw new System.NotImplementedException();
+    }
 
     public void MissionDetails(int  missionId)
     {
-        Debug.Log("Event Caught");
-        Debug.Log(missionId);
-        
         var uiDocument = GetComponent<UIDocument>();
-        var MissionDetails = uiDocument.rootVisualElement.Q<VisualElement>("MissionDetailsPopIp");
-        curPopUp = MissionDetails;
-        curPopUp.style.display = DisplayStyle.Flex;
-    }
+        var MissionDetails = uiDocument.rootVisualElement.Q<VisualElement>("MissionDetailsPopUp");
+        MissionDetails.style.display = DisplayStyle.Flex;
+        if (missionDetailsController == null)
+        {
+            missionDetailsController = new MissionDetailsController();
+            missionDetailsController.InitializePage(MissionDetails, missionId);
+        }
+        else
+        {
+            missionDetailsController.InitializePage(MissionDetails, missionId);
+        }
 
+    }
+    
+    public void SelectAdventurer()
+    {
+        var uiDocument = GetComponent<UIDocument>();
+        var RosterPopUp = uiDocument.rootVisualElement.Q<VisualElement>("RosterPopUp");
+        RosterPopUp.style.display = DisplayStyle.Flex;
+
+        missionDetailsController.InitializeRosterList(RosterPopUp, m_RosterListEntryTemplate, gameState.Roster);
+    }
 }
