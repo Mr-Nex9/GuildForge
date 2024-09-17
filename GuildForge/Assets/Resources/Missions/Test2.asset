@@ -30,8 +30,7 @@ MonoBehaviour:
   BaseLootValue: 0
   GoldValue: 120
   ReputationValue: 20
-  AssignedAdventurers:
-  - {fileID: 11400000, guid: 0d9518212d222e64188fda68753ac033, type: 2}
+  AssignedAdventurers: []
   TimeToCompleteInSeconds: 0
   BaseCompletionTimeInSeconds: 300
   BaseSuccessChance: 90

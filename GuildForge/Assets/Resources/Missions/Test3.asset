@@ -30,7 +30,6 @@ MonoBehaviour:
   BaseLootValue: 0
   GoldValue: 0
   ReputationValue: 0
-  MaxAssigned: 0
   AssignedAdventurers: []
   TimeToCompleteInSeconds: 30
   BaseCompletionTimeInSeconds: 300

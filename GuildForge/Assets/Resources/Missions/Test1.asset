@@ -16,7 +16,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ID: 1
-  Active: 0
+  Active: 1
   Offered: 1
   Name: test 1
   Description: 
@@ -30,8 +30,7 @@ MonoBehaviour:
   BaseLootValue: 0
   GoldValue: 0
   ReputationValue: 0
-  AssignedAdventurers:
-  - {fileID: 11400000, guid: 0d9518212d222e64188fda68753ac033, type: 2}
-  TimeToCompleteInSeconds: -9000
+  AssignedAdventurers: []
+  TimeToCompleteInSeconds: 0
   BaseCompletionTimeInSeconds: 300
   BaseSuccessChance: 90
