@@ -11,9 +11,10 @@ public class AdventurerListController
 
     List<Adventurer> m_Roster;
 
-    public void InitializeRosterList(VisualElement root, VisualTreeAsset listElementTemplate)
+    public void InitializeRosterList(VisualElement root, VisualTreeAsset listElementTemplate, List<Adventurer> roster)
     {
-        EnumerateAllAdventurers();
+        //EnumerateAllAdventurers();
+        m_Roster = new List<Adventurer>(roster);
 
         m_listEntryTemplate = listElementTemplate;
 
@@ -23,14 +24,6 @@ public class AdventurerListController
 
         m_rosterList.selectionChanged += OnAdventurerSelected;
 
-    }
-
-
-
-    private void EnumerateAllAdventurers()
-    {
-        m_Roster = new List<Adventurer>();
-        m_Roster.AddRange(Resources.LoadAll<Adventurer>("Adventurers"));
     }
     private void FillAdventurerList()
     {
@@ -47,13 +40,14 @@ public class AdventurerListController
         m_rosterList.bindItem = (item, index) =>
         {
             (item.userData as AdventurerListEntryController)?.SetAdventurerData(m_Roster[index]);
+            item.userData = index;
         };
 
         m_rosterList.itemsSource = m_Roster;
     }
-    private void OnAdventurerSelected(IEnumerable<object> enumerable)
+    private void OnAdventurerSelected(IEnumerable<object> index)
     {
-
+        Debug.Log(m_rosterList.selectedIndex);
     }
 
 }

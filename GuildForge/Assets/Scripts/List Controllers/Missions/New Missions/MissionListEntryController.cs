@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UIElements;
 
 public class MissionListEntryController
@@ -18,6 +17,7 @@ public class MissionListEntryController
 
     public void SetMissionData(Mission mission)
     {
+        Debug.Log(mission.Name);
         m_NameLabel.text = mission.Name;
         m_MissionTypelLabel.text = mission.Type.ToString();
 

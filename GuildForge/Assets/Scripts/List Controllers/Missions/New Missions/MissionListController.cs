@@ -14,30 +14,25 @@ public class MissionListController
 
     List<Mission> m_mission;
 
+    int m_count;
+
 
     public void InitializeMissionList(VisualElement root, VisualTreeAsset listElementTemplate)
     {
         EnumerateAllMissions();
 
-        m_listEntryTemplate = listElementTemplate;
-       
-        m_missionList = root.Q<ListView>("NewMissions-List");
+        if (m_count == 0)
+        {
+            m_listEntryTemplate = listElementTemplate;
 
+            m_missionList = root.Q<ListView>("NewMissions-List");
 
-
+            m_count = 1;
+        }
         FillMissionList();
 
 
-
-
-
     }
-
-    private void M_missionList_selectionChanged()
-    {
-        throw new NotImplementedException();
-    }
-
     private void EnumerateAllMissions()
     {
         m_mission = new List<Mission>();
@@ -46,7 +41,7 @@ public class MissionListController
 
         foreach (Mission mission in temp)
         {
-            if (mission.Active == false)
+            if (mission.Active == false && mission.Offered == true)
             {
                 m_mission.Add(mission);
             }
@@ -54,6 +49,7 @@ public class MissionListController
     }
     private void FillMissionList()
     {
+
         // Set up a make item function for a list entry
         m_missionList.makeItem = () =>
         {
@@ -61,8 +57,8 @@ public class MissionListController
             var newListEntryLogic = new MissionListEntryController();
             newListEntry.userData = newListEntryLogic;
             newListEntryLogic.SetVisualElement(newListEntry);
+            
             Button detailsButton = newListEntry.Q<Button>("DetailsButton");
-
             detailsButton.RegisterCallback<ClickEvent>(e => OnDetailsButtonClicked(newListEntry));
             return newListEntry;
         };
@@ -72,15 +68,15 @@ public class MissionListController
             (item.userData as MissionListEntryController)?.SetMissionData(m_mission[index]);
             item.userData = index;
         };
-
         m_missionList.itemsSource = m_mission;
+
     }
 
     public void OnDetailsButtonClicked(VisualElement element)
     {
         
-        int x = (int)element.userData;
-        UIManager uiManager = new UIManager();
-        uiManager.MissionDetails(x);
+        int ID = m_mission[(int)element.userData].ID;
+        GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
+        UIMaster.GetComponent<UIManager>().MissionDetails(ID);
     }
 }
