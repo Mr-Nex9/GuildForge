@@ -94,6 +94,7 @@ public class MissionDetailsController
         m_ReputationValue.text = CurMission.ReputationValue.ToString();
         m_ExpValue.text = CurMission.EXPValue.ToString();
         m_EstTimeToComplete.text = ConvertTimeToString(CurMission.BaseCompletionTimeInSeconds);
+
     }
 
     private Mission FindSelectedMission(int missionID)
@@ -169,28 +170,60 @@ public class MissionDetailsController
 
         return CompletionTime;
     }
-   
+
     public void NewAdventurerAssigned(Adventurer assigned)
     {
-        m_AssignedAdventurers.Insert(CurIndex, assigned);
-
-        switch (CurIndex)
+        if (assigned == null)
         {
-            case 0:
-                {
-                    m_Slot1.style.backgroundImage = (StyleBackground)assigned.Icon;
-                }
-                break;
-            case 1:
-                {
-                    m_Slot2.style.backgroundImage = (StyleBackground)assigned.Icon;
-                }
-                break;
-            case 2:
-                {
-                    m_Slot3.style.backgroundImage = (StyleBackground)assigned.Icon;
-                }
-                break;
+            switch (CurIndex)
+            {
+                case 0:
+                    {
+                        m_Slot1.style.backgroundImage = null;
+                        m_Name1.text = "select";
+                    }
+                    break;
+                case 1:
+                    {
+                        m_Slot2.style.backgroundImage = null;
+                        m_Name2.text = "select";
+
+                    }
+                    break;
+                case 2:
+                    {
+                        m_Slot3.style.backgroundImage = null;
+                        m_Name3.text = "select";
+
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            m_AssignedAdventurers.Insert(CurIndex, assigned);
+            switch (CurIndex)
+            {
+                case 0:
+                    {
+                        m_Slot1.style.backgroundImage = (StyleBackground)assigned.Icon;
+                        m_Name1.text = assigned.Name;
+
+                    }
+                    break;
+                case 1:
+                    {
+                        m_Slot2.style.backgroundImage = (StyleBackground)assigned.Icon;
+                        m_Name2.text = assigned.Name;
+                    }
+                    break;
+                case 2:
+                    {
+                        m_Slot3.style.backgroundImage = (StyleBackground)assigned.Icon;
+                        m_Name3.text = assigned.Name;
+                    }
+                    break;
+            }
         }
         m_EstTimeToComplete.text = ConvertTimeToString(CurMission.CalculateTimeToComplete(m_AssignedAdventurers));
     }
@@ -249,19 +282,26 @@ public class MissionDetailsController
     }
     async void OnAcceptButtonClicked()
     {
-        m_AcceptButton.style.backgroundColor = Color.blue;
-        await Task.Delay(TimeSpan.FromSeconds(.05));
-        m_AcceptButton.style.backgroundColor = Color.grey;
-        //await Task.Delay(TimeSpan.FromSeconds(.05));
+        if (m_AssignedAdventurers.Count > 0)
+        {
+            m_AcceptButton.style.backgroundColor = Color.blue;
+            await Task.Delay(TimeSpan.FromSeconds(.05));
+            m_AcceptButton.style.backgroundColor = Color.grey;
+            //await Task.Delay(TimeSpan.FromSeconds(.05));
 
-        CurMission.Active = true;
-        CurMission.AssignedAdventurers = new List<Adventurer>(m_AssignedAdventurers);
-        CurMission.StartTime = DateTime.Now;
+            CurMission.Active = true;
+            CurMission.AssignedAdventurers = new List<Adventurer>(m_AssignedAdventurers);
+            CurMission.StartTime = DateTime.Now;
 
-        GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
-        UIMaster.GetComponent<UIManager>().HomeBtn_clicked();
+            foreach (Adventurer hero in m_AssignedAdventurers)
+            {
+                hero.OnMission = true;
+            }
+            GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
+            UIMaster.GetComponent<UIManager>().HomeBtn_clicked();
 
-        ExitPopup();
+            ExitPopup();
+        }
     }
 
     void ExitPopup()
@@ -285,13 +325,15 @@ public class MissionDetailsController
 
     Button RosterExit;
     Button Confirm;
+    Button Clear;
     Adventurer CurSelection;
     int RosterPopCount = 0;
     public void InitializeRosterList(VisualElement root, VisualTreeAsset listElementTemplate, List<Adventurer> roster)
     {
+        CurSelection = null;
         RosterPopUp = root;
-        m_Roster = new List<Adventurer>(roster);
-        //CheckForCurrentlyAdded();
+        m_RosterTemp = new List<Adventurer>(roster);
+        CheckForCurrentlyAdded();
         if (RosterPopCount == 0)
         {
             m_listEntryTemplate = listElementTemplate;
@@ -299,10 +341,12 @@ public class MissionDetailsController
             m_rosterList = root.Q<ListView>("Roster-List");
             RosterExit = root.Q<Button>("ExitButton");
             Confirm = root.Q<Button>("ConfirmButton");
+            Clear = root.Q<Button>("ClearButton");
 
             m_rosterList.selectionChanged += OnAdventurerSelected;
             RosterExit.clicked += CloseRoster;
             Confirm.clicked += ConfirmSelection;
+            Clear.clicked += RemoveSelection;
             RosterPopCount = 1;
         }
 
@@ -338,7 +382,7 @@ public class MissionDetailsController
         m_Roster = new List<Adventurer>();
         foreach (Adventurer hero in m_RosterTemp)
         {
-            if (m_AssignedAdventurers.Contains(hero))
+            if (m_AssignedAdventurers.Contains(hero) || hero.OnMission == true)
             {
                 continue;
             }
@@ -348,7 +392,14 @@ public class MissionDetailsController
             }
 
         }
+
+        if (m_Roster.Count < 2)
+        {
+            CurSelection = m_Roster[0];
+        }
     }
+
+
     private void OnAdventurerSelected(IEnumerable<object> enumerable)
     {
         CurSelection = m_Roster[m_rosterList.selectedIndex];
@@ -360,8 +411,18 @@ public class MissionDetailsController
 
     void ConfirmSelection()
     {
+        if (CurSelection != null)
+        {
+            CloseRoster();
+            NewAdventurerAssigned(CurSelection);
+        }
+
+    }
+
+    void RemoveSelection()
+    {
         CloseRoster();
-        NewAdventurerAssigned(CurSelection);
+        NewAdventurerAssigned(null);
     }
     #endregion
 

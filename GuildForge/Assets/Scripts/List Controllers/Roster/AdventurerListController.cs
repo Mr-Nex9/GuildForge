@@ -10,6 +10,7 @@ public class AdventurerListController
     ListView m_rosterList;
 
     List<Adventurer> m_Roster;
+    Adventurer CurSelection;
 
     public void InitializeRosterList(VisualElement root, VisualTreeAsset listElementTemplate, List<Adventurer> roster)
     {
@@ -48,6 +49,10 @@ public class AdventurerListController
     private void OnAdventurerSelected(IEnumerable<object> index)
     {
         Debug.Log(m_rosterList.selectedIndex);
+        CurSelection = m_Roster[m_rosterList.selectedIndex];
+
+        GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
+        UIMaster.GetComponent<UIManager>().ShowAdventurerStats();
     }
 
 }

@@ -122,10 +122,10 @@ public class Mission : ScriptableObject
         AdventurerReduction = (AssignedAdventurers.Count -1) * baseReductionPerAdventurer;
 
 
-        foreach (Adventurer adventurer in list)
-        {
-            AdventurerReduction = AdventurerReduction + adventurer.CalculateCompletionBonus();
-        }
+       // foreach (Adventurer adventurer in list)
+       // {
+       //     AdventurerReduction = AdventurerReduction + adventurer.CalculateCompletionBonus();
+       // }
 
     }
 

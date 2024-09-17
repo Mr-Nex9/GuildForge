@@ -18,7 +18,7 @@ public class Adventurer : ScriptableObject
     [ReadOnly] public AdventurerRanks Rank;
  
     [SerializeField] public int Level;
-    [SerializeField] private bool OnMission;
+    [SerializeField] public bool OnMission;
     [SerializeField] private int EXP;
 
 

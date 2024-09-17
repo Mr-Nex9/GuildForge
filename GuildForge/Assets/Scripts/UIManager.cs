@@ -137,4 +137,9 @@ public class UIManager : MonoBehaviour
 
         missionDetailsController.InitializeRosterList(RosterPopUp, m_RosterListEntryTemplate, gameState.Roster);
     }
+
+    public void ShowAdventurerStats()
+    {
+
+    }
 }

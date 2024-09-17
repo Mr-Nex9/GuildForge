@@ -25,10 +25,11 @@ public class MissionListController
         {
             m_listEntryTemplate = listElementTemplate;
 
-            m_missionList = root.Q<ListView>("NewMissions-List");
+            
 
             m_count = 1;
         }
+        m_missionList = root.Q<ListView>("NewMissions-List");
         FillMissionList();
 
 
