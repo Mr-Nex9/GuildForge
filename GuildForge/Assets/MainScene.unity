@@ -320,6 +320,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 375063816128229675, guid: 2689439e0fdf4ac9aa554747adb92ba7, type: 3}
+      propertyPath: m_TagString
+      value: Character
+      objectReference: {fileID: 0}
     - target: {fileID: 7064084931199563689, guid: 2689439e0fdf4ac9aa554747adb92ba7, type: 3}
       propertyPath: m_Enabled
       value: 0

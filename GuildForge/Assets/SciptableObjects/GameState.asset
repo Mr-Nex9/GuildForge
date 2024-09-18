@@ -15,10 +15,11 @@ MonoBehaviour:
   Roster:
   - {fileID: 11400000, guid: 20848344764365b4f9418957f6e8a26d, type: 2}
   - {fileID: 11400000, guid: 0d9518212d222e64188fda68753ac033, type: 2}
+  - {fileID: 11400000, guid: 403468a9ea983054a83e41cced914b2b, type: 2}
   AllAdventurers:
   - {fileID: 11400000, guid: 20848344764365b4f9418957f6e8a26d, type: 2}
   AllMissions: []
   ActiveMissions: []
-  Gold: 3819
+  Gold: 3830
   Loot: 37
   Reputation: 85

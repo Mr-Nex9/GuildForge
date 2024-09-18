@@ -9,40 +9,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebc21fb672447074fa406334334aef96, type: 3}
-  m_Name: Jack
+  m_Script: {fileID: 11500000, guid: eb9dbc3f2b220204cbd2a0e155828763, type: 3}
+  m_Name: Connor
   m_EditorClassIdentifier: 
-  Icon: {fileID: 2800000, guid: d8b7d2c1f3565434e807f5ecb5a3ac91, type: 3}
-  Name: Jack
-  Class: 0
+  Icon: {fileID: 2800000, guid: d62a31aa663721244a5dc9c873ff0d30, type: 3}
+  Name: Connor
+  Class: 1
   Rank: 3
-  Level: 10
+  Level: 1
   OnMission: 0
   CurrentMission: 
   EXP: 0
-  ReadyToLevel: 0
-  HP: 26
-  Mana: 21
-  Attack: 11
-  Defense: 51
-  Magic: 28
-  Speed: 44
+  ReadyToLevel: 1
+  HP: 25
+  Mana: 19
+  Attack: 39
+  Defense: 24
+  Magic: 57
+  Speed: 29
   ArmorItem: {fileID: 0}
   WeaponItem: {fileID: 0}
   AccessorySlot1: {fileID: 0}
   AccessorySlot2: {fileID: 0}
   Skills: []
-  Head: 'Human#BF6F4A/0:0:0 '
+  Head: Human
   Ears: Human
   Eyes: Human
-  Body: Human#BF6F4A/0:0:0
+  Body: Human
   Hair: 
-  Armor: ArcherTunic#FFFFFF/-10:0:0
-  Helmet: ArcherHood#FFFFFF/0:0:0
-  Weapon: ShortBow#FFFFFF/0:0:0
+  Armor: 'TravelerTunic#FFFFFF/0:0:0 '
+  Helmet: 'CaptainHelmet#FFFFFF/0:0:0 '
+  Weapon: 'Sword#FFFFFF/0:0:0 '
   Firearm: 
-  Shield: 
+  Shield: 'TowerShield#FFFFFF/180:100:-21 '
   Cape: 
-  Back: LeatherQuiver#FFFFFF/0:0:0
+  Back: 
   Mask: 
   Horns: 

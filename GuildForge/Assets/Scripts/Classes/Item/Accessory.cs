@@ -5,4 +5,9 @@ using UnityEngine;
 public class Accessory: Item
 {
 
+    private void OnEnable()
+    {
+        _ItemType = ItemType.Accessory;
+    }
+
 }

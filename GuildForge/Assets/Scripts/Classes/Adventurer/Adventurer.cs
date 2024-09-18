@@ -19,31 +19,48 @@ public class Adventurer : ScriptableObject
  
     [SerializeField] public int Level;
     [SerializeField] public bool OnMission;
+    public string CurrentMission;
     [SerializeField] private int EXP;
+    public bool ReadyToLevel;
 
 
     [Header("Stats")]
     [Range(0, 100)]
-    [SerializeField] private int HP;
+    [SerializeField] public int HP;
     [Range(0, 100)]
-    [SerializeField] private int Mana;
+    [SerializeField] public int Mana;
     [Range(0, 100)]
-    [SerializeField] private int Attack;
+    [SerializeField] public int Attack;
     [Range(0, 100)]
-    [SerializeField] private int Defense;
+    [SerializeField] public int Defense;
     [Range(0, 100)]
-    [SerializeField] private int Magic;
+    [SerializeField] public int Magic;
     [Range(0, 100)]
-    [SerializeField] private int Speed;
+    [SerializeField] public int Speed;
 
 
     [Header("Equipment")]
-    [SerializeField] public Armor Armor;
-    [SerializeField] public Weapon Weapon;
+    [SerializeField] public Armor ArmorItem;
+    [SerializeField] public Weapon WeaponItem;
     [SerializeField] public Accessory AccessorySlot1;
     [SerializeField] public Accessory AccessorySlot2;
     [SerializeField] private List<Skill> Skills = new List<Skill>();
 
+    [Header("Character Builder Info")]
+    public string Head = "Human";
+    public string Ears = "Human";
+    public string Eyes = "Human";
+    public string Body = "Human";
+    public string Hair;
+    public string Armor;
+    public string Helmet;
+    public string Weapon;
+    public string Firearm;
+    public string Shield;
+    public string Cape;
+    public string Back;
+    public string Mask;
+    public string Horns;
 
     private void OnValidate()
     {
@@ -57,7 +74,7 @@ public class Adventurer : ScriptableObject
 
         if (Level < NewLevel)
         {
-            LevelUp(NewLevel);
+            ReadyToLevel = true;
         }
     }
 
@@ -89,9 +106,10 @@ public class Adventurer : ScriptableObject
 
     }
 
-    protected virtual void LevelUp(int newLevel)
+    public virtual void LevelUp()
     {
-        Level = newLevel;
+        Level += 1;
+        ReadyToLevel = false;
     }
 
     public virtual int CalculateCompletionBonus()

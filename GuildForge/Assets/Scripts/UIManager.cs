@@ -140,6 +140,17 @@ public class UIManager : MonoBehaviour
 
     public void ShowAdventurerStats()
     {
-
+        var uiDocument = GetComponent<UIDocument>();
+        var StatsDisplay = uiDocument.rootVisualElement.Q<VisualElement>("AdventurerStatsPopUp");
+        StatsDisplay.style.display = DisplayStyle.Flex;
+        if (adventurerlistcontroller == null)
+        {
+            adventurerlistcontroller = new AdventurerListController();
+            adventurerlistcontroller.InitializeStatsPage(StatsDisplay);
+        }
+        else
+        {
+            adventurerlistcontroller.InitializeStatsPage(StatsDisplay);
+        }
     }
 }
