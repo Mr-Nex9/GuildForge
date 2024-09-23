@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a728eaf9cfb2b4296394173d87496d, type: 3}
   m_Name: GameState
   m_EditorClassIdentifier: 
-  Roster:
-  - {fileID: 11400000, guid: 20848344764365b4f9418957f6e8a26d, type: 2}
-  - {fileID: 11400000, guid: 0d9518212d222e64188fda68753ac033, type: 2}
-  - {fileID: 11400000, guid: 403468a9ea983054a83e41cced914b2b, type: 2}
-  AllAdventurers:
-  - {fileID: 11400000, guid: 20848344764365b4f9418957f6e8a26d, type: 2}
-  AllMissions: []
+  Roster: []
   ActiveMissions: []
-  Gold: 3830
-  Loot: 37
+  Inventory:
+  - {fileID: 11400000, guid: 771d58cb65140c4408b60f0758c2246f, type: 2}
+  - {fileID: 11400000, guid: 85f1ca6aaa6e25d4c91132176a0a6e9f, type: 2}
+  - {fileID: 11400000, guid: 4829ca9e7c43c5a4b9e55e8299fe0a04, type: 2}
+  Gold: 3884
   Reputation: 85
+  guildRank: 0
+  CurrentOddJobsRate: 1

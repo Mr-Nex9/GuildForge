@@ -4,7 +4,6 @@ using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "Mission", menuName = "Scriptable Objects/Mission")]
 public class Mission : ScriptableObject
 {
     public enum MissionType {Collection, Treasure, Hunt, Target, Guard, Rescue};
@@ -25,9 +24,9 @@ public class Mission : ScriptableObject
     public int EXPValue;
     [SerializeField] private int BaseGoldValue;
     [SerializeField] private int BaseReputationValue;
-    [SerializeField] private int BaseLootValue;
-    public int GoldValue;
-    public int ReputationValue;
+     public int GoldValue;
+      public int ReputationValue;
+
 
 
     [Header("Adventurer Details")]
@@ -53,6 +52,7 @@ public class Mission : ScriptableObject
     [SerializeField][Range(0, 100)] private float BaseSuccessChance = 90;
     private float SuccessChance;
     private int AdventurerBonus = 0;
+    int SuccessMulitplier;
 
     private void OnValidate()
     {
@@ -96,19 +96,19 @@ public class Mission : ScriptableObject
         switch (Rank)
         {
             case MissionRank.S:
-                TimeToCompleteInSeconds = (int)(BaseCompletionTimeInSeconds * 5 * Difficulty * AdventurerReduction);
+                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 5 * Difficulty) / AdventurerReduction);
                 break;
             case MissionRank.A:
-                TimeToCompleteInSeconds = (int)(BaseCompletionTimeInSeconds * 4 * Difficulty * AdventurerReduction);
+                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 4 * Difficulty) / AdventurerReduction);
                 break;
             case MissionRank.B:
-                TimeToCompleteInSeconds = (int)(BaseCompletionTimeInSeconds * 3 * Difficulty * AdventurerReduction);
+                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 3 * Difficulty) / AdventurerReduction);
                 break;
             case MissionRank.C:
-                TimeToCompleteInSeconds = (int)(BaseCompletionTimeInSeconds * 2 * Difficulty * AdventurerReduction);
+                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 2 * Difficulty) / AdventurerReduction);
                 break;
             case MissionRank.D:
-                TimeToCompleteInSeconds = (int)(BaseCompletionTimeInSeconds * 1 * Difficulty * AdventurerReduction);
+                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 1 * Difficulty) / AdventurerReduction);
                 break;
         }
         return TimeToCompleteInSeconds;
@@ -121,12 +121,11 @@ public class Mission : ScriptableObject
         int baseReductionPerAdventurer = BaseReduction / 2;
         AdventurerReduction = (AssignedAdventurers.Count -1) * baseReductionPerAdventurer;
 
-
-       // foreach (Adventurer adventurer in list)
-       // {
-       //     AdventurerReduction = AdventurerReduction + adventurer.CalculateCompletionBonus();
-       // }
-
+        foreach (Adventurer adventurer in list)
+        {
+            AdventurerReduction += adventurer.CalculateSpeedCompletionBonus(this);
+        }
+        AdventurerReduction /= 100;
     }
 
     void CalculateSuccessChance()
@@ -158,13 +157,21 @@ public class Mission : ScriptableObject
     {
         foreach (Adventurer adventurer in AssignedAdventurers)
         {
-            AdventurerBonus = AdventurerBonus + adventurer.CalculateCompletionSuccessBonus();
+            AdventurerBonus += adventurer.CalculateCompletionSuccessBonus(this);
         }
 
     }
     public virtual void CompleteMission()
     {
-        MissionComplete.Invoke(GoldValue, ReputationValue);
+        GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
+        GameManager GameManager = GameMaster.GetComponent<GameManager>();
+
+        GameManager.MissionCompleted(GoldValue * SuccessMulitplier, ReputationValue * SuccessMulitplier);
     }
 
+    public int CalculateSuccessMultiplier()
+    {
+        SuccessMulitplier = (int)((SuccessChance - UnityEngine.Random.Range(0, 100)) / 200);
+        return SuccessMulitplier;
+    }
 }

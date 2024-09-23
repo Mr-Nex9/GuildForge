@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using Unity.Collections;
 using UnityEditor;
 using UnityEngine;
+using static Mission;
 
-[CreateAssetMenu(fileName = "Adventurer", menuName = "Scriptable Objects/Adventurer")]
 public class Adventurer : ScriptableObject
 {
     public enum AdventurerRanks {S, A, B, C, D}
@@ -19,9 +19,11 @@ public class Adventurer : ScriptableObject
  
     [SerializeField] public int Level;
     [SerializeField] public bool OnMission;
+    public bool Recruited;
     public string CurrentMission;
     [SerializeField] private int EXP;
     public bool ReadyToLevel;
+    public int CostToRecruit;
 
 
     [Header("Stats")]
@@ -37,6 +39,13 @@ public class Adventurer : ScriptableObject
     [SerializeField] public int Magic;
     [Range(0, 100)]
     [SerializeField] public int Speed;
+
+    [ReadOnly] public int ActualHP;
+    [ReadOnly] public int ActualMana;
+    [ReadOnly] public int ActualAttack;
+    [ReadOnly] public int ActualDefense;
+    [ReadOnly] public int ActualMagic;
+    [ReadOnly] public int ActualSpeed;
 
 
     [Header("Equipment")]
@@ -66,6 +75,7 @@ public class Adventurer : ScriptableObject
     {
         OnEXPChange();
         CalculateRank();
+        RecalulateActualStats();
     }
     void OnEXPChange()
     {
@@ -108,22 +118,120 @@ public class Adventurer : ScriptableObject
 
     public virtual void LevelUp()
     {
+
         Level += 1;
         ReadyToLevel = false;
+        OnValidate();
     }
 
-    public virtual int CalculateCompletionBonus()
+    public virtual int CalculateSpeedCompletionBonus(Mission mission)
     {
+        switch(mission.Type)
+        {
+            case MissionType.Collection:
+                {
+                    return ActualSpeed / 10;
+                }
+            case MissionType.Treasure:
+                {
+                    return ActualSpeed / 10;
+                }
+            case MissionType.Hunt:
+                {
+                    return ActualMana / 10;
+                }
+            case MissionType.Target:
+                {
+                    return ActualAttack / 10;
+                }
+            case MissionType.Guard:
+                {
+                    return ActualMana / 10;
+                }
+            case MissionType.Rescue:
+                {
+                    return ActualAttack / 10;
+                }
+        }
+        return 0;
+
+    }
+    public virtual int CalculateCompletionSuccessBonus(Mission mission)
+    {
+        switch (mission.Type)
+        {
+            case MissionType.Collection:
+                {
+                    return ActualMagic / 6;
+                }
+            case MissionType.Treasure:
+                {
+                    return ActualDefense / 6;
+                }
+            case MissionType.Hunt:
+                {
+                    return ActualHP / 6;
+                }
+            case MissionType.Target:
+                {
+                    return ActualHP / 6;
+                }
+            case MissionType.Guard:
+                {
+                    return ActualDefense / 6;
+                }
+            case MissionType.Rescue:
+                {
+                    return ActualMagic / 6;
+                }
+        }
         return 0;
     }
-    public virtual int CalculateCompletionSuccessBonus()
-    {
-        return 10;
-    }
 
-    public virtual int CalculateLootBonus()
+    public void RecalulateActualStats()
     {
-        return 0; 
-    }
+        ActualHP = HP;
+        ActualMana = Mana;
+        ActualAttack = Attack;
+        ActualDefense = Defense;
+        ActualMagic = Magic;
+        ActualSpeed = Speed;
 
+        if (ArmorItem != null)
+        {
+            ActualHP += ArmorItem.HPBonus;
+            ActualMana += ArmorItem.ManaBonus;
+            ActualAttack += ArmorItem.AtkBonus;
+            ActualDefense += ArmorItem.DefBonus;
+            ActualMagic += ArmorItem.MagBonus;
+            ActualSpeed += ArmorItem.SpdBonus;
+        }
+        if (WeaponItem != null)
+        {
+            ActualHP += WeaponItem.HPBonus;
+            ActualMana += WeaponItem.ManaBonus;
+            ActualAttack += WeaponItem.AtkBonus;
+            ActualDefense += WeaponItem.DefBonus;
+            ActualMagic += WeaponItem.MagBonus;
+            ActualSpeed += WeaponItem.SpdBonus;
+        }
+        if (AccessorySlot1 != null)
+        {
+            ActualHP += AccessorySlot1.HPBonus;
+            ActualMana += AccessorySlot1.ManaBonus;
+            ActualAttack += AccessorySlot1.AtkBonus;
+            ActualDefense += AccessorySlot1.DefBonus;
+            ActualMagic += AccessorySlot1.MagBonus;
+            ActualSpeed += AccessorySlot1.SpdBonus;
+        }
+        if (AccessorySlot2 != null)
+        {
+            ActualHP += AccessorySlot2.HPBonus;
+            ActualMana += AccessorySlot2.ManaBonus;
+            ActualAttack += AccessorySlot2.AtkBonus;
+            ActualDefense += AccessorySlot2.DefBonus;
+            ActualMagic += AccessorySlot2.MagBonus;
+            ActualSpeed += AccessorySlot2.SpdBonus;
+        }
+    }
 }
