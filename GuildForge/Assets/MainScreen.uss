@@ -1,7 +1,10 @@
 Button:hover{
 	background-color: white;
 }
-
 .unity-list-view__item:checked {
-    text.color = blue;
+    text.color = green;
+}
+.unity-list-view__empty-label
+{
+	display: none;
 }

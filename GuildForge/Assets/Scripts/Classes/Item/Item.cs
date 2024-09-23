@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Item", menuName = "Scriptable Objects/Item")]
 public class Item : ScriptableObject
 {
     public enum ItemType { Weapon, Armor, Accessory }
@@ -9,7 +8,7 @@ public class Item : ScriptableObject
     public int ID;
     public Texture Icon;
     public string Name;
-    [ReadOnly]  public ItemType _ItemType;
+    [ReadOnly]  public ItemType itemtype;
     public int Cost;
 
     public int AtkBonus;
@@ -18,4 +17,7 @@ public class Item : ScriptableObject
     public int ManaBonus;
     public int MagBonus;
     public int SpdBonus;
+
+
+
 }

@@ -5,6 +5,6 @@ public class Weapon:Item
 {
     private void OnEnable()
     {
-        _ItemType = ItemType.Weapon;
+        itemtype = ItemType.Weapon;
     }
 }

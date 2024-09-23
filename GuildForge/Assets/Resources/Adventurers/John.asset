@@ -12,21 +12,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebc21fb672447074fa406334334aef96, type: 3}
   m_Name: John
   m_EditorClassIdentifier: 
-  Icon: {fileID: 2800000, guid: d8b7d2c1f3565434e807f5ecb5a3ac91, type: 3}
+  Icon: {fileID: 2800000, guid: 69360fa9b4b563145950530ddc984053, type: 3}
   Name: John
   Class: 0
   Rank: 4
   Level: 2
   OnMission: 0
+  Recruited: 1
   CurrentMission: 
   EXP: 0
   ReadyToLevel: 0
+  CostToRecruit: 0
   HP: 28
   Mana: 12
   Attack: 7
   Defense: 17
   Magic: 13
   Speed: 28
+  ActualHP: 28
+  ActualMana: 12
+  ActualAttack: 7
+  ActualDefense: 17
+  ActualMagic: 13
+  ActualSpeed: 28
   ArmorItem: {fileID: 0}
   WeaponItem: {fileID: 0}
   AccessorySlot1: {fileID: 0}

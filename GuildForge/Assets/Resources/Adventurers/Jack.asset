@@ -18,15 +18,23 @@ MonoBehaviour:
   Rank: 3
   Level: 10
   OnMission: 0
+  Recruited: 1
   CurrentMission: 
   EXP: 0
   ReadyToLevel: 0
+  CostToRecruit: 2500
   HP: 26
   Mana: 21
   Attack: 11
   Defense: 51
   Magic: 28
   Speed: 44
+  ActualHP: 26
+  ActualMana: 21
+  ActualAttack: 11
+  ActualDefense: 51
+  ActualMagic: 28
+  ActualSpeed: 44
   ArmorItem: {fileID: 0}
   WeaponItem: {fileID: 0}
   AccessorySlot1: {fileID: 0}

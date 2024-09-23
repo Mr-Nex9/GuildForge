@@ -143,7 +143,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 652715996}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &652715998
 Camera:
   m_ObjectHideFlags: 0
@@ -464,6 +464,7 @@ MonoBehaviour:
   m_RosterListEntryTemplate: {fileID: 9197481963319205126, guid: 3eb3080bf8114f545823c75c628bad75, type: 3}
   m_NewMissionListEntryTemplate: {fileID: 9197481963319205126, guid: 73308c0352caf2045af39619f503db88, type: 3}
   m_ActiveMissionListEntryTemplate: {fileID: 9197481963319205126, guid: ea8abf8ab89be1548bfa09fd68bc0a2b, type: 3}
+  m_EquipItemListEntryTemplate: {fileID: 9197481963319205126, guid: 9a4ecb4a84393c54aa99abd488b87ef6, type: 3}
 --- !u!114 &2104832208
 MonoBehaviour:
   m_ObjectHideFlags: 0

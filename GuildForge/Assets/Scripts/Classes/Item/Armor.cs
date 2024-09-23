@@ -5,6 +5,6 @@ public class Armor : Item
 {
     private void OnEnable()
     {
-        _ItemType = ItemType.Armor;
+        itemtype = ItemType.Armor;
     }
 }

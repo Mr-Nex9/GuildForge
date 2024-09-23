@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] VisualTreeAsset m_RosterListEntryTemplate;
     [SerializeField] VisualTreeAsset m_NewMissionListEntryTemplate;
     [SerializeField] VisualTreeAsset m_ActiveMissionListEntryTemplate;
-
+    [SerializeField] VisualTreeAsset m_EquipItemListEntryTemplate;
     private VisualElement curPage;
     private VisualElement curPopUp;
     private float timePassed;
@@ -16,10 +16,11 @@ public class UIManager : MonoBehaviour
     MissionDetailsController missionDetailsController;
     MissionListController missionListController;
     ActiveMissionListController activemissionListController;
-    AdventurerListController adventurerlistcontroller;
+    RosterController rosterController;
+    RecruitPageController recruitPageController;
     private void OnEnable()
     {
-
+        ClosePopUps();
         var uiDocument = GetComponent<UIDocument>();
         var QuestPage = uiDocument.rootVisualElement.Q<VisualElement>("QuestPage");
         var Footer = uiDocument.rootVisualElement.Q<ToggleButtonGroup>("Footer");
@@ -41,10 +42,24 @@ public class UIManager : MonoBehaviour
         
 
     }
+    private void Update()
+    {
+        timePassed += Time.deltaTime;
+        if (timePassed > 1)
+        {
+            if(gameState.ActiveMissions.Count > 0)
+            {
+                activemissionListController.m_ActivemissionList.Rebuild();
+            }
+
+        }
+    }
 
     public void HomeBtn_clicked()
     {
         curPage.style.display = DisplayStyle.None;
+        ClosePopUps();
+
         var uiDocument = GetComponent<UIDocument>();
         var QuestPage = uiDocument.rootVisualElement.Q<VisualElement>("QuestPage");
         curPage = QuestPage;
@@ -71,28 +86,32 @@ public class UIManager : MonoBehaviour
         };
 
     }
-    private void RosterBtn_clicked()
+    public void RosterBtn_clicked()
     {
         curPage.style.display = DisplayStyle.None;
+        ClosePopUps();
+
         var uiDocument = GetComponent<UIDocument>();
         var RosterPage = uiDocument.rootVisualElement.Q<VisualElement>("RosterPage");
         curPage = RosterPage;
         curPage.style.display = DisplayStyle.Flex;
 
-        if (adventurerlistcontroller == null)
+        if (rosterController == null)
         {
-            adventurerlistcontroller = new AdventurerListController();
-            adventurerlistcontroller.InitializeRosterList(RosterPage, m_RosterListEntryTemplate, gameState.Roster);
+            rosterController = new RosterController();
+            rosterController.InitializeRosterList(RosterPage, m_RosterListEntryTemplate, gameState.Roster);
         }
         else
         {
-            adventurerlistcontroller.InitializeRosterList(RosterPage, m_RosterListEntryTemplate, gameState.Roster);
+            rosterController.InitializeRosterList(RosterPage, m_RosterListEntryTemplate, gameState.Roster);
         };
     }
 
     private void InventoryBtn_clicked()
     {
         curPage.style.display = DisplayStyle.None;
+        ClosePopUps();
+
         var uiDocument = GetComponent<UIDocument>();
         var InventoryPage = uiDocument.rootVisualElement.Q<VisualElement>("InventoryPage");
         curPage = InventoryPage;
@@ -102,6 +121,8 @@ public class UIManager : MonoBehaviour
     private void AchievementsBtn_onClick()
     {
         curPage.style.display = DisplayStyle.None;
+        ClosePopUps();
+
         var uiDocument = GetComponent<UIDocument>();
         var AchievementsPage = uiDocument.rootVisualElement.Q<VisualElement>("AchievementsPage");
         curPage = AchievementsPage;
@@ -143,14 +164,52 @@ public class UIManager : MonoBehaviour
         var uiDocument = GetComponent<UIDocument>();
         var StatsDisplay = uiDocument.rootVisualElement.Q<VisualElement>("AdventurerStatsPopUp");
         StatsDisplay.style.display = DisplayStyle.Flex;
-        if (adventurerlistcontroller == null)
+
+        rosterController.InitializeStatsPage(StatsDisplay);
+    }
+     public void ShowRecruitPage()
+    {
+        var uiDocument = GetComponent<UIDocument>();
+        var RecruitPopUp = uiDocument.rootVisualElement.Q<VisualElement>("RecruitPopUp");
+        RecruitPopUp.style.display = DisplayStyle.Flex;
+
+        if (recruitPageController == null)
         {
-            adventurerlistcontroller = new AdventurerListController();
-            adventurerlistcontroller.InitializeStatsPage(StatsDisplay);
+            recruitPageController = new RecruitPageController();
+            recruitPageController.InitializeRecruitPage(RecruitPopUp);
         }
         else
         {
-            adventurerlistcontroller.InitializeStatsPage(StatsDisplay);
-        }
+            recruitPageController.InitializeRecruitPage(RecruitPopUp);
+        };
+    }
+
+    public void ShowEquipItemList()
+    {
+        var uiDocument = GetComponent<UIDocument>();
+        var ItemDisplay = uiDocument.rootVisualElement.Q<VisualElement>("ItemEquipPopUp");
+        ItemDisplay.style.display = DisplayStyle.Flex;
+
+        rosterController.InitializeEquipItemPopUp(ItemDisplay, m_EquipItemListEntryTemplate, gameState.Inventory);
+    }
+
+    void ClosePopUps()
+    {
+        var uiDocument = GetComponent<UIDocument>();
+
+        var ItemDisplay = uiDocument.rootVisualElement.Q<VisualElement>("ItemEquipPopUp");
+        ItemDisplay.style.display = DisplayStyle.None;
+
+        var RecruitPopUp = uiDocument.rootVisualElement.Q<VisualElement>("RecruitPopUp");
+        RecruitPopUp.style.display = DisplayStyle.None;
+
+        var StatsDisplay = uiDocument.rootVisualElement.Q<VisualElement>("AdventurerStatsPopUp");
+        StatsDisplay.style.display = DisplayStyle.None;
+
+        var RosterPopUp = uiDocument.rootVisualElement.Q<VisualElement>("RosterPopUp");
+        RosterPopUp.style.display = DisplayStyle.None;
+
+        var MissionDetails = uiDocument.rootVisualElement.Q<VisualElement>("MissionDetailsPopUp");
+        MissionDetails.style.display = DisplayStyle.None;
     }
 }
