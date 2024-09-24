@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameState gameState;
-
+    public UnityEvent UIUpdate;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,9 +18,14 @@ public class GameManager : MonoBehaviour
         timePassed += Time.deltaTime;
         if (timePassed > 5)
         {
-            gameState.Gold = gameState.Gold + gameState.CurrentOddJobsRate;
+            gameState.gold = gameState.gold + gameState.currentOddJobsRate;
             timePassed = 0;
         }
+        foreach(Mission mission in gameState.ActiveMissions)
+        {
+            mission.CheckForCompletion();
+        }
+        UIUpdate.Invoke();
     }
     #region Setup/ Loading Functions
     void ReloadRoster()
@@ -47,12 +53,12 @@ public class GameManager : MonoBehaviour
     }
     public void MissionCompleted(int gold, int reputation)
     {
-        gameState.Gold += gold;
-        gameState.Reputation += reputation;
+        gameState.gold += gold;
+        gameState.reputation += reputation;
     }
     public void CalculateOddJobsRate()
     {
-        gameState.CurrentOddJobsRate = 1;
+        gameState.currentOddJobsRate = 1;
     }
 
     public void Recruit(Adventurer adventurer)
@@ -61,15 +67,19 @@ public class GameManager : MonoBehaviour
     }
     public int getCurGold()
     {
-        return gameState.Gold;
+        return gameState.gold;
     }
     public void PayGold(int amount)
     {
-        gameState.Gold -= amount;
+        gameState.gold -= amount;
     }
     public void GainReputation(int amount)
     {
-        gameState.Reputation += amount;
+        gameState.reputation += amount;
+    }
+    public void AddToActiveMissionList(Mission mission)
+    {
+        gameState.ActiveMissions.Add(mission);
     }
     #endregion
 }

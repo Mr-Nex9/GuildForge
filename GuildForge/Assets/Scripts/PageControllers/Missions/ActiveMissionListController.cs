@@ -6,61 +6,156 @@ using UnityEngine.UIElements;
 
 public class ActiveMissionListController
 {
-    VisualTreeAsset m_listEntryTemplate;
+    VisualElement activeMissionDisplay;
+    List<Mission> activeMissions;
 
-    public ListView m_ActivemissionList;
-
-
-    List<Mission> m_missions;
-    List<Mission> m_Activemissions;
-
-    public void InitializeMissionList(VisualElement root, VisualTreeAsset listElementTemplate)
+    public void InitializeMissionList(VisualElement root, VisualTreeAsset listElementTemplate, List<Mission> missions)
     {
-        EnumerateAllMissions();
-
-        m_listEntryTemplate = listElementTemplate;
-
-        m_ActivemissionList = root.Q<ListView>("ActiveMissions-List");
-
-        FillMissionList();
-        m_ActivemissionList.Rebuild();
+        activeMissions = new List<Mission>(missions);
+        activeMissionDisplay = root;
+        FillMissionUI();
     }
 
 
 
-    private void EnumerateAllMissions()
+    private void FillMissionUI()
     {
-        m_missions = new List<Mission>();
-        m_missions.AddRange(Resources.LoadAll<Mission>("Missions"));
-
-
-        m_Activemissions = new List<Mission>();
-        foreach (Mission mission in m_missions)
+        if (activeMissions.Count > 0)
         {
-            if (mission.Active == true)
+            for (int i = 1; i <= 5; i++)
             {
-                m_Activemissions.Add(mission);
+                if(i <= activeMissions.Count) // if there are active missions 
+                {
+                    VisualElement missionBox = activeMissionDisplay.Q<VisualElement>("Mission" + i);
+                    Label emptySlot = missionBox.Q<Label>("EmptySlot");
+                    emptySlot.style.display = DisplayStyle.None;
+
+                    missionBox = missionBox.Q<VisualElement>("MissionActive");
+                    missionBox.style.display = DisplayStyle.Flex;
+                    Label missionName = missionBox.Q<Label>("Name");
+                    Label missionTimeRemaining = missionBox.Q<Label>("TimeRemaining"); ;
+                    VisualElement progressBar = missionBox.Q<VisualElement>("ProgressBar");
+                    Button completeButton = missionBox.Q<Button>("CompleteButton");
+
+                    missionName.text = activeMissions[i - 1].Name;
+                    progressBar.style.width = Length.Percent(activeMissions[i - 1].CompletionPercent);
+
+                    if (activeMissions[i - 1].EndTime <= DateTime.Now)
+                    {
+                        completeButton.style.display = DisplayStyle.Flex;
+                        completeButton.RegisterCallback<ClickEvent>(e => MissionComplete(i - 1));
+                        missionTimeRemaining.text = "Completed!";
+                    }
+                    else
+                    {
+                        missionTimeRemaining.text = ConvertTimeToString((int)(activeMissions[i - 1].EndTime - DateTime.Now).TotalSeconds);
+                    }
+                }
+                else // reset the button
+                {
+                    VisualElement missionBox = activeMissionDisplay.Q<VisualElement>("Mission" + i);
+                    Label emptySlot = missionBox.Q<Label>("EmptySlot");
+                    emptySlot.style.display = DisplayStyle.Flex;
+
+                    missionBox = missionBox.Q<VisualElement>("MissionActive");
+                    missionBox.style.display = DisplayStyle.None;
+                }
+
             }
         }
     }
-    private void FillMissionList()
+    private string ConvertTimeToString(int timeInSeconds)
     {
-        // Set up a make item function for a list entry
-        m_ActivemissionList.makeItem = () =>
-        {
-            var newListEntry = m_listEntryTemplate.Instantiate();
-            var newListEntryLogic = new ActiveMissionListEntryController();
-            newListEntry.userData = newListEntryLogic;
-            newListEntryLogic.SetVisualElement(newListEntry);
-            return newListEntry;
-        };
 
-        m_ActivemissionList.bindItem = (item, index) =>
-        {
-            (item.userData as ActiveMissionListEntryController)?.SetMissionData(m_Activemissions[index]);
-        };
+        int seconds = timeInSeconds;
+        int hours = 0;
+        int minutes = 0;
+        string CompletionTime;
 
-        m_ActivemissionList.itemsSource = m_Activemissions;
+        while (seconds > 60)
+        {
+            minutes += 1;
+            seconds -= 60;
+
+            if (minutes == 60)
+            {
+                hours += 1;
+                minutes -= 60;
+            }
+        }
+        if (hours > 0)
+        {
+            if (minutes > 0)
+            {
+                if (seconds > 0)
+                {
+                    CompletionTime = $"{hours} hours, {minutes} minutes, {seconds} seconds";
+                }
+                else
+                {
+                    CompletionTime = $"{hours} hours, {minutes} minutes";
+                }
+            }
+            else if (seconds > 0)
+            {
+                CompletionTime = $"{hours} hours, {seconds} seconds";
+            }
+            else
+            {
+                CompletionTime = $"{hours} hours";
+            }
+        }
+        else if (minutes > 0)
+        {
+            if (seconds > 0)
+            {
+                CompletionTime = $"{minutes} minutes, {seconds} seconds";
+            }
+            else
+            {
+                CompletionTime = $"{minutes} minutes";
+            }
+        }
+        else
+        {
+            CompletionTime = $"{seconds} seconds";
+        }
+
+        return CompletionTime;
     }
 
+    void MissionComplete(int index)
+    {
+        //call ui manager to load complete mission popup
+        //UI manager can call a function here that will load the info into the popup
+        //the button there that says congrats or complete will then call the missions complete Mission method.
+        //reinitialize the page
+    }
+
+    public void MissionUIUpdate()
+    {
+        for (int i = 1; i <= activeMissions.Count; i++)
+        {
+            VisualElement missionBox = activeMissionDisplay.Q<VisualElement>("Mission" + i);
+
+            Label missionTimeRemaining = missionBox.Q<Label>("TimeRemaining"); ;
+            VisualElement progressBar = missionBox.Q<VisualElement>("ProgressBar");
+            Button completeButton = missionBox.Q<Button>("CompleteButton");
+
+
+            progressBar.style.width = Length.Percent(activeMissions[i - 1].CompletionPercent);
+
+            if (activeMissions[i - 1].EndTime <= DateTime.Now)
+            {
+                completeButton.style.display = DisplayStyle.Flex;
+                completeButton.RegisterCallback<ClickEvent>(e => MissionComplete(i - 1));
+                missionTimeRemaining.text = "Completed!";
+            }
+            else
+            {
+                missionTimeRemaining.text = ConvertTimeToString((int)(activeMissions[i - 1].EndTime - DateTime.Now).TotalSeconds);
+            }
+        }
+    }
 }
+

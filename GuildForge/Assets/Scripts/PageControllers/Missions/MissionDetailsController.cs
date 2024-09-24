@@ -93,7 +93,7 @@ public class MissionDetailsController
         m_GoldValue.text = CurMission.GoldValue.ToString();
         m_ReputationValue.text = CurMission.ReputationValue.ToString();
         m_ExpValue.text = CurMission.EXPValue.ToString();
-        m_EstTimeToComplete.text = ConvertTimeToString(CurMission.BaseCompletionTimeInSeconds);
+        m_EstTimeToComplete.text = ConvertTimeToString(CurMission.CalculateTimeToComplete(m_AssignedAdventurers));
 
     }
 
@@ -292,13 +292,15 @@ public class MissionDetailsController
             CurMission.Active = true;
             CurMission.AssignedAdventurers = new List<Adventurer>(m_AssignedAdventurers);
             CurMission.StartTime = DateTime.Now;
+            CurMission.EndTime = CurMission.StartTime + TimeSpan.FromSeconds(CurMission.TimeToCompleteInSeconds);
 
             foreach (Adventurer hero in m_AssignedAdventurers)
             {
                 hero.OnMission = true;
             }
-            GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
-            UIMaster.GetComponent<UIManager>().HomeBtn_clicked();
+
+            GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
+            GameMaster.GetComponent<GameManager>().AddToActiveMissionList(CurMission);
 
             ExitPopup();
         }
@@ -310,6 +312,9 @@ public class MissionDetailsController
         m_Slot2.style.backgroundImage = null;
         m_Slot3.style.backgroundImage = null;
         thisPage.style.display = DisplayStyle.None;
+
+        GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
+        UIMaster.GetComponent<UIManager>().HomeBtn_clicked();
     }
     #endregion
 

@@ -195,6 +195,9 @@ public class RecruitPageController
     void CloseRecruitPage()
     {
         RecruitPopUp.style.display = DisplayStyle.None;
+
+        GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
+        UIMaster.GetComponent<UIManager>().RosterBtn_clicked();
     }
     #endregion
 }

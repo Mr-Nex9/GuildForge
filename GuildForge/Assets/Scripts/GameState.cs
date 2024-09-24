@@ -14,10 +14,11 @@ public class GameState : ScriptableObject
     [SerializeField] public List<Mission> ActiveMissions = new List<Mission>();
     [SerializeField] public List<Item> Inventory = new List<Item>();
 
-    [ReadOnly] public int Gold;
-    [ReadOnly] public int Reputation;
+    [ReadOnly] public int gold;
+    [ReadOnly] public int reputation;
     [ReadOnly] public GuildRank guildRank;
-    [ReadOnly] public int CurrentOddJobsRate;
+    [ReadOnly] public int currentOddJobsRate;
+    [ReadOnly] public bool missionsCompleted;
 
 
 

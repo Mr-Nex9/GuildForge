@@ -42,19 +42,24 @@ public class UIManager : MonoBehaviour
         
 
     }
-    private void Update()
+    private void LateUpdate()
     {
         timePassed += Time.deltaTime;
         if (timePassed > 1)
         {
-            if(gameState.ActiveMissions.Count > 0)
+            if (activemissionListController == null)
             {
-                activemissionListController.m_ActivemissionList.Rebuild();
+                activemissionListController = new ActiveMissionListController();
+                activemissionListController.MissionUIUpdate();
             }
-
+            else
+            {
+                activemissionListController.MissionUIUpdate();
+            };
+            timePassed = 0;
         }
-    }
 
+    }
     public void HomeBtn_clicked()
     {
         curPage.style.display = DisplayStyle.None;
@@ -78,11 +83,11 @@ public class UIManager : MonoBehaviour
         if (activemissionListController == null)
         {
             activemissionListController = new ActiveMissionListController();
-            activemissionListController.InitializeMissionList(QuestPage, m_ActiveMissionListEntryTemplate);
+            activemissionListController.InitializeMissionList(QuestPage, m_ActiveMissionListEntryTemplate,gameState.ActiveMissions);
         }
         else
         {
-            activemissionListController.InitializeMissionList(QuestPage, m_ActiveMissionListEntryTemplate);
+            activemissionListController.InitializeMissionList(QuestPage, m_ActiveMissionListEntryTemplate, gameState.ActiveMissions);
         };
 
     }

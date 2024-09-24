@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Mission : ScriptableObject
 {
-    public enum MissionType {Collection, Treasure, Hunt, Target, Guard, Rescue};
-    public enum MissionRank { S,A,B,C,D};
-    public UnityEvent<int,int> MissionComplete;
+    public enum MissionType { Collection, Treasure, Hunt, Target, Guard, Rescue };
+    public enum MissionRank { S, A, B, C, D };
+    public UnityEvent<int, int> MissionComplete;
 
 
     [Header("Mission Details")]
@@ -24,8 +25,8 @@ public class Mission : ScriptableObject
     public int EXPValue;
     [SerializeField] private int BaseGoldValue;
     [SerializeField] private int BaseReputationValue;
-     public int GoldValue;
-      public int ReputationValue;
+    [ReadOnly] public int GoldValue;
+    [ReadOnly] public int ReputationValue;
 
 
 
@@ -33,18 +34,27 @@ public class Mission : ScriptableObject
     [SerializeField] public List<Adventurer> AssignedAdventurers = new List<Adventurer>();
 
     [Header("Completion Time Variables")]
-    public float CompletionPercent
+    [ReadOnly] public float CompletionPercent
     {
         get
         {
             TimeSpan elapsed = DateTime.Now - StartTime;
-            float x = (float)(TimeToCompleteInSeconds / elapsed.TotalSeconds);
-            return x;
+            float x = (float)((elapsed.TotalSeconds / TimeToCompleteInSeconds) * 100);
+            if( x < 100)
+            {
+                return x;
+            }
+            else
+            {
+                return 100;
+            }
+
         }
     }
     public System.DateTime StartTime;
+    public System.DateTime EndTime;
     public int TimeToCompleteInSeconds;
-    [SerializeField] public int BaseCompletionTimeInSeconds = 300;        //Default time to complete is 5 minutes  
+    [SerializeField] int BaseCompletionTimeInSeconds = 300;        //Default time to complete is 5 minutes  
     private float AdventurerReduction = 0;
 
     [Header("Success Chance Variables")]
@@ -91,24 +101,27 @@ public class Mission : ScriptableObject
     }
     public int CalculateTimeToComplete(List<Adventurer> list)
     {
-        CalculateAdventurerReductions(list);
+        if(list.Count >0)
+        { 
+            CalculateAdventurerReductions(list); 
+        }
 
         switch (Rank)
         {
             case MissionRank.S:
-                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 5 * Difficulty) / AdventurerReduction);
+                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 5 * Difficulty) * (1 - AdventurerReduction));
                 break;
             case MissionRank.A:
-                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 4 * Difficulty) / AdventurerReduction);
+                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 4 * Difficulty) * (1- AdventurerReduction));
                 break;
             case MissionRank.B:
-                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 3 * Difficulty) / AdventurerReduction);
+                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 3 * Difficulty) * (1 - AdventurerReduction));
                 break;
             case MissionRank.C:
-                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 2 * Difficulty) / AdventurerReduction);
+                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 2 * Difficulty) * (1 - AdventurerReduction));
                 break;
             case MissionRank.D:
-                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 1 * Difficulty) / AdventurerReduction);
+                TimeToCompleteInSeconds = (int)((BaseCompletionTimeInSeconds * 1 * Difficulty) * (1 - AdventurerReduction));
                 break;
         }
         return TimeToCompleteInSeconds;
@@ -126,6 +139,7 @@ public class Mission : ScriptableObject
             AdventurerReduction += adventurer.CalculateSpeedCompletionBonus(this);
         }
         AdventurerReduction /= 100;
+        
     }
 
     void CalculateSuccessChance()
@@ -173,5 +187,13 @@ public class Mission : ScriptableObject
     {
         SuccessMulitplier = (int)((SuccessChance - UnityEngine.Random.Range(0, 100)) / 200);
         return SuccessMulitplier;
+    }
+
+    public void CheckForCompletion()
+    {
+        if((DateTime.Now - StartTime).TotalSeconds >= TimeToCompleteInSeconds)
+        {
+
+        }
     }
 }
