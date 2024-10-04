@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -62,7 +63,7 @@ public class MissionListController
             newListEntryLogic.SetVisualElement(newListEntry);
             
             Button detailsButton = newListEntry.Q<Button>("DetailsButton");
-            detailsButton.RegisterCallback<ClickEvent>(e => OnDetailsButtonClicked(newListEntry));
+            detailsButton.RegisterCallback<ClickEvent>(e => OnDetailsButtonClicked(newListEntry, detailsButton));
             return newListEntry;
         };
 
@@ -75,9 +76,12 @@ public class MissionListController
 
     }
 
-    public void OnDetailsButtonClicked(VisualElement element)
+    async void OnDetailsButtonClicked(VisualElement element, Button btn)
     {
-        
+        btn.style.backgroundColor = Color.blue;
+        await Task.Delay(TimeSpan.FromSeconds(.05));
+        btn.style.backgroundColor = Color.grey;
+
         int ID = m_mission[(int)element.userData].ID;
         GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
         UIMaster.GetComponent<UIManager>().MissionDetails(ID);

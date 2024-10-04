@@ -35,38 +35,40 @@ public class RecruitPageController
     public void InitializeRecruitPage(VisualElement root)
     {
         RecruitPopUp = root;
-        if (isOpen == false)
+
+        if (CreateList())
         {
-            NameLabel = root.Q<Label>("Name");
-            ClassLabel = root.Q<Label>("Class");
-            LvLabel = root.Q<Label>("Level");
-            RankLabel = root.Q<Label>("RankLabel");
-            HpLabel = root.Q<Label>("HPLabel");
-            ManaLabel = root.Q<Label>("ManaLabel");
-            AttackLabel = root.Q<Label>("AttackLabel");
-            DefenseLabel = root.Q<Label>("DefenseLabel");
-            MagicLabel = root.Q<Label>("MagicLabel");
-            SpeedLabel = root.Q<Label>("SpeedLabel");
-            CostLabel = root.Q<Label>("CostLabel");
+            if (isOpen == false)
+            {
+                NameLabel = root.Q<Label>("Name");
+                ClassLabel = root.Q<Label>("Class");
+                LvLabel = root.Q<Label>("Level");
+                RankLabel = root.Q<Label>("RankLabel");
+                HpLabel = root.Q<Label>("HPLabel");
+                ManaLabel = root.Q<Label>("ManaLabel");
+                AttackLabel = root.Q<Label>("AttackLabel");
+                DefenseLabel = root.Q<Label>("DefenseLabel");
+                MagicLabel = root.Q<Label>("MagicLabel");
+                SpeedLabel = root.Q<Label>("SpeedLabel");
+                CostLabel = root.Q<Label>("CostLabel");
 
-            RecruitButton = root.Q<Button>("RecruitBtnFinal");
-            ExitButton = root.Q<Button>("ExitButton");
-            BackButton = root.Q<Button>("BackButton");
-            ForwardButton = root.Q<Button>("ForwardButton");
+                RecruitButton = root.Q<Button>("RecruitBtnFinal");
+                ExitButton = root.Q<Button>("ExitButton");
+                BackButton = root.Q<Button>("BackButton");
+                ForwardButton = root.Q<Button>("ForwardButton");
 
-            RecruitButton.clicked += RecruitPressed;
-            ExitButton.clicked += CloseRecruitPage;
-            BackButton.clicked += PreviousAdventurer;
-            ForwardButton.clicked += NextAdventurer;
+                RecruitButton.clicked += RecruitPressed;
+                ExitButton.clicked += CloseRecruitPage;
+                BackButton.clicked += PreviousAdventurer;
+                ForwardButton.clicked += NextAdventurer;
+            }
+
+            CurIndex = 0;
+            FillAdventurerInfo();
         }
-
-        CurIndex = 0;
-        CreateList();
-        FillAdventurerInfo();
-
     }
 
-    void CreateList()
+    bool CreateList()
     {
         List<Adventurer> temp = new List<Adventurer>();
         temp.AddRange(Resources.LoadAll<Adventurer>("Adventurers"));
@@ -80,7 +82,22 @@ public class RecruitPageController
 
             }
         }
-        CurSelection = LocalAdventurers[CurIndex];
+
+        if(LocalAdventurers.Count > 0)
+        {
+            CurSelection = LocalAdventurers[CurIndex];
+            return true;
+        }
+        else
+        {
+            VisualElement noAdventurers = RecruitPopUp.Q<VisualElement>("NoAdventurers");
+            noAdventurers.style.display = DisplayStyle.Flex;
+
+            Button okayButton = noAdventurers.Q<Button>("OkayButton");
+            okayButton.clicked += CloseRecruitPage;
+            return false;
+        }
+        
     }
     void FillAdventurerInfo()
     {
@@ -194,7 +211,9 @@ public class RecruitPageController
 
     void CloseRecruitPage()
     {
-        RecruitPopUp.style.display = DisplayStyle.None;
+        VisualElement noAdventurers = RecruitPopUp.Q<VisualElement>("NoAdventurers");
+        noAdventurers.style.display = DisplayStyle.None;
+        RecruitPopUp.style.display = DisplayStyle.None; 
 
         GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
         UIMaster.GetComponent<UIManager>().RosterBtn_clicked();

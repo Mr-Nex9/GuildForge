@@ -1,6 +1,7 @@
 using Assets.PixelFantasy.PixelHeroes.Common.Scripts.CharacterScripts;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.UIElements;
@@ -89,8 +90,13 @@ public class RosterController
         GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
         UIMaster.GetComponent<UIManager>().ShowAdventurerStats();
     }
-    void OpenRecruitPage()
+     void OpenRecruitPage()
     {
+        Default = RecruitButton.style.backgroundColor;
+        RecruitButton.style.backgroundColor = Color.blue;
+        //await Task.Delay(TimeSpan.FromSeconds(.05));
+        RecruitButton.style.backgroundColor = Default;
+
         GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
         UIMaster.GetComponent<UIManager>().ShowRecruitPage();
     }

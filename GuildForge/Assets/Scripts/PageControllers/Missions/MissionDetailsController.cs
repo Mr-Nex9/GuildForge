@@ -40,6 +40,7 @@ public class MissionDetailsController
 
     Button m_AcceptButton;
     Button m_ExitButton;
+    UnityEngine.UIElements.StyleColor m_Default;
 
     public void InitializePage(VisualElement root, int missionID)
     {
@@ -284,20 +285,12 @@ public class MissionDetailsController
     {
         if (m_AssignedAdventurers.Count > 0)
         {
+            m_Default = m_AcceptButton.style.backgroundColor;
             m_AcceptButton.style.backgroundColor = Color.blue;
             await Task.Delay(TimeSpan.FromSeconds(.05));
-            m_AcceptButton.style.backgroundColor = Color.grey;
-            //await Task.Delay(TimeSpan.FromSeconds(.05));
+            m_AcceptButton.style.backgroundColor = m_Default;
 
-            CurMission.Active = true;
-            CurMission.AssignedAdventurers = new List<Adventurer>(m_AssignedAdventurers);
-            CurMission.StartTime = DateTime.Now;
-            CurMission.EndTime = CurMission.StartTime + TimeSpan.FromSeconds(CurMission.TimeToCompleteInSeconds);
-
-            foreach (Adventurer hero in m_AssignedAdventurers)
-            {
-                hero.OnMission = true;
-            }
+            CurMission.MissionStart(m_AssignedAdventurers);
 
             GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
             GameMaster.GetComponent<GameManager>().AddToActiveMissionList(CurMission);

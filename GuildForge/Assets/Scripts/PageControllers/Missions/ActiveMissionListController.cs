@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditorInternal.ReorderableList;
 
 public class ActiveMissionListController
 {
     VisualElement activeMissionDisplay;
     List<Mission> activeMissions;
+    Mission curMission;
+    UnityEngine.UIElements.StyleColor Default;
 
     public void InitializeMissionList(VisualElement root, VisualTreeAsset listElementTemplate, List<Mission> missions)
     {
@@ -43,7 +47,7 @@ public class ActiveMissionListController
                     if (activeMissions[i - 1].EndTime <= DateTime.Now)
                     {
                         completeButton.style.display = DisplayStyle.Flex;
-                        completeButton.RegisterCallback<ClickEvent>(e => MissionComplete(i - 1));
+                        completeButton.RegisterCallback<ClickEvent>(e => MissionComplete(i -2, completeButton));
                         missionTimeRemaining.text = "Completed!";
                     }
                     else
@@ -63,6 +67,19 @@ public class ActiveMissionListController
 
             }
         }
+        else
+        {
+            for (int i = 1; i <= 5; i++)
+            {
+                VisualElement missionBox = activeMissionDisplay.Q<VisualElement>("Mission" + i);
+                Label emptySlot = missionBox.Q<Label>("EmptySlot");
+                emptySlot.style.display = DisplayStyle.Flex;
+
+                missionBox = missionBox.Q<VisualElement>("MissionActive");
+                missionBox.style.display = DisplayStyle.None;
+            }
+        }
+
     }
     private string ConvertTimeToString(int timeInSeconds)
     {
@@ -124,12 +141,18 @@ public class ActiveMissionListController
         return CompletionTime;
     }
 
-    void MissionComplete(int index)
+    async void MissionComplete(int index, Button btn)
     {
-        //call ui manager to load complete mission popup
-        //UI manager can call a function here that will load the info into the popup
-        //the button there that says congrats or complete will then call the missions complete Mission method.
-        //reinitialize the page
+        Default = btn.style.backgroundColor;
+        btn.style.backgroundColor = Color.blue;
+        await Task.Delay(TimeSpan.FromSeconds(.05));
+        btn.style.backgroundColor = Color.green;
+
+        Debug.Log(index);
+        curMission = activeMissions[index];
+
+        GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
+        UIMaster.GetComponent<UIManager>().ShowMissionCompletePopUp();
     }
 
     public void MissionUIUpdate()
@@ -148,7 +171,7 @@ public class ActiveMissionListController
             if (activeMissions[i - 1].EndTime <= DateTime.Now)
             {
                 completeButton.style.display = DisplayStyle.Flex;
-                completeButton.RegisterCallback<ClickEvent>(e => MissionComplete(i - 1));
+                completeButton.RegisterCallback<ClickEvent>(e => MissionComplete(i - 2, completeButton));
                 missionTimeRemaining.text = "Completed!";
             }
             else
@@ -157,5 +180,79 @@ public class ActiveMissionListController
             }
         }
     }
+
+    void ResetMissionSlots()
+    {
+        for (int i = 1; i <= 5; i++)
+        {
+            VisualElement missionBox = activeMissionDisplay.Q<VisualElement>("Mission" + i);
+            Label emptySlot = missionBox.Q<Label>("EmptySlot");
+            emptySlot.style.display = DisplayStyle.Flex;
+
+            missionBox = missionBox.Q<VisualElement>("MissionActive");
+            missionBox.style.display = DisplayStyle.None;
+        }
+    }
+
+    #region Complete Mission Popup
+    VisualElement popUp;
+    Button exitButton;
+    Button completeButton;
+    
+    Label missionRank;
+    Label missionType;
+    Label missionName;
+
+    Label goldLabel;
+    Label reputationLabel;
+    Label expLabel;
+
+    bool isSetup;
+    public void InitializeMissionPopUp(VisualElement root)
+    {
+        popUp = root;
+
+        if (isSetup == false)
+        {
+            isSetup = true;
+
+            exitButton = root.Q<Button>("ExitButton"); 
+            completeButton = root.Q<Button>("CompleteButton");
+
+            missionRank = root.Q<Label>("MissionRank"); 
+            missionType = root.Q<Label>("MissionType"); 
+            missionName = root.Q<Label>("MissionName"); 
+
+            goldLabel = root.Q<Label>("GoldLabel"); 
+            reputationLabel = root.Q<Label>("ReputationLabel"); 
+            expLabel = root.Q<Label>("EXPLabel"); 
+
+            exitButton.clicked += ExitPopUp;
+            completeButton.clicked += CompleteMission;
+        }
+
+        missionRank.text = curMission.Rank.ToString();
+        missionType.text = curMission.Type.ToString();
+        missionName.text = curMission.Name;
+
+        goldLabel.text = curMission.GoldValue.ToString();
+        reputationLabel.text = curMission.ReputationValue.ToString();
+        expLabel.text = curMission.EXPValue.ToString();
+
+    }
+    void ExitPopUp()
+    {
+        popUp.style.display = DisplayStyle.None;
+    }
+    void CompleteMission()
+    {
+        FillMissionUI();
+
+        curMission.CompleteMission();
+
+        ResetMissionSlots();
+        ExitPopUp();
+    }
+    #endregion
 }
 
