@@ -1,10 +1,57 @@
-Button:hover{
-	background-color: white;
+#unity-dragger {
+    height: 60px;
+    width: 60px;
+    background-color: rgb(190, 125, 53);
+    border-top-left-radius: 39px;
+    border-top-right-radius: 39px;
+    border-bottom-right-radius: 39px;
+    border-bottom-left-radius: 39px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
 }
-.unity-list-view__item:checked {
-    text.color = green;
+
+#unity-tracker {
+    height: 232%;
+    width: 120px;
+    border-top-left-radius: 29px;
+    border-top-right-radius: 29px;
+    border-bottom-right-radius: 29px;
+    border-bottom-left-radius: 29px;
+    background-color: rgb(188, 188, 188);
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0;
+    top: 2px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    border-top-width: 2px;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    border-left-width: 2px;
+    -unity-background-image-tint-color: rgba(161, 0, 0, 0);
 }
-.unity-list-view__empty-label
-{
-	display: none;
+
+#unity-drag-container {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    width: 120px;
+    height: 100%;
+    position: relative;
+    top: auto;
+    background-color: rgba(0, 0, 0, 0);
 }

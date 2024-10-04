@@ -18,18 +18,18 @@ MonoBehaviour:
   ID: 3
   Active: 0
   Offered: 1
+  Completed: 0
   Name: test 3
   Description: 
   Type: 2
-  Difficulty: 1
+  Difficulty: 6
   Rank: 1
   BaseEXPValue: 0
-  EXPValue: 0
   BaseGoldValue: 0
   BaseReputationValue: 0
-  BaseLootValue: 0
-  GoldValue: 0
-  ReputationValue: 0
+  EXPValue: 400
+  GoldValue: 40
+  ReputationValue: 5
   AssignedAdventurers: []
   TimeToCompleteInSeconds: 30
   BaseCompletionTimeInSeconds: 300

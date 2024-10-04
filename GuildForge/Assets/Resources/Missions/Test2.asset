@@ -18,19 +18,20 @@ MonoBehaviour:
   ID: 2
   Active: 0
   Offered: 1
+  Completed: 0
   Name: Test 2
   Description: 
   Type: 0
   Difficulty: 27
   Rank: 2
   BaseEXPValue: 0
-  EXPValue: 1200
   BaseGoldValue: 0
   BaseReputationValue: 0
+  EXPValue: 1200
   GoldValue: 120
   ReputationValue: 20
   AssignedAdventurers:
   - {fileID: 11400000, guid: 20848344764365b4f9418957f6e8a26d, type: 2}
-  TimeToCompleteInSeconds: 26243
+  TimeToCompleteInSeconds: 22112
   BaseCompletionTimeInSeconds: 300
   BaseSuccessChance: 90
