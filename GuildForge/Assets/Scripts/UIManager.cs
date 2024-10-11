@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour
     private VisualElement curPage;
     private VisualElement curPopUp;
     private float timePassed;
+    bool franchiseButtonActivated;
 
     MissionDetailsController missionDetailsController;
     MissionListController missionListController;
@@ -219,6 +220,49 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
+    #region Franchise Button Methods
+    public void ActivateFranchiseButton(bool on)
+    {
+        var uiDocument = GetComponent<UIDocument>();
+        var header = uiDocument.rootVisualElement.Q<VisualElement>("Header");
+
+        Button franchiseButton = header.Q<Button>("FranchiseButton");
+
+        if (franchiseButtonActivated == false)
+        {
+            franchiseButtonActivated = true;
+            franchiseButton.clicked += ShowResetPopUp;
+        }
+
+        if (on)
+        {
+            franchiseButton.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            franchiseButton.style.display = DisplayStyle.Flex;
+        }
+    }
+    private void ShowResetPopUp()
+    {
+        var uiDocument = GetComponent<UIDocument>();
+        var franchisePopUp = uiDocument.rootVisualElement.Q<VisualElement>("FranchisePopUp");
+
+        franchisePopUp.style.display = DisplayStyle.Flex;
+
+        Label totalGold = franchisePopUp.Q<Label>("totalGold");
+        Label bonus = franchisePopUp.Q<Label>("Bonus");
+        Button resetButton = franchisePopUp.Q<Button>("ResetButton");
+
+        totalGold.text = gameState.totalGold.ToString();
+        GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
+        
+        bonus.text = GameMaster.GetComponent<GameManager>().CalculateBonus().ToString();
+
+        resetButton.clicked += GameMaster.GetComponent<GameManager>().FranchiseGuild;
+    }
+    #endregion
+
     private void AchievementsBtn_onClick()
     {
         curPage.style.display = DisplayStyle.None;
@@ -251,6 +295,7 @@ public class UIManager : MonoBehaviour
             settingsPageController.InitializePage(settingsPage, gameState);
         }
     }
+
     void ClosePopUps()
     {
         var uiDocument = GetComponent<UIDocument>();
