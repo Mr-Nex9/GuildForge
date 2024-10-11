@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c1c2ebcc46b3f4d847597accd508eb, type: 3}
+  m_Name: Studded Leather Armor
+  m_EditorClassIdentifier: 
+  inStore: 0
+  ID: 35
+  Icon: {fileID: 2800000, guid: 3b11634946a277e4c867e31c1b8d1ace, type: 3}
+  Name: Studded Leather Armor
+  itemtype: 1
+  itemRank: 2
+  Cost: 900
+  characterBuilderName: 
+  AtkBonus: 10
+  DefBonus: 5
+  HPBonus: 0
+  ManaBonus: 5
+  MagBonus: 0
+  SpdBonus: 10

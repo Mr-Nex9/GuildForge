@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7cd2d9dea92692341a4d528c6aeda6e4
+guid: dd94bd28b5c5a9c468d56ff1b591c460
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 916609748789838446
-    second: Design 7 (3)_0
+      213: 2344412226636175203
+    second: Gold Ring_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -152,13 +152,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Design 7 (3)_0
+      name: Gold Ring_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1080
-        height: 1080
+        width: 2048
+        height: 2048
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,8 +167,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e62474ac5b378bc00800000000000000
-      internalID: 916609748789838446
+      spriteID: 3675bb7bf76098020800000000000000
+      internalID: 2344412226636175203
       vertices: []
       indices: 
       edges: []
@@ -187,7 +187,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Design 7 (3)_0: 916609748789838446
+      Gold Ring_0: 2344412226636175203
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

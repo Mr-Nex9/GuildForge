@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 7cd2d9dea92692341a4d528c6aeda6e4
+guid: 24c38d18f446f0f40a8f29d035ada64d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 916609748789838446
-    second: Design 7 (3)_0
+      213: 7978972430989441240
+    second: Magic Bow_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -152,7 +152,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Design 7 (3)_0
+      name: Magic Bow_0
       rect:
         serializedVersion: 2
         x: 0
@@ -167,8 +167,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e62474ac5b378bc00800000000000000
-      internalID: 916609748789838446
+      spriteID: 8d8b2cdc6210bbe60800000000000000
+      internalID: 7978972430989441240
       vertices: []
       indices: 
       edges: []
@@ -187,7 +187,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Design 7 (3)_0: 916609748789838446
+      Magic Bow_0: 7978972430989441240
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

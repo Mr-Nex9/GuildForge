@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ed5a60028c97c6488e9fa699a58e463, type: 3}
+  m_Name: Wooden Staff
+  m_EditorClassIdentifier: 
+  inStore: 0
+  ID: 24
+  Icon: {fileID: 2800000, guid: 4d332a6c65af3784db8c6def95af1367, type: 3}
+  Name: Wooden Staff
+  itemtype: 0
+  itemRank: 4
+  Cost: 15
+  characterBuilderName: 
+  AtkBonus: 5
+  DefBonus: 1
+  HPBonus: 1
+  ManaBonus: 1
+  MagBonus: 1
+  SpdBonus: 1

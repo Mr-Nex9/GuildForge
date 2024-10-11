@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 43046c8da5ce16a4ba595b6c64b20532
+guid: dee830c6555eef74ea8687474c7048d7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5904154716021098639
-    second: Gemini_Generated_Image_48lrix48lrix48lr_0
+      213: -2818893474168717557
+    second: Bronze Dagger_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -152,7 +152,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gemini_Generated_Image_48lrix48lrix48lr_0
+      name: Bronze Dagger_0
       rect:
         serializedVersion: 2
         x: 0
@@ -167,8 +167,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f888263ce65cfe150800000000000000
-      internalID: 5904154716021098639
+      spriteID: b0fb184025741e8d0800000000000000
+      internalID: -2818893474168717557
       vertices: []
       indices: 
       edges: []
@@ -187,7 +187,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gemini_Generated_Image_48lrix48lrix48lr_0: 5904154716021098639
+      Bronze Dagger_0: -2818893474168717557
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

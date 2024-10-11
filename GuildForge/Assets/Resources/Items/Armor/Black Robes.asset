@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c1c2ebcc46b3f4d847597accd508eb, type: 3}
+  m_Name: Black Robes
+  m_EditorClassIdentifier: 
+  inStore: 0
+  ID: 26
+  Icon: {fileID: 2800000, guid: d3e589e30155ba64d8ae4a1d2c3d4a62, type: 3}
+  Name: Black Robes
+  itemtype: 1
+  itemRank: 2
+  Cost: 900
+  characterBuilderName: 
+  AtkBonus: 6
+  DefBonus: 3
+  HPBonus: 0
+  ManaBonus: 9
+  MagBonus: 12
+  SpdBonus: 0

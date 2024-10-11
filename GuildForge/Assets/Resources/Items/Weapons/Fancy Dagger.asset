@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ed5a60028c97c6488e9fa699a58e463, type: 3}
-  m_Name: Weapon 1
+  m_Name: Fancy Dagger
   m_EditorClassIdentifier: 
   inStore: 0
-  ID: 4
-  Icon: {fileID: 2800000, guid: 8193f736153233142b6fd5781bb84841, type: 3}
-  Name: Bronze Sword
+  ID: 15
+  Icon: {fileID: 2800000, guid: e2c129b2935c3e54eb5cf15dae050600, type: 3}
+  Name: Magic Dagger
   itemtype: 0
   itemRank: 4
   Cost: 15
+  characterBuilderName: 
   AtkBonus: 5
   DefBonus: 1
   HPBonus: 1
