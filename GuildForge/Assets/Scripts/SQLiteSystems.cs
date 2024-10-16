@@ -12,8 +12,10 @@ public class SQLiteSystems
     {
         gameState = state;
         LoadGameSate();
+        LoadSettings();
         LoadAdventurers();
         LoadInventory();
+        LoadMissions();
     }
 
     void LoadAdventurers()
@@ -84,7 +86,6 @@ public class SQLiteSystems
         }
         dbConnection.Close();
     }
-
     void LoadGameSate()
     {
         IDbConnection dbConnection = CreateAndOpenGameStateTable(); // 14
@@ -125,6 +126,96 @@ public class SQLiteSystems
             }
 
         }
+        dbConnection.Close();
+    }
+    void LoadSettings()
+    {
+        IDbConnection dbConnection = CreateAndOpenSettingsTable(); // 14
+        IDbCommand dbCommandReadValues = dbConnection.CreateCommand(); // 15
+        dbCommandReadValues.CommandText = "SELECT * FROM Settings"; // 16
+        IDataReader dataReader = dbCommandReadValues.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            switch (dataReader.GetInt32(0))
+            {
+                case 1:
+                    {
+                        gameState.tutorialLevel = dataReader.GetInt32(1);
+
+                    }
+                    break;
+                case 2:
+                    {
+                        gameState.sound = dataReader.GetInt32(1) > 0 ? true : false;
+                    }
+                    break;
+                case 3:
+                    {
+                        gameState.music = dataReader.GetInt32(1) > 0 ? true : false;
+                    }
+                    break;
+                case 4:
+                    {
+                        gameState.effects = dataReader.GetInt32(1) > 0 ? true : false;
+                    }
+                    break;
+                case 5:
+                    {
+                        gameState.notifications = dataReader.GetInt32(1) > 0 ? true : false;
+                    }
+                    break;
+            }
+
+        }
+        dbConnection.Close();
+    }
+    void LoadMissions()
+    {
+        IDbConnection dbConnection = CreateAndOpenMissionTable(); // 14
+        IDbCommand dbCommandReadValues = dbConnection.CreateCommand(); // 15
+        dbCommandReadValues.CommandText = "SELECT * FROM Missions"; // 16
+        IDataReader dataReader = dbCommandReadValues.ExecuteReader();
+
+        while (dataReader.Read())
+        {
+            int iD = dataReader.GetInt32(0);
+            int status = dataReader.GetInt32(1);
+
+            Mission curMission = gameState.allMissions.Find(x => x.ID == iD);
+
+            switch(status)
+            {
+                case 1:
+                    {
+                        curMission.Offered = true;
+
+                        gameState.offeredMissions.Add(curMission);
+                    }break;
+                case 2:
+                    {
+                        curMission.Offered = true;
+                        curMission.Active  = true;
+                        DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+                        dateTime = dateTime.AddSeconds(dataReader.GetInt32(2)).ToLocalTime();
+                        curMission.StartTime = dateTime;
+
+                        gameState.activeMissions.Add(curMission);
+                    }
+                    break;
+                case 3:
+                    {
+                        curMission.Offered = true;
+                        curMission.Active = true;
+                        curMission.Completed = true;
+
+                        gameState.missionsCompleted.Add(curMission);
+                    }
+                    break;
+            }
+                
+        }
+        dbConnection.Close();
     }
 
     #region Save Methods
@@ -136,6 +227,18 @@ public class SQLiteSystems
 
         dbCommandInsertValue.CommandText =
             "INSERT OR REPLACE INTO GameState (id, amount) VALUES (" +iD + ", " + amount + ")";
+        dbCommandInsertValue.ExecuteNonQuery();
+
+        dbConnection.Close();
+    }
+    public void UpdateSettings(int iD, int setting)
+    {
+        // 1 - Tutorial, 2 - Sound, 3 - music, 4 - effects,  5- Notifications
+        IDbConnection dbConnection = CreateAndOpenSettingsTable();
+        IDbCommand dbCommandInsertValue = dbConnection.CreateCommand();
+
+        dbCommandInsertValue.CommandText =
+            "INSERT OR REPLACE INTO Settings (id, setting) VALUES (" + iD + ", " + setting + ")";
         dbCommandInsertValue.ExecuteNonQuery();
 
         dbConnection.Close();
@@ -173,29 +276,21 @@ public class SQLiteSystems
     {
 
     }
-    public void UpdateMissions(Mission mission)
+    public void UpdateMission(int id, int status, long startTime = 0)
     {
-        int status;
-        if(mission.Offered)
+        Debug.Log("Test");
+        IDbConnection dbConnection = CreateAndOpenMissionTable();
+        IDbCommand dbCommandInsertValue = dbConnection.CreateCommand();
+
+        if (status == 2)
         {
-            status = 1;
-        }
-        else if(mission.Active)
-        {
-            status = 2;    
-        }
-        else if (mission.Completed)
-        {
-            status = 3;
+            dbCommandInsertValue.CommandText = "INSERT OR REPLACE INTO Missions (id, status, startTime) VALUES (" + id + ", " + status + ", " + startTime + ")";
         }
         else
         {
-            status = 0;
+            dbCommandInsertValue.CommandText = "INSERT OR REPLACE INTO Missions (id, status) VALUES (" + id + ", " + status + ")";
         }
 
-        IDbConnection dbConnection = CreateAndOpenAdventurersTable();
-        IDbCommand dbCommandInsertValue = dbConnection.CreateCommand();
-        dbCommandInsertValue.CommandText = "INSERT OR REPLACE INTO Inventory (id, status, startTime) VALUES (" + mission.ID + ", " + status + ", " + mission.StartTime + ")";
         dbCommandInsertValue.ExecuteNonQuery();
 
         dbConnection.Close();
@@ -222,7 +317,7 @@ public class SQLiteSystems
         dbConnection.Open();
 
         IDbCommand dbCommandCreateTable = dbConnection.CreateCommand();
-        dbCommandCreateTable.CommandText = "CREATE TABLE IF NOT EXISTS Missions (id INTEGER PRIMARY KEY, status INTEGER, startTime TIMESTAMP )";
+        dbCommandCreateTable.CommandText = "CREATE TABLE IF NOT EXISTS Missions (id INTEGER PRIMARY KEY, status INTEGER, startTime INTEGER )";
         dbCommandCreateTable.ExecuteReader();
 
         return dbConnection;
@@ -267,6 +362,20 @@ public class SQLiteSystems
 
         return dbConnection;
     }
+    IDbConnection CreateAndOpenSettingsTable()
+    {
+        string dbUri = "URI=file:GuildForgeDB.sqlite";
+        IDbConnection dbConnection = new SqliteConnection(dbUri);
+        dbConnection.Open();
+
+        IDbCommand dbCommandCreateTable = dbConnection.CreateCommand();
+        dbCommandCreateTable.CommandText =
+            "CREATE TABLE IF NOT EXISTS Settings " +
+            "(id INTEGER PRIMARY KEY, setting int)";
+        dbCommandCreateTable.ExecuteReader();
+
+        return dbConnection;
+    }
     #endregion
 
     public void NewGame(GameState gameState)
@@ -276,7 +385,7 @@ public class SQLiteSystems
         ClearInventoryTable();
 
         //reset gamestate values except bonus
-        for (int i = 1; i < 5; i++)
+        for (int i = 1; i < 6; i++)
         {
             IDbConnection dbConnection = CreateAndOpenGameStateTable();
             IDbCommand dbCommandInsertValue = dbConnection.CreateCommand();

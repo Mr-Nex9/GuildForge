@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
         CalculateOddJobsRate();
         CalculateGuildRank();
 
+        gameState.firstTime = (gameState.roster.Count > 0) ? false: true;
+
         if (gameState.reputation >= 1000)
         {
             GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
@@ -40,7 +42,7 @@ public class GameManager : MonoBehaviour
         timePassed += Time.deltaTime;
         if (timePassed > (10f / gameState.currentOddJobsRate))
         {
-            GainGold((int)(1 * GameState.bonusPercent));
+            GainGold((int)(1 * (1 + GameState.bonusPercent)));
             timePassed = 0;
         }
         if(gameState.reputation >= 1000)
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour
         gameState.storeInventory.Clear();
         gameState.missionsCompleted.Clear();
         gameState.activeMissions.Clear();
+        gameState.offeredMissions.Clear();
         gameState.localAdventurers.Clear();
     }
     void LoadData()
@@ -69,6 +72,25 @@ public class GameManager : MonoBehaviour
         gameState.allMissions.AddRange(Resources.LoadAll<Mission>("Missions"));
 
         sqlSystem.LoadAllDataFromDatabase(gameState);
+        RestartMissions();
+
+    }
+    void RestartMissions()
+    {
+        foreach(Adventurer adventurer in gameState.roster)
+        {
+            if(adventurer.currentMissionID > 0)
+            {
+                adventurer.OnMission = true;
+                Mission curmission = gameState.allMissions.Find(x => x.ID == adventurer.currentMissionID);
+                curmission.AssignedAdventurers.Add(adventurer);
+            }
+        }
+
+        foreach(Mission mission in gameState.activeMissions)
+        {
+            mission.RestartMission();
+        }
     }
 
     public void CalculateOddJobsRate()
@@ -88,6 +110,7 @@ public class GameManager : MonoBehaviour
     }
     void CalculateGuildRank()
     {
+        GameState.GuildRank curRank = GameState.guildRank;
         switch (gameState.reputation / 200)
         {
             case 0:
@@ -115,6 +138,10 @@ public class GameManager : MonoBehaviour
                     GameState.guildRank = GameState.GuildRank.S;
                 }
                 break;
+        }
+        if(GameState.guildRank != curRank)
+        {
+            FindLocalAdventurers(true);
         }
     }
     #endregion
@@ -151,44 +178,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Change GameState Variables
-    public List<Adventurer> FindLocalAdventurers()
-    {   
-        List<Adventurer> filteredList = new List<Adventurer>();
-
-        foreach(Adventurer adventurer in gameState.allAdventurers)
-        {
-            if (adventurer.Recruited == false)
-            {
-                filteredList.Add(adventurer);
-            }
-        }
-
-        for (int i = 0; i < filteredList.Count; i++)
-        {
-            if (gameState.localAdventurers.Count < 4)
-            {
-                if (UnityEngine.Random.Range(0, filteredList.Count - i) < 4 - gameState.localAdventurers.Count)
-                {
-                    gameState.localAdventurers.Add(filteredList[i]);
-                    filteredList[i].PrepareForRecruitment();
-                    sqlSystem.UpdateAdventurers(filteredList[i]);
-                }
-            }
-            else
-            {
-                break;
-            }
-        }
-        return gameState.localAdventurers;
-    }
-    public void Recruit(Adventurer adventurer)
-    {
-        gameState.localAdventurers.Remove(adventurer);
-        gameState.roster.Add(adventurer);
-        sqlSystem.UpdateAdventurers(adventurer);
-
-        GainReputation(2 * adventurer.Level);
-    }
     public void PayGold(int amount)
     {
         gameState.gold -= amount;
@@ -206,6 +195,166 @@ public class GameManager : MonoBehaviour
         gameState.reputation += amount;
         sqlSystem.UpdateGameState(2, gameState.reputation);
     }
+    public void SetSettings(int setting, bool value)
+    {
+        switch (setting)
+        {
+            case 0:
+                {
+                    gameState.sound = value;
+                    if(value)
+                    {
+                        sqlSystem.UpdateSettings(2, 1);
+                    }
+                    else
+                    {
+                        sqlSystem.UpdateSettings(2, 0);
+                    }
+                    
+                }
+                break;
+            case 1:
+                {
+                    gameState.music = value;
+                    if (value)
+                    {
+                        sqlSystem.UpdateSettings(3, 1);
+                    }
+                    else
+                    {
+                        sqlSystem.UpdateSettings(3, 0);
+                    }
+                }
+                break;
+            case 2:
+                {
+                    gameState.effects = value;
+                    if (value)
+                    {
+                        sqlSystem.UpdateSettings(4, 1);
+                    }
+                    else
+                    {
+                        sqlSystem.UpdateSettings(4, 0);
+                    }
+                }
+                break;
+            case 3:
+                {
+                    gameState.notifications = value;
+                    if (value)
+                    {
+                        sqlSystem.UpdateSettings(5, 1);
+                    }
+                    else
+                    {
+                        sqlSystem.UpdateSettings(5, 0);
+                    }
+                }
+                break;
+        }
+    }
+
+    public List<Adventurer> FindLocalAdventurers(bool restock)
+    {   
+        if(gameState.firstTime)
+        {
+            gameState.localAdventurers = new List<Adventurer>(gameState.firstTimeAdventurers);
+
+            foreach (Adventurer adventurer in gameState.firstTimeAdventurers)
+            {
+                adventurer.SetBaseStats();
+                adventurer.CostToRecruit = 0;
+            }
+            return gameState.localAdventurers;
+        }
+        if (restock)
+        {
+            List<Adventurer> filteredList = new List<Adventurer>();
+
+            foreach (Adventurer adventurer in gameState.allAdventurers)
+            {
+                if (adventurer.Recruited == false)
+                {
+                    filteredList.Add(adventurer);
+                }
+            }
+
+            for (int i = 0; i < filteredList.Count; i++)
+            {
+                if (gameState.localAdventurers.Count < 4)
+                {
+                    if (UnityEngine.Random.Range(0, filteredList.Count - i) < 4 - gameState.localAdventurers.Count)
+                    {
+                        gameState.localAdventurers.Add(filteredList[i]);
+                        filteredList[i].PrepareForRecruitment();
+                        sqlSystem.UpdateAdventurers(filteredList[i]);
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        return gameState.localAdventurers;
+    }
+    public void Recruit(Adventurer adventurer)
+    {
+        gameState.localAdventurers.Remove(adventurer);
+        gameState.roster.Add(adventurer);
+        sqlSystem.UpdateAdventurers(adventurer);
+
+        GainReputation(2 * adventurer.Level);
+
+        if (gameState.firstTime)
+        {
+            gameState.firstTime = false;
+            gameState.localAdventurers.Clear();
+            FindLocalAdventurers(true);
+        }
+
+    }
+
+
+    public void AddToActiveMissionList(Mission mission)
+    {
+        gameState.activeMissions.Add(mission);
+        long time = ((DateTimeOffset)mission.StartTime).ToUnixTimeSeconds();
+        sqlSystem.UpdateMission(mission.ID, 2, time);
+    }
+    public List<Mission> FindNewMissions()
+    {
+        List<Mission> filteredList = new List<Mission>();
+
+        foreach (Mission mission in gameState.allMissions)
+        {
+            if (mission.Offered == false && !gameState.offeredMissions.Contains(mission))
+            {
+                filteredList.Add(mission);
+            }
+        }
+
+        for (int i = 0; i < filteredList.Count; i++)
+        {
+            if (gameState.offeredMissions.Count < 5)
+            {
+                if (UnityEngine.Random.Range(0, filteredList.Count - i) < 4 - gameState.offeredMissions.Count)
+                {
+                    gameState.offeredMissions.Add(filteredList[i]);
+                    filteredList[i].PrepareToOffer();
+                    sqlSystem.UpdateMission(filteredList[i].ID, 1);
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        return gameState.offeredMissions;
+    }
+
     public void AddToInventory(Item item)
     {
         gameState.inventory.Add(item);
@@ -215,35 +364,6 @@ public class GameManager : MonoBehaviour
     {
         gameState.inventory.Remove(item);
         sqlSystem.UpdateInventory(item, 0);
-    }
-    public void AddToActiveMissionList(Mission mission)
-    {
-        gameState.activeMissions.Add(mission);
-    }
-    public void SetSettings(int setting, bool value)
-    {
-        switch (setting)
-        {
-            case 0:
-                {
-                    gameState.sound = value;
-                }
-                break;
-            case 1:
-                {
-                    gameState.music = value;
-                }
-                break;
-            case 2:
-                {
-                    gameState.effects = value;
-                }
-                break;
-            case 3:
-                {
-                    gameState.notifications = value;
-                }break;
-        }
     }
     private void FillStoreInventory()
     {
@@ -342,6 +462,7 @@ public class GameManager : MonoBehaviour
         GainReputation(reputation);
         gameState.activeMissions.Remove(mission);
         gameState.missionsCompleted.Add(mission);
+        sqlSystem.UpdateMission(mission.ID, 3);
         CalculateOddJobsRate();
         CalculateGuildRank();
     }
@@ -378,16 +499,25 @@ public class GameManager : MonoBehaviour
     }
     public void FranchiseGuild()
     {
-        GameState.bonusPercent = CalculateBonus();
+        ResetGame();
+        GameState.bonusPercent += CalculateBonus();
+        sqlSystem.UpdateGameState(5, (long)(GameState.bonusPercent*100));
+        Start();
+    }
+    public void ResetGame()
+    {
         sqlSystem.NewGame(gameState);
+        
+        gameState.gold = 0;
+        gameState.totalGold = 0;
+        gameState.reputation = 0;
+        GameState.bonusPercent = 0;
 
         gameState.activeMissions.Clear();
         gameState.missionsCompleted.Clear();
         gameState.inventory.Clear();
         gameState.storeInventory.Clear();
         gameState.roster.Clear();
-
-        Start();
     }
     #endregion
 }
