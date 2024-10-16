@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 469a13398a86f974ba183629dd6032f2
+guid: 1c9f84ea55e2fd54d8719ed1a7c4fc50
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8396772262979051178
-    second: WIsp&Wonder Logo_0
+      213: -2701079595455231383
+    second: Design 3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -152,13 +152,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WIsp&Wonder Logo_0
+      name: Design 3_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1536
-        height: 1536
+        x: 204
+        y: 13
+        width: 1607
+        height: 1983
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,8 +167,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aae18ba92e3578470800000000000000
-      internalID: 8396772262979051178
+      spriteID: 96ac5da3b66d38ad0800000000000000
+      internalID: -2701079595455231383
       vertices: []
       indices: 
       edges: []
@@ -186,8 +186,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      WIsp&Wonder Logo_0: 8396772262979051178
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

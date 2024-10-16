@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 3b2069d7bbbe72f428de6a8885dc0210
+guid: 9c82909ec08f72b44a7d22d7f436454c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2665961591024052762
-    second: Gemini_Generated_Image_wj530xwj530xwj53_0
+      213: 1118474270323484905
+    second: Thief Icon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -152,7 +152,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gemini_Generated_Image_wj530xwj530xwj53_0
+      name: Thief Icon_0
       rect:
         serializedVersion: 2
         x: 0
@@ -167,8 +167,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a1ae2d131f56ff420800000000000000
-      internalID: 2665961591024052762
+      spriteID: 9e8ab054c6e958f00800000000000000
+      internalID: 1118474270323484905
       vertices: []
       indices: 
       edges: []

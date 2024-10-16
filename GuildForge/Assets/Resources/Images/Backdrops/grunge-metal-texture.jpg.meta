@@ -186,7 +186,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      grunge-metal-texture_0: -5569082995720991445
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

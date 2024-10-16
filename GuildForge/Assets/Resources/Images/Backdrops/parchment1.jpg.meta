@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 69360fa9b4b563145950530ddc984053
+guid: 02faeb591e1101b43b3ac8075db3a271
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -556807046940468050
-    second: Design 3 (5)_0
+      213: 7755982354243125303
+    second: parchment1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -152,13 +152,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Design 3 (5)_0
+      name: parchment1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2048
-        height: 2048
+        width: 360
+        height: 540
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -167,8 +167,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: eacddaed0f2d548f0800000000000000
-      internalID: -556807046940468050
+      spriteID: 7300cd4bbd8c2ab60800000000000000
+      internalID: 7755982354243125303
       vertices: []
       indices: 
       edges: []
@@ -186,7 +186,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      parchment1_0: 7755982354243125303
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
