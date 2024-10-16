@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
-
 public class RecruitPageController
 {
     #region
@@ -28,8 +27,9 @@ public class RecruitPageController
 
     Adventurer CurSelection;
     int CurIndex;
-    List<Adventurer> LocalAdventurers;
+    List<Adventurer> localAdventurers;
     bool isOpen = false;
+    bool recruiting = false;
     #endregion
 
     public void InitializeRecruitPage(VisualElement root)
@@ -70,22 +70,12 @@ public class RecruitPageController
 
     bool CreateList()
     {
-        List<Adventurer> temp = new List<Adventurer>();
-        temp.AddRange(Resources.LoadAll<Adventurer>("Adventurers"));
-        LocalAdventurers = new List<Adventurer>();
+        GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
+        localAdventurers = new List<Adventurer>(GameMaster.GetComponent<GameManager>().FindLocalAdventurers(false));
 
-        foreach (Adventurer adventurer in temp)
+        if (localAdventurers.Count > 0)
         {
-            if (adventurer.Recruited == false)
-            {
-                LocalAdventurers.Add(adventurer);
-
-            }
-        }
-
-        if(LocalAdventurers.Count > 0)
-        {
-            CurSelection = LocalAdventurers[CurIndex];
+            CurSelection = localAdventurers[CurIndex];
             return true;
         }
         else
@@ -148,69 +138,72 @@ public class RecruitPageController
     #region Buttons
     void PreviousAdventurer()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         CurIndex -= 1;
         if (CurIndex < 0)
         {
-            CurIndex = LocalAdventurers.Count - 1;
+            CurIndex = localAdventurers.Count - 1;
         }
-        CurSelection = LocalAdventurers[CurIndex];
+        CurSelection = localAdventurers[CurIndex];
 
         FillAdventurerInfo();
     }
 
     void NextAdventurer()
     {
-        CurIndex += 1;
-        if (CurIndex > LocalAdventurers.Count - 1)
-        {
-            CurIndex = 0;
-        }
-        CurSelection = LocalAdventurers[CurIndex];
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
 
-        FillAdventurerInfo();
+        if (localAdventurers.Count > 0)
+        {
+            CurIndex += 1;
+            if (CurIndex > localAdventurers.Count - 1)
+            {
+                CurIndex = 0;
+            }
+            CurSelection = localAdventurers [CurIndex];
+
+            FillAdventurerInfo();
+        }
+        else
+        {
+            CloseRecruitPage();
+        }
+
     }
-    void RecruitPressed()
+    void RecruitPressed()   
     {
-        LocalAdventurers.Remove(CurSelection);
-        CurSelection.Recruited = true;
-
-        GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
-        GameManager GameManager = GameMaster.GetComponent<GameManager>();
-        GameManager.Recruit(CurSelection);
-        GameManager.PayGold(CurSelection.CostToRecruit);
-        switch (CurSelection.Rank)
+        if(recruiting == false)
         {
-            case Adventurer.AdventurerRanks.S:
-                {
-                    GameManager.GainReputation(100);
-                }break;
-            case Adventurer.AdventurerRanks.A:
-                {
-                    GameManager.GainReputation(80);
-                }
-                break;
-            case Adventurer.AdventurerRanks.B:
-                {
-                    GameManager.GainReputation(60);
-                }
-                break;
-            case Adventurer.AdventurerRanks.C:
-                {
-                    GameManager.GainReputation(40);
-                }
-                break;
-            case Adventurer.AdventurerRanks.D:
-                {
-                    GameManager.GainReputation(20);
-                }
-                break;
+            GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+            SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+            soundManager.MoneySound();
 
+            recruiting = true;
+            localAdventurers.Remove(CurSelection);
+            CurSelection.Recruited = true;
+
+            GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
+            GameManager GameManager = GameMaster.GetComponent<GameManager>();
+
+            GameManager.Recruit(CurSelection);
+            GameManager.PayGold(CurSelection.CostToRecruit);
+            CreateList();
+            NextAdventurer();
+            recruiting = false;
         }
-        NextAdventurer();
     }
 
     void CloseRecruitPage()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         VisualElement noAdventurers = RecruitPopUp.Q<VisualElement>("NoAdventurers");
         noAdventurers.style.display = DisplayStyle.None;
         RecruitPopUp.style.display = DisplayStyle.None; 

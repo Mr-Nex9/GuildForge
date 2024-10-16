@@ -13,43 +13,28 @@ public class MissionListController
 
     ListView m_missionList;
 
-    List<Mission> m_mission;
+    [SerializeField]List<Mission> m_mission;
 
-    int m_count;
+    bool isFirstLoad = true;
 
 
     public void InitializeMissionList(VisualElement root, VisualTreeAsset listElementTemplate)
     {
-        EnumerateAllMissions();
-
-        if (m_count == 0)
+        if (isFirstLoad)
         {
             m_listEntryTemplate = listElementTemplate;
 
             m_missionList = root.Q<ListView>("NewMissions-List");
-            
 
-            m_count = 1;
+            isFirstLoad = false;
         }
 
+        GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
+        m_mission = new List<Mission>(GameMaster.GetComponent<GameManager>().FindNewMissions());
 
         FillMissionList();
         m_missionList.Rebuild();
 
-    }
-    private void EnumerateAllMissions()
-    {
-        m_mission = new List<Mission>();
-        List<Mission> temp = new List<Mission>();
-        temp.AddRange(Resources.LoadAll<Mission>("Missions"));
-
-        foreach (Mission mission in temp)
-        {
-            if (mission.Active == false && mission.Offered == true)
-            {
-                m_mission.Add(mission);
-            }
-        }
     }
     private void FillMissionList()
     {
@@ -76,14 +61,14 @@ public class MissionListController
 
     }
 
-    async void OnDetailsButtonClicked(VisualElement element, Button btn)
+    void OnDetailsButtonClicked(VisualElement element, Button btn)
     {
-        btn.style.backgroundColor = Color.blue;
-        await Task.Delay(TimeSpan.FromSeconds(.05));
-        btn.style.backgroundColor = Color.grey;
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
 
-        int ID = m_mission[(int)element.userData].ID;
-        GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
-        UIMaster.GetComponent<UIManager>().MissionDetails(ID);
+        int id = m_mission[(int)element.userData].ID;
+        GameObject uiMaster = GameObject.FindGameObjectWithTag("UI Manager");
+        uiMaster.GetComponent<UIManager>().MissionDetails(id);
     }
 }

@@ -18,10 +18,7 @@ public class StorePageController
 
         GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
         GameManager GameManager = GameMaster.GetComponent<GameManager>();
-        if (GameManager.IsRestockTime())
-        {
-            FillStoreInventory();
-        }
+        storeInventory = new List<Item>(GameManager.IsRestockTime());
 
         FillStoreUI();
 
@@ -60,94 +57,17 @@ public class StorePageController
         }
     }
 
-    private void FillStoreInventory()
-    {
-        GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
-        GameManager GameManager = GameMaster.GetComponent<GameManager>();
 
-        //get all items
-        List<Item> allItems  = new List<Item>();
-        allItems.AddRange(Resources.LoadAll<Item>("Items"));
-
-        //filter items based on rank
-        List<Item> filteredItems = new List<Item>();
-        foreach (Item item in allItems)
-        {
-            switch(GameManager.GetGuildRank())
-            {
-                case GameState.GuildRank.S:
-                    {
-                        if(item.itemRank == Item.ItemRank.S || item.itemRank == Item.ItemRank.A)
-                        {
-                            filteredItems.Add(item);
-                        }
-                    }break;
-                case GameState.GuildRank.A:
-                    {
-                        if (item.itemRank == Item.ItemRank.S || item.itemRank == Item.ItemRank.S || item.itemRank == Item.ItemRank.B)
-                        {
-                            filteredItems.Add(item);
-                        }
-                    }
-                    break;
-                case GameState.GuildRank.B:
-                    {
-                        if (item.itemRank == Item.ItemRank.A || item.itemRank == Item.ItemRank.B || item.itemRank == Item.ItemRank.C)
-                        {
-                            filteredItems.Add(item);
-                        }
-                    }
-                    break;
-                case GameState.GuildRank.C or GameState.GuildRank.D:
-                    {
-                        if (item.itemRank == Item.ItemRank.B || item.itemRank == Item.ItemRank.D || item.itemRank == Item.ItemRank.C)
-                        {
-                            filteredItems.Add(item);
-                        }
-                    }
-                    break;
-            }
-        }
-
-        //if there are more than 15 items random selection sample down to 15 if not just add them all to sotre inventory
-        if (filteredItems.Count > 15)
-        {
-            storeInventory = new List<Item>();
-            for (int i = 0; i < filteredItems.Count; i++)
-            {
-                if (storeInventory.Count < 15)
-                {
-                    if (UnityEngine.Random.Range(0,filteredItems.Count - i) < 15 - storeInventory.Count)
-                    {
-                        storeInventory.Add(filteredItems[i]);
-                    }
-                }
-                else
-                {
-                    break;
-                }
-            }
-        }
-        else
-        {
-            storeInventory = new List<Item>(filteredItems);
-        }
-        
-        //if we are short duplicate items to fill out the list
-        if (storeInventory.Count < 15)
-        {
-           for(int i = 0;i < 15 - storeInventory.Count;i++)
-            {
-                storeInventory.Add(storeInventory[i]);
-            }
-        }
-    }
 
     void ItemDetails(int index)
     {
         if(index < storeInventory.Count)
         {
             selectedItem = storeInventory[index];
+
+            GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+            SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+            soundManager.ButtonSound();
 
             GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
             UIMaster.GetComponent<UIManager>().ShowItemDetailsPopUp();
@@ -201,11 +121,15 @@ public class StorePageController
     }
     void BuyItem()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.MoneySound();
+
         GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
         GameManager GameManager = GameMaster.GetComponent<GameManager>();
         if (GameManager.getCurGold() >= selectedItem.Cost)
         {
-            selectedItem.BuyItem();
+            GameManager.BuyItem(selectedItem);
             storeInventory.Remove(selectedItem);
             FillStoreUI();
 

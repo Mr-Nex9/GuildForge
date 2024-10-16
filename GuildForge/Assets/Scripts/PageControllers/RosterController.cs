@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.InputSystem.Utilities;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
 
 public class RosterController
 {
     #region RosterPage
     VisualTreeAsset m_listEntryTemplate;
-    ListView m_rosterList;
+    public ListView m_rosterList;
     Button RecruitButton;
     bool hasOpened = false;
     VisualElement thisPage;
@@ -86,22 +86,32 @@ public class RosterController
     {
         CurSelection = m_Roster[m_rosterList.selectedIndex];
         curIndex = m_rosterList.selectedIndex;
+        Debug.Log($"Loading {CurSelection.Name}");
+
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
 
         GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
         UIMaster.GetComponent<UIManager>().ShowAdventurerStats();
+        m_rosterList.selectedIndex = -1;
+
     }
      void OpenRecruitPage()
     {
-        Default = RecruitButton.style.backgroundColor;
-        RecruitButton.style.backgroundColor = Color.blue;
-        //await Task.Delay(TimeSpan.FromSeconds(.05));
-        RecruitButton.style.backgroundColor = Default;
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
 
         GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
         UIMaster.GetComponent<UIManager>().ShowRecruitPage();
     }
     void SortAdventurers(string sortBy)
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         Debug.Log("Sorting");
         switch (sortBy)
         {
@@ -454,6 +464,10 @@ public class RosterController
     }
     void OpenItemList(String itemType, int slot = 0)
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         ItemType = itemType;
         curSlot = slot;
         GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
@@ -463,23 +477,36 @@ public class RosterController
         {
             case "Armor":
                 {
-                    curEquippedItem = CurSelection.ArmorItem;
+                    if(CurSelection.ArmorItem != null)
+                    {
+                        curEquippedItem = CurSelection.ArmorItem;
+                    }
+                    
                 }
                 break;
             case "Weapon":
                 {
-                    curEquippedItem = CurSelection.WeaponItem;
+                    if (CurSelection.WeaponItem != null)
+                    {
+                        curEquippedItem = CurSelection.WeaponItem;
+                    }
                 }
                 break;
             case "Accessory":
                 {
-                    if ( slot == 1)
+                    if (slot == 1)
                     {
-                        curEquippedItem = CurSelection.AccessorySlot1;
+                        if (CurSelection.AccessorySlot1 != null)
+                        {
+                            curEquippedItem = CurSelection.AccessorySlot1;
+                        }
                     }
                     else
                     {
-                        curEquippedItem = CurSelection.AccessorySlot2;
+                        if (CurSelection.AccessorySlot2 != null)
+                        {
+                            curEquippedItem = CurSelection.AccessorySlot2;
+                        }
                     }
 
                 }
@@ -490,6 +517,10 @@ public class RosterController
     #region Buttons
     void PreviousAdventurer()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         curIndex -= 1;
         if (curIndex < 0)
         {
@@ -502,6 +533,10 @@ public class RosterController
 
     void NextAdventurer()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         curIndex += 1;
         if (curIndex > m_Roster.Count - 1)
         {
@@ -519,7 +554,12 @@ public class RosterController
 
     void CloseStatsPage()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         StatsPopUp.style.display = DisplayStyle.None;
+        
     }
     #endregion
     #endregion
@@ -595,6 +635,10 @@ public class RosterController
     }
     void OnItemSelected(IEnumerable<object> item)
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         NewItem = FilteredInventory[ItemList.selectedIndex];
         curItemIndex = ItemList.selectedIndex;
 
@@ -828,6 +872,9 @@ public class RosterController
 
     void EquipItem()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
 
         if (CurSelection != null)
         {
@@ -873,6 +920,10 @@ public class RosterController
     }
     void UnequipItem()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         switch (ItemType)
         {
             case "Armor":
@@ -911,6 +962,10 @@ public class RosterController
     }
     void ExitItems()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         hpBonus.style.visibility = Visibility.Hidden;
         manaBonus.style.visibility = Visibility.Hidden;
         atkBonus.style.visibility = Visibility.Hidden;

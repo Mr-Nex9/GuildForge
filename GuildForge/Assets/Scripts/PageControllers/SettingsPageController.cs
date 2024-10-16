@@ -1,4 +1,3 @@
-using Unity.Notifications.iOS;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -67,11 +66,19 @@ public class SettingsPageController
     }
     void ResetTutorial()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         Debug.Log("Tutorial reset button clicked");
     }
 
     void ResetGame()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         Debug.Log("Reset Game button clicked");
     }
 
@@ -86,10 +93,24 @@ public class SettingsPageController
         {
             gameManager.SetSettings(0, false);
             soundOn.text = "Off";
+            gameManager.SetSettings(1, false);
+            musicOn.text = "Off";
+            gameManager.SetSettings(2, false);
+            effectsOn.text = "Off";
+
+            music.value = gameManager.GetSettings(1) ? 1 : 0;
+            effects.value = gameManager.GetSettings(2) ? 1 : 0;
         }
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
     }
     void MusicChanged(ChangeEvent<int> value)
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         if (music.value == 1)
         {
             gameManager.SetSettings(1, true);
@@ -114,9 +135,16 @@ public class SettingsPageController
             gameManager.SetSettings(2, false);
             effectsOn.text = "Off";
         }
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
     }
     void NotificationsChanged(ChangeEvent<int> value)
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         if (notifications.value == 1)
         {
             gameManager.SetSettings(3, true);

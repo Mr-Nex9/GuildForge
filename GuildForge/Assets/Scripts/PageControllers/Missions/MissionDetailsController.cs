@@ -236,7 +236,11 @@ public class MissionDetailsController
     #region Button Methods
     void OnSlot1Selected()
     {
-        if(m_AssignedAdventurers.Count > 0)
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
+        if (m_AssignedAdventurers.Count > 0)
         {
             m_AssignedAdventurers.RemoveAt(0);
         }
@@ -245,6 +249,10 @@ public class MissionDetailsController
     }
     void OnSlot2Selected()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         if (m_AssignedAdventurers.Count > 1)
         {
             m_AssignedAdventurers.RemoveAt(1);
@@ -262,6 +270,10 @@ public class MissionDetailsController
     }
     void OnSlot3Selected()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         if (m_AssignedAdventurers.Count > 2)
         {
             m_AssignedAdventurers.RemoveAt(2);
@@ -283,6 +295,10 @@ public class MissionDetailsController
     }
     async void OnAcceptButtonClicked()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         if (m_AssignedAdventurers.Count > 0)
         {
             m_Default = m_AcceptButton.style.backgroundColor;
@@ -301,6 +317,10 @@ public class MissionDetailsController
 
     void ExitPopup()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         m_Slot1.style.backgroundImage = null;
         m_Slot2.style.backgroundImage = null;
         m_Slot3.style.backgroundImage = null;
@@ -401,6 +421,10 @@ public class MissionDetailsController
     VisualElement curElement;
     private void OnAdventurerSelected(IEnumerable<object> enumerable)
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         CurSelection = m_Roster[m_rosterList.selectedIndex];
         
         if (curElement != null)
@@ -419,11 +443,19 @@ public class MissionDetailsController
     }
     void CloseRoster()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         RosterPopUp.style.display = DisplayStyle.None;
     }
 
     void ConfirmSelection()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         if (CurSelection != null)
         {
             CloseRoster();

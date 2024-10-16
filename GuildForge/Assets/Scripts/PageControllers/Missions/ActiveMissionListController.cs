@@ -13,7 +13,7 @@ public class ActiveMissionListController
     Mission curMission;
     UnityEngine.UIElements.StyleColor Default;
 
-    public void InitializeMissionList(VisualElement root, VisualTreeAsset listElementTemplate, List<Mission> missions)
+    public void InitializeMissionList(VisualElement root, List<Mission> missions)
     {
         activeMissions = new List<Mission>(missions);
         activeMissionDisplay = root;
@@ -143,6 +143,10 @@ public class ActiveMissionListController
 
     async void MissionComplete(int index, Button btn)
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
         Default = btn.style.backgroundColor;
         btn.style.backgroundColor = Color.blue;
         await Task.Delay(TimeSpan.FromSeconds(.05));
@@ -157,26 +161,29 @@ public class ActiveMissionListController
 
     public void MissionUIUpdate()
     {
-        for (int i = 1; i <= activeMissions.Count; i++)
+        if (activeMissions != null)
         {
-            VisualElement missionBox = activeMissionDisplay.Q<VisualElement>("Mission" + i);
-
-            Label missionTimeRemaining = missionBox.Q<Label>("TimeRemaining"); ;
-            VisualElement progressBar = missionBox.Q<VisualElement>("ProgressBar");
-            Button completeButton = missionBox.Q<Button>("CompleteButton");
-
-
-            progressBar.style.width = Length.Percent(activeMissions[i - 1].CompletionPercent);
-
-            if (activeMissions[i - 1].EndTime <= DateTime.Now)
+            for (int i = 1; i <= activeMissions.Count; i++)
             {
-                completeButton.style.display = DisplayStyle.Flex;
-                completeButton.RegisterCallback<ClickEvent>(e => MissionComplete(i - 2, completeButton));
-                missionTimeRemaining.text = "Completed!";
-            }
-            else
-            {
-                missionTimeRemaining.text = ConvertTimeToString((int)(activeMissions[i - 1].EndTime - DateTime.Now).TotalSeconds);
+                VisualElement missionBox = activeMissionDisplay.Q<VisualElement>("Mission" + i);
+
+                Label missionTimeRemaining = missionBox.Q<Label>("TimeRemaining"); ;
+                VisualElement progressBar = missionBox.Q<VisualElement>("ProgressBar");
+                Button completeButton = missionBox.Q<Button>("CompleteButton");
+
+
+                progressBar.style.width = Length.Percent(activeMissions[i - 1].CompletionPercent);
+
+                if (activeMissions[i - 1].EndTime <= DateTime.Now)
+                {
+                    completeButton.style.display = DisplayStyle.Flex;
+                    completeButton.RegisterCallback<ClickEvent>(e => MissionComplete(i - 2, completeButton));
+                    missionTimeRemaining.text = "Completed!";
+                }
+                else
+                {
+                    missionTimeRemaining.text = ConvertTimeToString((int)(activeMissions[i - 1].EndTime - DateTime.Now).TotalSeconds);
+                }
             }
         }
     }
@@ -242,10 +249,17 @@ public class ActiveMissionListController
     }
     void ExitPopUp()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
         popUp.style.display = DisplayStyle.None;
     }
     void CompleteMission()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.MoneySound();
+
         FillMissionUI();
 
         curMission.CompleteMission();
