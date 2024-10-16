@@ -19,7 +19,7 @@ MonoBehaviour:
   itemtype: 1
   itemRank: 1
   Cost: 1500
-  characterBuilderName: 
+  characterBuilderName: NecromancerRobe#FFFFFF/-71:100:100
   AtkBonus: 7
   DefBonus: 5
   HPBonus: 0

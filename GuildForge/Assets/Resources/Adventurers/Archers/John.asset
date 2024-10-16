@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc21fb672447074fa406334334aef96, type: 3}
+  m_Name: John
+  m_EditorClassIdentifier: 
+  ID: 4
+  Icon: {fileID: 2800000, guid: 69360fa9b4b563145950530ddc984053, type: 3}
+  Name: John
+  Class: 0
+  Rank: 4
+  Level: 2
+  OnMission: 0
+  offered: 0
+  Recruited: 0
+  CurrentMission: 
+  currentMissionID: 0
+  EXP: 0
+  ReadyToLevel: 0
+  CostToRecruit: 0
+  health: 0
+  mana: 0
+  attack: 0
+  defense: 0
+  magic: 0
+  speed: 0
+  ActualHP: 0
+  ActualMana: 0
+  ActualAttack: 0
+  ActualDefense: 0
+  ActualMagic: 0
+  ActualSpeed: 0
+  ArmorItem: {fileID: 0}
+  WeaponItem: {fileID: 0}
+  AccessorySlot1: {fileID: 0}
+  AccessorySlot2: {fileID: 0}
+  Skills:
+  - {fileID: 0}
+  Head: Human#E69C69/0:0:0
+  Ears: Human#E69C69/0:0:0
+  Eyes: Human
+  Body: Human#E69C69/0:0:0
+  Hair: Hair10#C7CFDD/0:0:0
+  Armor: 
+  Helmet: 
+  Weapon: 
+  Firearm: 
+  Shield: 
+  Cape: 
+  Back: 
+  Mask: 
+  Horns: 
+  defaultWeapon: 
+  defaultArmor: 

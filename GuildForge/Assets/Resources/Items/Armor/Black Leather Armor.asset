@@ -19,7 +19,7 @@ MonoBehaviour:
   itemtype: 1
   itemRank: 3
   Cost: 500
-  characterBuilderName: 
+  characterBuilderName: ThiefTunic#FFFFFF/0:-78:-21
   AtkBonus: 7
   DefBonus: 5
   HPBonus: 0

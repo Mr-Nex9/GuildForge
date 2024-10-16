@@ -19,7 +19,7 @@ MonoBehaviour:
   itemtype: 1
   itemRank: 0
   Cost: 2500
-  characterBuilderName: 
+  characterBuilderName: HeavyKnightArmor#FFFFFF/0:0:0
   AtkBonus: 8
   DefBonus: 12
   HPBonus: 20

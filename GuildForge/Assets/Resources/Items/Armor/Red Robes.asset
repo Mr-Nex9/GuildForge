@@ -19,7 +19,7 @@ MonoBehaviour:
   itemtype: 1
   itemRank: 3
   Cost: 500
-  characterBuilderName: 
+  characterBuilderName: BlueWizardTunic#FFFFFF/-180:76:-2
   AtkBonus: 5
   DefBonus: 2
   HPBonus: 0

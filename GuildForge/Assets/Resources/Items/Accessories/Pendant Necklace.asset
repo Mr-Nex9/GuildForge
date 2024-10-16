@@ -17,12 +17,12 @@ MonoBehaviour:
   Icon: {fileID: 2800000, guid: 3a22f15615824b24daecf695b53b3737, type: 3}
   Name: Pendant Necklace
   itemtype: 2
-  itemRank: 4
-  Cost: 50
+  itemRank: 0
+  Cost: 4000
   characterBuilderName: 
   AtkBonus: 0
-  DefBonus: 0
-  HPBonus: 0
-  ManaBonus: 0
+  DefBonus: 20
+  HPBonus: 20
+  ManaBonus: 20
   MagBonus: 0
   SpdBonus: 0

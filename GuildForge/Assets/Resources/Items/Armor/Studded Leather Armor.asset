@@ -19,7 +19,7 @@ MonoBehaviour:
   itemtype: 1
   itemRank: 2
   Cost: 900
-  characterBuilderName: 
+  characterBuilderName: CaptainArmor#FFFFFF/0:0:-41
   AtkBonus: 10
   DefBonus: 5
   HPBonus: 0

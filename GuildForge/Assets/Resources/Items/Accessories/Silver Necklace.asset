@@ -17,12 +17,12 @@ MonoBehaviour:
   Icon: {fileID: 2800000, guid: 85a0ef79e7b150a4692e371df05bba40, type: 3}
   Name: Silver Necklace
   itemtype: 2
-  itemRank: 4
-  Cost: 50
+  itemRank: 2
+  Cost: 250
   characterBuilderName: 
   AtkBonus: 0
   DefBonus: 0
   HPBonus: 0
-  ManaBonus: 0
+  ManaBonus: 6
   MagBonus: 0
-  SpdBonus: 0
+  SpdBonus: 6

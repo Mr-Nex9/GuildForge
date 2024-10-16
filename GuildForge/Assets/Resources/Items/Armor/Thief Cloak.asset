@@ -19,7 +19,7 @@ MonoBehaviour:
   itemtype: 1
   itemRank: 0
   Cost: 2500
-  characterBuilderName: 
+  characterBuilderName: HolowKnight#FFFFFF/0:-100:0
   AtkBonus: 6
   DefBonus: 12
   HPBonus: 0

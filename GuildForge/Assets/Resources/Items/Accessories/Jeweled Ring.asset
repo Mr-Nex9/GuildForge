@@ -17,12 +17,12 @@ MonoBehaviour:
   Icon: {fileID: 2800000, guid: 0e4ff4e754cdb7c40959902fca4f830a, type: 3}
   Name: Jeweled Ring
   itemtype: 2
-  itemRank: 4
-  Cost: 50
+  itemRank: 0
+  Cost: 4000
   characterBuilderName: 
-  AtkBonus: 0
+  AtkBonus: 20
   DefBonus: 0
   HPBonus: 0
   ManaBonus: 0
-  MagBonus: 0
-  SpdBonus: 0
+  MagBonus: 20
+  SpdBonus: 20

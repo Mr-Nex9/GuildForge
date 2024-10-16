@@ -17,12 +17,12 @@ MonoBehaviour:
   Icon: {fileID: 2800000, guid: fb003300d53d36a409f130ae66691c87, type: 3}
   Name: Gold Bracelet
   itemtype: 2
-  itemRank: 4
-  Cost: 50
+  itemRank: 1
+  Cost: 500
   characterBuilderName: 
   AtkBonus: 0
-  DefBonus: 0
-  HPBonus: 0
+  DefBonus: 10
+  HPBonus: 10
   ManaBonus: 0
   MagBonus: 0
   SpdBonus: 0

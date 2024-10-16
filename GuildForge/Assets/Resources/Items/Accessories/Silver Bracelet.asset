@@ -17,12 +17,12 @@ MonoBehaviour:
   Icon: {fileID: 2800000, guid: f9df6d69374a9fe46860faad58a70669, type: 3}
   Name: Silver Bracelet
   itemtype: 2
-  itemRank: 4
-  Cost: 50
+  itemRank: 2
+  Cost: 250
   characterBuilderName: 
   AtkBonus: 0
-  DefBonus: 0
-  HPBonus: 0
+  DefBonus: 6
+  HPBonus: 6
   ManaBonus: 0
   MagBonus: 0
   SpdBonus: 0

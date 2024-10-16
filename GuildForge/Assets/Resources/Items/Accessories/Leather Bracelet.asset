@@ -17,12 +17,12 @@ MonoBehaviour:
   Icon: {fileID: 2800000, guid: 4a0e63c4d698e0745b1bd346cfcdff9b, type: 3}
   Name: Leather Bracelet
   itemtype: 2
-  itemRank: 4
-  Cost: 50
+  itemRank: 3
+  Cost: 100
   characterBuilderName: 
-  AtkBonus: 0
-  DefBonus: 0
-  HPBonus: 0
-  ManaBonus: 0
-  MagBonus: 0
-  SpdBonus: 0
+  AtkBonus: 2
+  DefBonus: 2
+  HPBonus: 2
+  ManaBonus: 2
+  MagBonus: 2
+  SpdBonus: 2

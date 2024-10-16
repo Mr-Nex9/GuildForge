@@ -19,7 +19,7 @@ MonoBehaviour:
   itemtype: 1
   itemRank: 0
   Cost: 2500
-  characterBuilderName: 
+  characterBuilderName: ElfTunic#FFFFFF/0:36:-31
   AtkBonus: 20
   DefBonus: 6
   HPBonus: 0

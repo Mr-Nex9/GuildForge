@@ -19,7 +19,7 @@ MonoBehaviour:
   itemtype: 1
   itemRank: 4
   Cost: 100
-  characterBuilderName: 
+  characterBuilderName: MonkRobe#FFFFFF/180:76:-2
   AtkBonus: 2
   DefBonus: 0
   HPBonus: 0
