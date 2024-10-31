@@ -13,31 +13,32 @@ MonoBehaviour:
   m_Name: Colton
   m_EditorClassIdentifier: 
   ID: 9
-  Icon: {fileID: 0}
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: 49927d946eee80041ab8d6e0d03cd266, type: 3}
   Name: Colton
   Class: 2
   Rank: 4
-  Level: 0
+  Level: 3
   OnMission: 0
-  offered: 0
+  offered: 1
   Recruited: 0
   CurrentMission: 
   currentMissionID: 0
-  EXP: 0
+  EXP: 357
   ReadyToLevel: 0
-  CostToRecruit: 0
-  health: 0
-  mana: 0
-  attack: 0
-  defense: 0
-  magic: 0
-  speed: 0
-  ActualHP: 0
-  ActualMana: 0
-  ActualAttack: 0
-  ActualDefense: 0
-  ActualMagic: 0
-  ActualSpeed: 0
+  CostToRecruit: 677
+  health: 7
+  mana: 13
+  attack: 11
+  defense: 7
+  magic: 15
+  speed: 7
+  ActualHP: 7
+  ActualMana: 13
+  ActualAttack: 11
+  ActualDefense: 7
+  ActualMagic: 15
+  ActualSpeed: 7
   ArmorItem: {fileID: 0}
   WeaponItem: {fileID: 0}
   AccessorySlot1: {fileID: 0}

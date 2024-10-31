@@ -41,6 +41,25 @@
                 "1"
             ]
         },
-        "DrawableResources": []
+        "DrawableResources": [
+            {
+                "Id": "logo",
+                "Type": 1,
+                "Asset": {
+                    "fileID": 2800000,
+                    "guid": "1aae6610d7650d649bb8fd87d8c5f8b4",
+                    "type": 3
+                }
+            },
+            {
+                "Id": "icon",
+                "Type": 0,
+                "Asset": {
+                    "fileID": 2800000,
+                    "guid": "84a2192066981ff46bea8dbe2ccea12d",
+                    "type": 3
+                }
+            }
+        ]
     }
 }

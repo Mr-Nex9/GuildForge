@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Sascha
   m_EditorClassIdentifier: 
   ID: 10
-  Icon: {fileID: 0}
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: 49927d946eee80041ab8d6e0d03cd266, type: 3}
   Name: Sascha
   Class: 2
   Rank: 4

@@ -7,14 +7,11 @@ using System.IO;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
-using static UnityEditor.FilePathAttribute;
-using static UnityEditor.Progress;
 
 public class SQLiteSystems
 {
     GameState gameState;
     private SQLiteConnection connection;
-
     public void LoadAllDataFromDatabase(GameState state)
     {
         gameState = state;
@@ -25,8 +22,10 @@ public class SQLiteSystems
         LoadAdventurers();
         LoadInventory();
         LoadMissions();
-    }
+        LoadQuests();
 
+    }
+    #region Load Methods
     void LoadAdventurers()
     {
         Debug.Log("Loading Adventurer Data");
@@ -144,30 +143,31 @@ public class SQLiteSystems
         {
             switch (dbRead.ID)
             {
-                case 1:
-                    {
-                        gameState.tutorialLevel = dbRead.Setting;
-
-                    }
-                    break;
-                case 2:
+                case 0:
                     {
                         gameState.sound = dbRead.Setting > 0 ? true : false;
                     }
                     break;
-                case 3:
+                case 1:
                     {
                         gameState.music = dbRead.Setting > 0 ? true : false;
                     }
                     break;
-                case 4:
+                case 2:
                     {
                         gameState.effects = dbRead.Setting > 0 ? true : false;
                     }
                     break;
-                case 5:
+                case 3:
                     {
                         gameState.notifications = dbRead.Setting > 0 ? true : false;
+                    }
+                    break;
+                case 4:
+                    {
+                        gameState.password = dbRead.Setting > 0 ? true : false;
+                        gameState.passwordValue = dbRead.Password;
+                        Debug.Log($"The Password is {dbRead.Password}");
                     }
                     break;
             }
@@ -246,7 +246,19 @@ public class SQLiteSystems
                 
         }
     }
+    void LoadQuests()
+    {
+        Debug.Log("Loading Quest Data");
+        List<QuestDB> reader = new List<QuestDB>(CreateAndOpenQuestsTable());
 
+        foreach (QuestDB dbRead in reader)
+        {
+            int iD = dbRead.ID;
+            Quest curQuest = gameState.allQuests.Find(x => x.id == iD);
+            curQuest.currentProgress = dbRead.Progress;
+        }
+    }
+    #endregion
     #region Save Methods
     public void UpdateGameState(int iD, long amount)
     {
@@ -258,14 +270,15 @@ public class SQLiteSystems
         };
 
         connection.InsertOrReplace(updatedValue);
-    }
-    public void UpdateSettings(int iD, int setting)
+        }
+    public void UpdateSettings(int iD, int setting, string password = null)
     {
-        // 1 - Tutorial, 2 - Sound, 3 - music, 4 - effects,  5- Notifications
+        // 0 - Sound, 1 - music, 2 - effects,  3- Notifications, 4-Password
         var updatedValue = new SettingDB
         {
             ID = iD,
-            Setting = setting
+            Setting = setting,
+            Password = password
         };
 
         connection.InsertOrReplace(updatedValue);
@@ -306,9 +319,21 @@ public class SQLiteSystems
             Location = location
         };
 
+
         connection.InsertOrReplace(updatedValue);
     }
-    public void UpdateAchievements()
+    public void UpdateQuest(Quest quest)
+    {
+        var updatedValue = new QuestDB
+        {
+            ID = quest.id,
+            Progress = quest.currentProgress
+        };
+
+
+        connection.InsertOrReplace(updatedValue);
+    }
+    public void UpdateQuests()
     {
 
     }
@@ -366,7 +391,10 @@ public class SQLiteSystems
             };
         }
 
+#if UNITY_INCLUDE_TESTS
+#else
         connection.InsertOrReplace(updatedValue);
+#endif
     }
     #endregion
 
@@ -374,6 +402,8 @@ public class SQLiteSystems
 
     void CreateAndOpenDatabase()
     {
+        string DatabaseName = "GuildForge";
+
 #if UNITY_EDITOR
         var dbPath = string.Format(@"Assets/StreamingAssets/GuildForge");
 #else
@@ -442,18 +472,12 @@ public class SQLiteSystems
 
         return connection.Table<GameStateDB>();
     }
-    /*IDbConnection CreateAndOpenAchievementTable()
+    IEnumerable<QuestDB> CreateAndOpenQuestsTable()
     {
-        string dbUri = "URI=file:GuildForgeDB.sqlite";
-        IDbConnection dbConnection = new SqliteConnection(dbUri);
-        dbConnection.Open();
+        connection.CreateTable<QuestDB>();
 
-        IDbCommand dbCommandCreateTable = dbConnection.CreateCommand();
-        dbCommandCreateTable.CommandText = "CREATE TABLE IF NOT EXISTS Achievements (id INTEGER PRIMARY KEY, progress INTEGER, collected BOOL )";
-        dbCommandCreateTable.ExecuteReader();
-
-        return dbConnection;
-    }*/
+        return connection.Table<QuestDB>();
+    }
     IEnumerable<AdventurerDB> CreateAndOpenAdventurersTable()
     {
         connection.CreateTable<AdventurerDB>();
@@ -487,6 +511,7 @@ public class SQLiteSystems
         ClearMissionTable();
         ClearInventoryTable();
         ClearGameStateTable();
+        ClearQuestTable();
     }
     void ClearAdventurerTable()
     {
@@ -504,7 +529,10 @@ public class SQLiteSystems
     {
         connection.DropTable<GameStateDB>();
     }
-
+    void ClearQuestTable()
+    {
+        connection.DropTable<QuestDB>();
+    }
 
 }
 

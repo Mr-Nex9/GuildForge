@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Emma
   m_EditorClassIdentifier: 
   ID: 1
-  Icon: {fileID: 2800000, guid: d8b7d2c1f3565434e807f5ecb5a3ac91, type: 3}
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: e5ee8ee30e94b6049baa00ac937f48a9, type: 3}
   Name: Emma
   Class: 0
   Rank: 4
@@ -48,14 +49,14 @@ MonoBehaviour:
   Eyes: Human
   Body: Human#BF6F4A/0:0:0
   Hair: Hair6#FFA214/0:0:0
-  Armor: 
-  Helmet: 
-  Weapon: 
+  Armor: Link#FFFFFF/0:0:-27
+  Helmet: MusketeerHat [ShowEars]#FFFFFF/-52:0:-27
+  Weapon: ShortBow#FFFFFF/0:0:0
   Firearm: 
   Shield: 
   Cape: 
-  Back: 
+  Back: LeatherQuiver#FFFFFF/0:0:0
   Mask: 
   Horns: 
-  defaultWeapon: 
-  defaultArmor: 
+  defaultWeapon: ShortBow#FFFFFF/0:0:0
+  defaultArmor: Link#FFFFFF/0:0:-27

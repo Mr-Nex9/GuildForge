@@ -1,15 +1,17 @@
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class UIManager : MonoBehaviour
 {
     #region Variables
-    [SerializeField] private GameState gameState;
+    public GameState gameState;
     [SerializeField] VisualTreeAsset m_RosterListEntryTemplate;
     [SerializeField] VisualTreeAsset m_NewMissionListEntryTemplate;
     [SerializeField] VisualTreeAsset m_EquipItemListEntryTemplate;
+    [SerializeField] VisualTreeAsset m_QuestListEntryTemplate;
     private VisualElement curPage;
     private VisualElement curPopUp;
     private float timePassed;
@@ -22,13 +24,55 @@ public class UIManager : MonoBehaviour
     RecruitPageController recruitPageController;
     StorePageController storePageController;
     SettingsPageController settingsPageController;
+    QuestsPageController questsPageController;
     bool alreadyLoaded = false;
+    public TextField passwordField;
+    public bool passwordCorrect = false;
     #endregion
 
-    private void OnEnable()
+    async void OnEnable()
     {
+        var uiDocument = GetComponent<UIDocument>();
+        var LoadingScreen = uiDocument.rootVisualElement.Q<VisualElement>("LoadingScreen");
+
+        VisualElement Splash = LoadingScreen.Q<VisualElement>("Splash");
+        Label Loading = LoadingScreen.Q<Label>("Loading");
+        await Task.Delay(TimeSpan.FromSeconds(3));
+
+        Debug.Log("Loading....");
+        Splash.style.display = DisplayStyle.Flex;
+        Loading.style.display = DisplayStyle.Flex;
+        await Task.Delay(TimeSpan.FromSeconds(1));
+        while(gameState.GameLoaded == false)
+        {
+            await Task.Delay(TimeSpan.FromSeconds(.1));
+        }
+
+        LoadUI();
+
+    }
+    public async void LoadUI()
+    {
+        Debug.Log("UI Loading");
         ClosePopUps();
         var uiDocument = GetComponent<UIDocument>();
+        var LoadingScreen = uiDocument.rootVisualElement.Q<VisualElement>("LoadingScreen");
+        LoadingScreen.style.display = DisplayStyle.None;
+
+        if (gameState.password)
+        {
+            var PasswordScreen = uiDocument.rootVisualElement.Q<VisualElement>("PasswordScreen");
+            PasswordScreen.style.display = DisplayStyle.Flex;
+            passwordField = PasswordScreen.Q<TextField>("PasswordField");
+
+            while (passwordField.value != gameState.passwordValue)
+            {
+
+                await Task.Delay(TimeSpan.FromSeconds(.1));
+            }
+            passwordCorrect = true;
+            PasswordScreen.style.display = DisplayStyle.None;
+        }
         var HomePage = uiDocument.rootVisualElement.Q<VisualElement>("HomePage");
         var Footer = uiDocument.rootVisualElement.Q<ToggleButtonGroup>("Footer");
         curPage = HomePage;
@@ -46,8 +90,6 @@ public class UIManager : MonoBehaviour
         HomeBtn.clicked += HomeBtn_clicked;
         RosterBtn.clicked += RosterBtn_clicked;
         SettingsBtn.clicked += SettingsBtn_clicked;
-        
-
     }
     private void LateUpdate()
     {
@@ -295,6 +337,16 @@ public class UIManager : MonoBehaviour
         var AchievementsPage = uiDocument.rootVisualElement.Q<VisualElement>("AchievementsPage");
         curPage = AchievementsPage;
         curPage.style.display = DisplayStyle.Flex;
+
+        if (questsPageController == null)
+        {
+            questsPageController = new QuestsPageController();
+            questsPageController.InitializeRosterList(AchievementsPage, m_QuestListEntryTemplate, gameState.allQuests);
+        }
+        else
+        {
+            questsPageController.InitializeRosterList(AchievementsPage, m_QuestListEntryTemplate, gameState.allQuests);
+        };
     }
     private void SettingsBtn_clicked()
     {
@@ -313,7 +365,6 @@ public class UIManager : MonoBehaviour
 
         if (settingsPageController == null)
         {
-            settingsPageController = new SettingsPageController();
             settingsPageController = new SettingsPageController();
             settingsPageController.InitializePage(settingsPage, gameState);
         }
@@ -344,5 +395,24 @@ public class UIManager : MonoBehaviour
 
         var ItemDetails = uiDocument.rootVisualElement.Q<VisualElement>("ItemDetailsPopUp");
         ItemDetails.style.display = DisplayStyle.None;
+
+        var ErrorPopUp = uiDocument.rootVisualElement.Q<VisualElement>("ErrorPopUp");
+        ErrorPopUp.style.display = DisplayStyle.None;
+    }
+
+    public void ErrorMessage(string message)
+    {
+        var uiDocument = GetComponent<UIDocument>();
+
+        var ErrorPopUp = uiDocument.rootVisualElement.Q<VisualElement>("ErrorPopUp");
+        ErrorPopUp.style.display = DisplayStyle.Flex;
+
+        var errorMessage = ErrorPopUp.Q<Label>("ErrorMessage");
+        errorMessage.text = message;
+
+        var closeButton = ErrorPopUp.Q<Button>("OkayButton");
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        closeButton.clicked += soundMaster.GetComponent<SoundManager>().ButtonSound;
+        closeButton.clicked += ClosePopUps;
     }
 }

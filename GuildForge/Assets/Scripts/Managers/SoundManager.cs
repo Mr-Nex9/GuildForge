@@ -9,6 +9,8 @@ public class SoundManager : MonoBehaviour
     public AudioSource bgMusic;
     public AudioSource buttonSound;
     public AudioSource moneySound;
+    public AudioSource levelUpSound;
+    public AudioSource errorSound;
     bool playing = false;
 
     private void Start()
@@ -48,6 +50,20 @@ public class SoundManager : MonoBehaviour
         if (gameState.effects && gameState.sound)
         {
             moneySound.Play();
+        }
+    }
+    public void LevelUpSound()
+    {
+        if (gameState.effects && gameState.sound)
+        {
+            levelUpSound.Play();
+        }
+    }
+    public void ErrorSound()
+    {
+        if (gameState.effects && gameState.sound)
+        {
+            errorSound.Play();
         }
     }
 }

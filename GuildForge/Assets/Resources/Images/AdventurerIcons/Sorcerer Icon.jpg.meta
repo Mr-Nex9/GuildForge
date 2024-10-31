@@ -186,7 +186,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Sorcerer Icon_0: -4796815040094028327
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

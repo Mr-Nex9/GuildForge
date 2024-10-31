@@ -7,43 +7,54 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
+using UnityEngine.Android;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private GameState gameState;
-    SQLiteSystems sqlSystem;
+    [SerializeField] public GameState gameState;
+    public SQLiteSystems sqlSystem;
+    public float timePassed;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
+        if (!Permission.HasUserAuthorizedPermission("android.permission.READ_DEVICE_CONFIG"))
+        {
+            Permission.RequestUserPermission("android.permission.READ_DEVICE_CONFIG");
+        }
+
+        Debug.Log("Game Start!");
         sqlSystem = new SQLiteSystems();
+        gameState.GameLoaded = false;
 
         ResetGameState();
         LoadData();
         CalculateOddJobsRate();
         CalculateGuildRank();
 
-        gameState.firstTime = (gameState.roster.Count > 0) ? false: true;
-
-        if (gameState.reputation >= 1000)
+        Debug.Log("Game Loaded");
+        if(gameState.roster.Count > 0)
         {
-            GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
-            UIMaster.GetComponent<UIManager>().ActivateFranchiseButton(true);
+            gameState.firstTime = false;
         }
         else
         {
-            GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
-            UIMaster.GetComponent<UIManager>().ActivateFranchiseButton(false);
+            gameState.firstTime = true;
         }
+        Debug.Log(gameState.firstTime);
+        CalculateTimeAway();
+        gameState.GameLoaded = true;
     }
-
-    public float timePassed;
     void Update()
     {
-        timePassed += Time.deltaTime;
-        if (timePassed > (10f / gameState.currentOddJobsRate))
-        {
-            GainGold((int)(1 * (1 + GameState.bonusPercent)));
-            timePassed = 0;
+        if(gameState.currentOddJobsRate > 0)
+        {        
+            timePassed += Time.deltaTime;
+            if (timePassed > (10f / gameState.currentOddJobsRate))
+            {
+                GainGold((int)(1 * (1 + GameState.bonusPercent)));
+                timePassed = 0;
+            }
         }
         if(gameState.reputation >= 1000)
         {
@@ -51,9 +62,17 @@ public class GameManager : MonoBehaviour
             UIMaster.GetComponent<UIManager>().ActivateFranchiseButton(true);
         }
     }
+    private void OnApplicationQuit()
+    {
+        gameState.lastOpened = DateTime.Now;
+
+        sqlSystem.UpdateGameState(6, ((DateTimeOffset)gameState.storeLastStocked).ToUnixTimeSeconds());
+        Debug.Log(gameState.lastOpened);
+    }
     #region Setup/Calculation Functions
     void ResetGameState()
     {
+        Debug.Log("Reset Lists");
         gameState.roster.Clear();
         gameState.inventory.Clear();
         gameState.storeInventory.Clear();
@@ -61,23 +80,48 @@ public class GameManager : MonoBehaviour
         gameState.activeMissions.Clear();
         gameState.offeredMissions.Clear();
         gameState.localAdventurers.Clear();
+
+        gameState.gold = 0;
+        gameState.totalGold = 0;
+        gameState.reputation = 0;
+        GameState.bonusPercent = 0;
+
     }
     void LoadData()
     {
+        Debug.Log("Load Data from DB");
         gameState.allAdventurers = new List<Adventurer>();
         gameState.allAdventurers.AddRange(Resources.LoadAll<Adventurer>("Adventurers"));
         gameState.allItems = new List<Item>();
         gameState.allItems.AddRange(Resources.LoadAll<Item>("Items"));
         gameState.allMissions = new List<Mission>();
         gameState.allMissions.AddRange(Resources.LoadAll<Mission>("Missions"));
+        gameState.allQuests = new List<Quest>();
+        gameState.allQuests.AddRange(Resources.LoadAll<Quest>("Quests"));
+
+        foreach(Quest q in gameState.allQuests)
+        {
+            if(q is MissionQuest && !gameState.missionQuests.Contains(q))
+            {
+                gameState.missionQuests.Add(q as MissionQuest);
+            }
+            else if (q is AdventurerQuest && !gameState.adventurerQuests.Contains(q))
+            {
+                gameState.adventurerQuests.Add(q as AdventurerQuest);
+            }
+            else if(q is GoldQuest && !gameState.goldQuests.Contains(q))
+            {
+                gameState.goldQuests.Add(q as GoldQuest);
+            }
+        }
 
         sqlSystem.LoadAllDataFromDatabase(gameState);
         RestartMissions();
-
     }
     void RestartMissions()
     {
-        foreach(Adventurer adventurer in gameState.roster)
+        Debug.Log("Updating Mission Status");
+        foreach (Adventurer adventurer in gameState.roster)
         {
             if(adventurer.currentMissionID > 0)
             {
@@ -92,18 +136,19 @@ public class GameManager : MonoBehaviour
             mission.RestartMission();
         }
     }
-
     public void CalculateOddJobsRate()
     {
         gameState.currentOddJobsRate = 0;
+        bool adventurersHome = false;
         foreach (Adventurer x in gameState.roster)
         {
             if (x.OnMission == false)
             {
                 gameState.currentOddJobsRate += x.CalculateRate();
+                adventurersHome = true;
             }
         }
-        if(gameState.currentOddJobsRate < 1)
+        if (gameState.currentOddJobsRate < 1 && adventurersHome)
         {
             gameState.currentOddJobsRate = 1;
         }
@@ -144,6 +189,20 @@ public class GameManager : MonoBehaviour
             FindLocalAdventurers(true);
         }
     }
+    void CalculateTimeAway()
+    {
+        int amount = 0;
+        Debug.Log(gameState.lastOpened);
+        if (gameState.lastOpened < new DateTime(2024, 10, 2))
+        {
+            TimeSpan elapsed = DateTime.Now - gameState.lastOpened;
+
+            amount = (int)((elapsed.TotalSeconds / (10f / gameState.currentOddJobsRate)) * 1 + GameState.bonusPercent);
+
+            GainGold(amount);
+        }
+        Debug.Log($"You gained {amount} gold while you were gone!");
+    }
     #endregion
 
     #region Get GameState Variables
@@ -171,8 +230,16 @@ public class GameManager : MonoBehaviour
                 {
                     return gameState.notifications;
                 }
+            case 4:
+                {
+                    return gameState.password;
+                }
         }
         throw new NotImplementedException();
+    }
+    public int GetTotalGold()
+    {
+        return gameState.totalGold;
     }
 
     #endregion
@@ -180,22 +247,41 @@ public class GameManager : MonoBehaviour
     #region Change GameState Variables
     public void PayGold(int amount)
     {
-        gameState.gold -= amount;
-        sqlSystem.UpdateGameState(1, gameState.gold);
+        if(amount > 0)
+        {
+            gameState.gold -= amount;
+            sqlSystem.UpdateGameState(1, gameState.gold);
+
+            foreach (GoldQuest q in gameState.goldQuests)
+            {
+                q.CheckforCompletion(amount);
+                sqlSystem.UpdateQuest(q);
+            }
+        }
+
     }
     public void GainGold(int amount)
     {
-        gameState.gold += amount;
-        sqlSystem.UpdateGameState(1, gameState.gold);
-        gameState.totalGold += amount;
-        sqlSystem.UpdateGameState(4, gameState.totalGold);
+        if (amount > 0)
+        {
+            gameState.gold += amount;
+            gameState.totalGold += amount;
+            sqlSystem.UpdateGameState(1, gameState.gold);
+            sqlSystem.UpdateGameState(4, gameState.totalGold);
+
+            foreach (GoldQuest q in gameState.goldQuests)
+            {
+                q.CheckforCompletion(amount);
+                sqlSystem.UpdateQuest(q);
+            }
+        }
     }
     public void GainReputation(int amount)
     {
         gameState.reputation += amount;
         sqlSystem.UpdateGameState(2, gameState.reputation);
     }
-    public void SetSettings(int setting, bool value)
+    public void SetSettings(int setting, bool value, string password = null)
     {
         switch (setting)
         {
@@ -204,11 +290,11 @@ public class GameManager : MonoBehaviour
                     gameState.sound = value;
                     if(value)
                     {
-                        sqlSystem.UpdateSettings(2, 1);
+                        sqlSystem.UpdateSettings(0, 1);
                     }
                     else
                     {
-                        sqlSystem.UpdateSettings(2, 0);
+                        sqlSystem.UpdateSettings(0, 0);
                     }
                     
                 }
@@ -216,6 +302,32 @@ public class GameManager : MonoBehaviour
             case 1:
                 {
                     gameState.music = value;
+                    if (value)
+                    {
+                        sqlSystem.UpdateSettings(1, 1);
+                    }
+                    else
+                    {
+                        sqlSystem.UpdateSettings(1, 0);
+                    }
+                }
+                break;
+            case 2:
+                {
+                    gameState.effects = value;
+                    if (value)
+                    {
+                        sqlSystem.UpdateSettings(2, 1);
+                    }
+                    else
+                    {
+                        sqlSystem.UpdateSettings(2, 0);
+                    }
+                }
+                break;
+            case 3:
+                {
+                    gameState.notifications = value;
                     if (value)
                     {
                         sqlSystem.UpdateSettings(3, 1);
@@ -226,29 +338,18 @@ public class GameManager : MonoBehaviour
                     }
                 }
                 break;
-            case 2:
+            case 4:
                 {
-                    gameState.effects = value;
+                    gameState.password = value;
                     if (value)
                     {
-                        sqlSystem.UpdateSettings(4, 1);
+                        sqlSystem.UpdateSettings(4, 1, password);
+                        gameState.passwordValue = password;
                     }
                     else
                     {
                         sqlSystem.UpdateSettings(4, 0);
-                    }
-                }
-                break;
-            case 3:
-                {
-                    gameState.notifications = value;
-                    if (value)
-                    {
-                        sqlSystem.UpdateSettings(5, 1);
-                    }
-                    else
-                    {
-                        sqlSystem.UpdateSettings(5, 0);
+                        gameState.passwordValue = null;
                     }
                 }
                 break;
@@ -302,6 +403,8 @@ public class GameManager : MonoBehaviour
     }
     public void Recruit(Adventurer adventurer)
     {
+        Debug.Log(adventurer.Name + " recruited");
+        PayGold(adventurer.CostToRecruit);
         gameState.localAdventurers.Remove(adventurer);
         gameState.roster.Add(adventurer);
         sqlSystem.UpdateAdventurers(adventurer);
@@ -311,18 +414,30 @@ public class GameManager : MonoBehaviour
         if (gameState.firstTime)
         {
             gameState.firstTime = false;
+            foreach(Adventurer advenventurer in gameState.localAdventurers)
+            {
+                adventurer.ResetData();
+            }
             gameState.localAdventurers.Clear();
             FindLocalAdventurers(true);
         }
+        CalculateOddJobsRate();
 
+        foreach (AdventurerQuest q in gameState.adventurerQuests)
+        {
+            q.CheckForCompletion(adventurer);
+            sqlSystem.UpdateQuest(q);
+        }
     }
-
-
+    public void UpdateAdventurer(Adventurer adventurer)
+    {
+        sqlSystem.UpdateAdventurers(adventurer);
+    }
     public void AddToActiveMissionList(Mission mission)
     {
+        gameState.offeredMissions.Remove(mission);
         gameState.activeMissions.Add(mission);
-        long time = ((DateTimeOffset)mission.StartTime).ToUnixTimeSeconds();
-        sqlSystem.UpdateMission(mission.ID, 2, time);
+        sqlSystem.UpdateMission(mission, 2);
     }
     public List<Mission> FindNewMissions()
     {
@@ -344,7 +459,7 @@ public class GameManager : MonoBehaviour
                 {
                     gameState.offeredMissions.Add(filteredList[i]);
                     filteredList[i].PrepareToOffer();
-                    sqlSystem.UpdateMission(filteredList[i].ID, 1);
+                    sqlSystem.UpdateMission(filteredList[i], 1);
                 }
             }
             else
@@ -407,7 +522,7 @@ public class GameManager : MonoBehaviour
                     break;
                 case GameState.GuildRank.C or GameState.GuildRank.D:
                     {
-                        if (item.itemRank == Item.ItemRank.B || item.itemRank == Item.ItemRank.D || item.itemRank == Item.ItemRank.C)
+                        if (item.itemRank == Item.ItemRank.D || item.itemRank == Item.ItemRank.C)
                         {
                             filteredItems.Add(item);
                         }
@@ -462,9 +577,15 @@ public class GameManager : MonoBehaviour
         GainReputation(reputation);
         gameState.activeMissions.Remove(mission);
         gameState.missionsCompleted.Add(mission);
-        sqlSystem.UpdateMission(mission.ID, 3);
+        sqlSystem.UpdateMission(mission, 3);
         CalculateOddJobsRate();
         CalculateGuildRank();
+
+        foreach (MissionQuest q in gameState.missionQuests)
+        {
+            q.CheckForCompletion(mission);
+            sqlSystem.UpdateQuest(q);
+        }
     }
     public List<Item> IsRestockTime()
     {
@@ -481,10 +602,6 @@ public class GameManager : MonoBehaviour
             return gameState.storeInventory;
         }
     }
-    public void UpdateAdventurer(Adventurer adventurer)
-    {
-        sqlSystem.UpdateAdventurers(adventurer);
-    }
     public float CalculateBonus()
     {
         int count = 0;
@@ -499,15 +616,26 @@ public class GameManager : MonoBehaviour
     }
     public void FranchiseGuild()
     {
-        ResetGame();
+        NewGame(false);
         GameState.bonusPercent += CalculateBonus();
         sqlSystem.UpdateGameState(5, (long)(GameState.bonusPercent*100));
         Start();
     }
-    public void ResetGame()
+    public void NewGame(bool isReset)
     {
-        sqlSystem.NewGame(gameState);
-        
+        foreach (Adventurer adventurer in gameState.allAdventurers)
+        {
+            adventurer.ResetData();
+        }
+        foreach (Mission mission in gameState.allMissions)
+        {
+            mission.ResetData();
+        }
+        foreach(Quest quest in gameState.allQuests)
+        {
+            quest.Reset();
+        }
+
         gameState.gold = 0;
         gameState.totalGold = 0;
         gameState.reputation = 0;
@@ -518,6 +646,18 @@ public class GameManager : MonoBehaviour
         gameState.inventory.Clear();
         gameState.storeInventory.Clear();
         gameState.roster.Clear();
+        gameState.localAdventurers.Clear();
+
+
+        if (isReset)
+        {
+            sqlSystem.ResetGameData();
+        }
+        else
+        {
+            sqlSystem.NewGame();
+        }
+        Start();
     }
     #endregion
 }

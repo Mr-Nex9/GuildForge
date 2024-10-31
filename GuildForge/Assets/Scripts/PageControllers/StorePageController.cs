@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.VFX;
@@ -116,24 +114,32 @@ public class StorePageController
         {
             exitButton.clicked += ExitPopUp;
             buyButton.clicked += BuyItem;
+            doOnce = false;
         }
 
     }
     void BuyItem()
     {
+        Debug.Log("buy");
         GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
         SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
-        soundManager.MoneySound();
-
+  
         GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
         GameManager GameManager = GameMaster.GetComponent<GameManager>();
         if (GameManager.getCurGold() >= selectedItem.Cost)
         {
+            soundManager.MoneySound();
             GameManager.BuyItem(selectedItem);
             storeInventory.Remove(selectedItem);
             FillStoreUI();
 
             ExitPopUp();
+        }
+        else
+        {
+            soundManager.ErrorSound();
+            GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
+            UIMaster.GetComponent<UIManager>().ErrorMessage("Not Enough Gold!");
         }
     }
 

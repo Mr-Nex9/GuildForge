@@ -13,31 +13,32 @@ MonoBehaviour:
   m_Name: Talia
   m_EditorClassIdentifier: 
   ID: 23
-  Icon: {fileID: 0}
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: 9c82909ec08f72b44a7d22d7f436454c, type: 3}
   Name: Talia
   Class: 3
   Rank: 4
-  Level: 0
+  Level: 4
   OnMission: 0
-  offered: 0
+  offered: 1
   Recruited: 0
   CurrentMission: 
   currentMissionID: 0
-  EXP: 0
+  EXP: 625
   ReadyToLevel: 0
-  CostToRecruit: 0
-  health: 0
-  mana: 0
-  attack: 0
-  defense: 0
-  magic: 0
-  speed: 0
-  ActualHP: 0
-  ActualMana: 0
-  ActualAttack: 0
-  ActualDefense: 0
-  ActualMagic: 0
-  ActualSpeed: 0
+  CostToRecruit: 959
+  health: 5
+  mana: 7
+  attack: 7
+  defense: 18
+  magic: 14
+  speed: 24
+  ActualHP: 5
+  ActualMana: 7
+  ActualAttack: 7
+  ActualDefense: 18
+  ActualMagic: 14
+  ActualSpeed: 24
   ArmorItem: {fileID: 0}
   WeaponItem: {fileID: 0}
   AccessorySlot1: {fileID: 0}

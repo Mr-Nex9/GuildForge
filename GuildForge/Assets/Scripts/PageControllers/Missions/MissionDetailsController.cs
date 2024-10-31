@@ -207,21 +207,24 @@ public class MissionDetailsController
             {
                 case 0:
                     {
-                        m_Slot1.style.backgroundImage = (StyleBackground)assigned.Icon;
                         m_Name1.text = assigned.Name;
+                        m_Slot1.style.backgroundImage = (StyleBackground)assigned.Icon;
+                        
 
                     }
                     break;
                 case 1:
                     {
-                        m_Slot2.style.backgroundImage = (StyleBackground)assigned.Icon;
                         m_Name2.text = assigned.Name;
+                        m_Slot2.style.backgroundImage = (StyleBackground)assigned.Icon;
+                        
                     }
                     break;
                 case 2:
                     {
-                        m_Slot3.style.backgroundImage = (StyleBackground)assigned.Icon;
                         m_Name3.text = assigned.Name;
+                        m_Slot3.style.backgroundImage = (StyleBackground)assigned.Icon;
+                        
                     }
                     break;
             }
@@ -297,10 +300,12 @@ public class MissionDetailsController
     {
         GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
         SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
-        soundManager.ButtonSound();
 
         if (m_AssignedAdventurers.Count > 0)
         {
+
+            soundManager.ButtonSound();
+
             m_Default = m_AcceptButton.style.backgroundColor;
             m_AcceptButton.style.backgroundColor = Color.blue;
             await Task.Delay(TimeSpan.FromSeconds(.05));
@@ -312,6 +317,12 @@ public class MissionDetailsController
             GameMaster.GetComponent<GameManager>().AddToActiveMissionList(CurMission);
 
             ExitPopup();
+        }
+        else
+        {
+            soundManager.ErrorSound();
+            GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
+            UIMaster.GetComponent<UIManager>().ErrorMessage("Must have an adventurer assigned to start mission!");
         }
     }
 

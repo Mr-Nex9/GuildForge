@@ -36,6 +36,7 @@ public class SettingDB
     [PrimaryKey]
     public int ID { get; set; }
     public int Setting { get; set; }
+    public string Password { get; set; }
 }
 public class MissionDB
 {
@@ -45,4 +46,11 @@ public class MissionDB
     public long StartTime { get; set; }
     public int Rank { get; set; }
     public int Difficulty { get; set; }
+}
+public class QuestDB
+{
+    [PrimaryKey]
+    public int ID { get; set; }
+    public int Progress { get; set; }
+
 }

@@ -548,6 +548,10 @@ public class RosterController
     }
     void LevelUpPressed()
     {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.LevelUpSound();
+
         CurSelection.LevelUp();
         FillAdventurerInfo();
     }
@@ -557,6 +561,7 @@ public class RosterController
         GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
         SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
         soundManager.ButtonSound();
+        soundManager.LevelUpSound();
 
         StatsPopUp.style.display = DisplayStyle.None;
         

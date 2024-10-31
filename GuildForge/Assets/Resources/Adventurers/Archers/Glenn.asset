@@ -13,31 +13,32 @@ MonoBehaviour:
   m_Name: Glenn
   m_EditorClassIdentifier: 
   ID: 2
-  Icon: {fileID: 2800000, guid: 69360fa9b4b563145950530ddc984053, type: 3}
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: e5ee8ee30e94b6049baa00ac937f48a9, type: 3}
   Name: Glenn
   Class: 0
   Rank: 4
-  Level: 2
+  Level: 4
   OnMission: 0
   offered: 0
   Recruited: 0
   CurrentMission: 
   currentMissionID: 0
-  EXP: 0
+  EXP: 625
   ReadyToLevel: 0
-  CostToRecruit: 0
-  health: 0
-  mana: 0
-  attack: 0
-  defense: 0
-  magic: 0
-  speed: 0
-  ActualHP: 0
-  ActualMana: 0
-  ActualAttack: 0
-  ActualDefense: 0
-  ActualMagic: 0
-  ActualSpeed: 0
+  CostToRecruit: 930
+  health: 8
+  mana: 19
+  attack: 23
+  defense: 5
+  magic: 6
+  speed: 14
+  ActualHP: 8
+  ActualMana: 19
+  ActualAttack: 23
+  ActualDefense: 5
+  ActualMagic: 6
+  ActualSpeed: 14
   ArmorItem: {fileID: 0}
   WeaponItem: {fileID: 0}
   AccessorySlot1: {fileID: 0}
@@ -49,14 +50,14 @@ MonoBehaviour:
   Eyes: Human#8A4836/0:0:0
   Body: Human#8A4836/0:0:0
   Hair: Hair3#C42430/0:0:0
-  Armor: 
-  Helmet: 
-  Weapon: 
+  Armor: Link#FFFFFF/0:0:-27
+  Helmet: MusketeerHat [ShowEars]#FFFFFF/-52:0:-27
+  Weapon: ShortBow#FFFFFF/0:0:0
   Firearm: 
   Shield: 
   Cape: 
-  Back: 
+  Back: LeatherQuiver#FFFFFF/0:0:0
   Mask: 
   Horns: 
-  defaultWeapon: 
-  defaultArmor: 
+  defaultWeapon: ShortBow#FFFFFF/0:0:0
+  defaultArmor: Link#FFFFFF/0:0:-27

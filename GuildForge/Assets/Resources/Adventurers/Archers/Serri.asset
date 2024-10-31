@@ -13,31 +13,32 @@ MonoBehaviour:
   m_Name: Serri
   m_EditorClassIdentifier: 
   ID: 6
-  Icon: {fileID: 2800000, guid: d8b7d2c1f3565434e807f5ecb5a3ac91, type: 3}
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: e5ee8ee30e94b6049baa00ac937f48a9, type: 3}
   Name: Serri
   Class: 0
   Rank: 4
-  Level: 2
+  Level: 3
   OnMission: 0
   offered: 0
   Recruited: 0
   CurrentMission: 
   currentMissionID: 0
-  EXP: 449
+  EXP: 357
   ReadyToLevel: 0
-  CostToRecruit: 2500
-  health: 0
-  mana: 0
-  attack: 0
-  defense: 0
-  magic: 0
-  speed: 0
-  ActualHP: 0
-  ActualMana: 0
-  ActualAttack: 0
-  ActualDefense: 0
-  ActualMagic: 0
-  ActualSpeed: 0
+  CostToRecruit: 677
+  health: 6
+  mana: 14
+  attack: 19
+  defense: 4
+  magic: 6
+  speed: 11
+  ActualHP: 6
+  ActualMana: 14
+  ActualAttack: 19
+  ActualDefense: 4
+  ActualMagic: 6
+  ActualSpeed: 11
   ArmorItem: {fileID: 0}
   WeaponItem: {fileID: 0}
   AccessorySlot1: {fileID: 0}
@@ -48,14 +49,14 @@ MonoBehaviour:
   Eyes: Human
   Body: Human#F6CA9F/0:0:0
   Hair: Hair9#C64524/0:0:0
-  Armor: 
-  Helmet: 
-  Weapon: 
+  Armor: Link#FFFFFF/0:0:-27
+  Helmet: MusketeerHat [ShowEars]#FFFFFF/-52:0:-27
+  Weapon: ShortBow#FFFFFF/0:0:0
   Firearm: 
   Shield: 
   Cape: 
-  Back: 
+  Back: LeatherQuiver#FFFFFF/0:0:0
   Mask: 
   Horns: 
-  defaultWeapon: 
-  defaultArmor: 
+  defaultWeapon: ShortBow#FFFFFF/0:0:0
+  defaultArmor: Link#FFFFFF/0:0:-27

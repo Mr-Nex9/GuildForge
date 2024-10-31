@@ -161,11 +161,12 @@ public class RecruitPageController
         if (localAdventurers.Count > 0)
         {
             CurIndex += 1;
+            Debug.Log(CurIndex);
             if (CurIndex > localAdventurers.Count - 1)
             {
                 CurIndex = 0;
             }
-            CurSelection = localAdventurers [CurIndex];
+            CurSelection = localAdventurers[CurIndex];
 
             FillAdventurerInfo();
         }
@@ -177,21 +178,23 @@ public class RecruitPageController
     }
     void RecruitPressed()   
     {
-        if(recruiting == false)
+        Debug.Log(CurSelection.Name + " Recruiting");
+        GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
+        GameManager GameManager = GameMaster.GetComponent<GameManager>();
+
+        if (recruiting == false && GameManager.getCurGold() >= CurSelection.CostToRecruit)
         {
             GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
             SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
             soundManager.MoneySound();
 
             recruiting = true;
-            localAdventurers.Remove(CurSelection);
             CurSelection.Recruited = true;
 
-            GameObject GameMaster = GameObject.FindGameObjectWithTag("GameController");
-            GameManager GameManager = GameMaster.GetComponent<GameManager>();
-
             GameManager.Recruit(CurSelection);
-            GameManager.PayGold(CurSelection.CostToRecruit);
+
+            localAdventurers.Remove(CurSelection);
+
             CreateList();
             NextAdventurer();
             recruiting = false;

@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Xaden
   m_EditorClassIdentifier: 
   ID: 11
-  Icon: {fileID: 0}
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: 49927d946eee80041ab8d6e0d03cd266, type: 3}
   Name: Xaden
   Class: 2
   Rank: 4
-  Level: 0
+  Level: 1
   OnMission: 0
   offered: 0
   Recruited: 0
@@ -26,18 +27,18 @@ MonoBehaviour:
   EXP: 0
   ReadyToLevel: 0
   CostToRecruit: 0
-  health: 0
-  mana: 0
-  attack: 0
-  defense: 0
-  magic: 0
-  speed: 0
-  ActualHP: 0
-  ActualMana: 0
-  ActualAttack: 0
-  ActualDefense: 0
-  ActualMagic: 0
-  ActualSpeed: 0
+  health: 4
+  mana: 6
+  attack: 5
+  defense: 2
+  magic: 9
+  speed: 4
+  ActualHP: 4
+  ActualMana: 6
+  ActualAttack: 5
+  ActualDefense: 2
+  ActualMagic: 9
+  ActualSpeed: 4
   ArmorItem: {fileID: 0}
   WeaponItem: {fileID: 0}
   AccessorySlot1: {fileID: 0}

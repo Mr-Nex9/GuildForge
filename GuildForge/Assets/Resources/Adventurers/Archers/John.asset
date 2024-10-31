@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: John
   m_EditorClassIdentifier: 
   ID: 4
-  Icon: {fileID: 2800000, guid: 69360fa9b4b563145950530ddc984053, type: 3}
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: e5ee8ee30e94b6049baa00ac937f48a9, type: 3}
   Name: John
   Class: 0
   Rank: 4
@@ -49,14 +50,14 @@ MonoBehaviour:
   Eyes: Human
   Body: Human#E69C69/0:0:0
   Hair: Hair10#C7CFDD/0:0:0
-  Armor: 
-  Helmet: 
-  Weapon: 
+  Armor: Link#FFFFFF/0:0:-27
+  Helmet: MusketeerHat [ShowEars]#FFFFFF/-52:0:-27
+  Weapon: ShortBow#FFFFFF/0:0:0
   Firearm: 
   Shield: 
   Cape: 
-  Back: 
+  Back: LeatherQuiver#FFFFFF/0:0:0
   Mask: 
   Horns: 
-  defaultWeapon: 
-  defaultArmor: 
+  defaultWeapon: ShortBow#FFFFFF/0:0:0
+  defaultArmor: Link#FFFFFF/0:0:-27

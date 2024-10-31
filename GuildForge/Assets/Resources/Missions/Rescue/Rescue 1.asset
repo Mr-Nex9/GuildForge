@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bac45d5260a3bcb4b9058eff22ad3cfa, type: 3}
+  m_Name: Rescue 1
+  m_EditorClassIdentifier: 
+  MissionComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  ID: 25
+  Active: 0
+  Offered: 0
+  Completed: 0
+  Name: Rescue the Princess from the witches tower
+  Description: 
+  Type: 5
+  Difficulty: 6
+  Rank: 0
+  BaseEXPValue: 0
+  BaseGoldValue: 0
+  BaseReputationValue: 0
+  EXPValue: 500
+  GoldValue: 50
+  ReputationValue: 5
+  AssignedAdventurers: []
+  TimeToCompleteInSeconds: 0
+  BaseSuccessChance: 90

@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -8,17 +9,21 @@ public class SettingsPageController
     VisualElement settingsPage;
     bool setup = false;
 
-    Button tutorialReset;
     SliderInt sound;
     SliderInt music;
     SliderInt effects;
     SliderInt notifications;
-    Button GameReset;
+    SliderInt password;
+    Button gameReset;
+    Button savePassword;
+    VisualElement passwordBox;
+    TextField passwordField;
 
     Label soundOn;
     Label musicOn;
     Label effectsOn;
     Label notificationsOn;
+    Label passwordOn;
 
     public void InitializePage(VisualElement root, GameState state)
     {
@@ -27,24 +32,29 @@ public class SettingsPageController
 
         if (setup == false)
         {
-            tutorialReset = settingsPage.Q<Button>("TutorialReset");
+            passwordBox = settingsPage.Q<VisualElement>("PasswordBox");
             sound = settingsPage.Q<SliderInt>("Sound");
             music = settingsPage.Q<SliderInt>("Music");
             effects = settingsPage.Q<SliderInt>("Effects");
-            notifications = settingsPage.Q<SliderInt>("Notifications");
-            GameReset = settingsPage.Q<Button>("GameReset");
+            notifications = settingsPage.Q<SliderInt>("Notification");
+            password = settingsPage.Q<SliderInt>("Password");
+            gameReset = settingsPage.Q<Button>("GameReset");
+            savePassword = settingsPage.Q<Button>("SavePassword");
+            passwordField = settingsPage.Q<TextField>("PasswordField");
 
             soundOn = settingsPage.Q<Label>("SoundOn");
             musicOn = settingsPage.Q<Label>("MusicOn");
             effectsOn = settingsPage.Q<Label>("EffectsOn");
-            notificationsOn = settingsPage.Q<Label>("NotificationsOn");
+            notificationsOn = settingsPage.Q<Label>("NotificationOn");
+            passwordOn = settingsPage.Q<Label>("PasswordOn");
 
-            tutorialReset.clicked += ResetTutorial;
-            GameReset.clicked += ResetGame;
+            gameReset.clicked += ResetGame;
+            savePassword.clicked += SavePassword;
             sound.RegisterValueChangedCallback(SoundChanged);
             music.RegisterValueChangedCallback(MusicChanged);
             effects.RegisterValueChangedCallback(EffectsChanged);
             notifications.RegisterValueChangedCallback(NotificationsChanged);
+            password.RegisterValueChangedCallback(PasswordChanged);
 
             setup = true;
             Debug.Log("Settings Setup");
@@ -60,9 +70,21 @@ public class SettingsPageController
     void SetUI()
     {
         sound.value = gameManager.GetSettings(0) ? 1 : 0;
+        soundOn.text = sound.value == 1 ? "On" : "Off";
+
         music.value = gameManager.GetSettings(1) ? 1 : 0;
+        musicOn.text = music.value == 1 ? "On" : "Off";
+
         effects.value = gameManager.GetSettings(2) ? 1 : 0;
+        effectsOn.text = effects.value == 1 ? "On" : "Off";
+
         notifications.value = gameManager.GetSettings(3) ? 1 : 0;
+        notificationsOn.text = notifications.value == 1 ? "On" : "Off";
+
+        password.value = gameManager.GetSettings(4) ? 1 : 0;
+        passwordOn.text = password.value == 1 ? "On" : "Off";
+        passwordBox.style.display = password.value == 1 ? DisplayStyle.Flex : DisplayStyle.None;
+
     }
     void ResetTutorial()
     {
@@ -79,7 +101,8 @@ public class SettingsPageController
         SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
         soundManager.ButtonSound();
 
-        Debug.Log("Reset Game button clicked");
+        Debug.Log("Reset Game");
+        gameManager.NewGame(true);
     }
 
     void SoundChanged(ChangeEvent<int> value)
@@ -154,6 +177,45 @@ public class SettingsPageController
         {
             gameManager.SetSettings(3, false);
             notificationsOn.text = "Off";
+        }
+    }
+    void PasswordChanged(ChangeEvent<int> value)
+    {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        soundManager.ButtonSound();
+
+        if (password.value == 1)
+        {
+            passwordOn.text = "On";
+            passwordBox.style.display = DisplayStyle.Flex;
+        }
+        else
+        {
+            gameManager.SetSettings(4, false);
+            passwordOn.text = "Off";
+            passwordBox.style.display = DisplayStyle.None;
+        }
+    }
+
+    void SavePassword()
+    {
+        GameObject soundMaster = GameObject.FindGameObjectWithTag("SoundManager");
+        SoundManager soundManager = soundMaster.GetComponent<SoundManager>();
+        GameObject UIMaster = GameObject.FindGameObjectWithTag("UI Manager");
+        if (passwordField.value.Length > 0 && passwordField.value.All(char.IsDigit))
+        {
+
+            soundManager.ButtonSound();
+            
+            gameManager.SetSettings(4, true, passwordField.value);
+            UIMaster.GetComponent<UIManager>().ErrorMessage("Pasword Set!");
+        }
+        else
+        {
+            soundManager.ErrorSound();
+
+            UIMaster.GetComponent<UIManager>().ErrorMessage("Password must be numbers 0-9 only!");
         }
     }
 }

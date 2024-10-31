@@ -1,13 +1,50 @@
 {
-    "m_SelectedDeviceId": "",
+    "m_SelectedDeviceId": "1C181FDEE000NH",
     "m_SelectedProcess": {
         "deviceId": "",
         "name": "",
         "processId": 0,
         "exited": false
     },
-    "m_SelectedPriority": 0,
-    "m_KnownProcessesForSerialization": [],
+    "m_SelectedPriority": 1,
+    "m_KnownProcessesForSerialization": [
+        {
+            "deviceId": "1C181FDEE000NH",
+            "name": "com.WispWonderStudios.GuildForge",
+            "processId": 8555,
+            "exited": true
+        },
+        {
+            "deviceId": "1C181FDEE000NH",
+            "name": "com.WispWonderStudios.GuildForge",
+            "processId": 9706,
+            "exited": true
+        },
+        {
+            "deviceId": "1C181FDEE000NH",
+            "name": "com.WispWonderStudios.GuildForge",
+            "processId": 5856,
+            "exited": true
+        },
+        {
+            "deviceId": "1C181FDEE000NH",
+            "name": "com.WispWonderStudios.GuildForge",
+            "processId": 7364,
+            "exited": true
+        },
+        {
+            "deviceId": "1C181FDEE000NH",
+            "name": "com.google.android.apps.nexuslauncher",
+            "processId": 14399,
+            "exited": false
+        },
+        {
+            "deviceId": "1C181FDEE000NH",
+            "name": "com.google.android.dialer",
+            "processId": 12007,
+            "exited": false
+        }
+    ],
     "m_Tags": {
         "m_Entries": [
             {
@@ -16,7 +53,7 @@
             },
             {
                 "m_Name": "No Filter",
-                "m_Selected": true
+                "m_Selected": false
             },
             {
                 "m_Name": "",
@@ -32,7 +69,7 @@
             },
             {
                 "m_Name": "Unity",
-                "m_Selected": false
+                "m_Selected": true
             },
             {
                 "m_Name": "CRASH",
@@ -45,8 +82,19 @@
         "Height": 0.0
     },
     "m_MemoryViewerState": {
-        "MemoryWindowWidth": 0.0,
-        "MemoryTypeEnabled": [],
+        "MemoryWindowWidth": 170.0,
+        "MemoryTypeEnabled": [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+        ],
         "MemoryGroup": 2,
         "AutoCapture": true
     },

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - UI Manager
   - Character
+  - SoundManager
   layers:
   - Default
   - TransparentFX

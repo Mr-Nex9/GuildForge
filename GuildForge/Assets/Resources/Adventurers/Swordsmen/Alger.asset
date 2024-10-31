@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Alger
   m_EditorClassIdentifier: 
   ID: 13
-  Icon: {fileID: 0}
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: e56f75e1e01864a48a01a1e8ae42e4ce, type: 3}
   Name: Alger
   Class: 1
   Rank: 4

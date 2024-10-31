@@ -13,31 +13,32 @@ MonoBehaviour:
   m_Name: Sinan
   m_EditorClassIdentifier: 
   ID: 22
-  Icon: {fileID: 0}
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: 9c82909ec08f72b44a7d22d7f436454c, type: 3}
   Name: Sinan
   Class: 3
   Rank: 4
-  Level: 0
+  Level: 1
   OnMission: 0
   offered: 0
-  Recruited: 0
+  Recruited: 1
   CurrentMission: 
   currentMissionID: 0
   EXP: 0
   ReadyToLevel: 0
   CostToRecruit: 0
-  health: 0
-  mana: 0
-  attack: 0
-  defense: 0
-  magic: 0
-  speed: 0
-  ActualHP: 0
-  ActualMana: 0
-  ActualAttack: 0
-  ActualDefense: 0
-  ActualMagic: 0
-  ActualSpeed: 0
+  health: 2
+  mana: 3
+  attack: 3
+  defense: 7
+  magic: 5
+  speed: 10
+  ActualHP: 2
+  ActualMana: 3
+  ActualAttack: 3
+  ActualDefense: 7
+  ActualMagic: 5
+  ActualSpeed: 10
   ArmorItem: {fileID: 0}
   WeaponItem: {fileID: 0}
   AccessorySlot1: {fileID: 0}

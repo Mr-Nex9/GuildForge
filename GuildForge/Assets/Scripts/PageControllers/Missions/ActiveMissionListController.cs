@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditorInternal.ReorderableList;
 
 public class ActiveMissionListController
 {
@@ -47,11 +46,13 @@ public class ActiveMissionListController
                     if (activeMissions[i - 1].EndTime <= DateTime.Now)
                     {
                         completeButton.style.display = DisplayStyle.Flex;
-                        completeButton.RegisterCallback<ClickEvent>(e => MissionComplete(i -2, completeButton));
+                        completeButton.RegisterCallback<ClickEvent>(e => MissionComplete(i-1, completeButton));
                         missionTimeRemaining.text = "Completed!";
                     }
                     else
                     {
+                        completeButton.style.display = DisplayStyle.None;
+                        completeButton.UnregisterCallback<ClickEvent>(e => MissionComplete(i - 1, completeButton));
                         missionTimeRemaining.text = ConvertTimeToString((int)(activeMissions[i - 1].EndTime - DateTime.Now).TotalSeconds);
                     }
                 }
@@ -182,6 +183,8 @@ public class ActiveMissionListController
                 }
                 else
                 {
+                    completeButton.style.display = DisplayStyle.None;
+                    completeButton.UnregisterCallback<ClickEvent>(e => MissionComplete(i - 1, completeButton));
                     missionTimeRemaining.text = ConvertTimeToString((int)(activeMissions[i - 1].EndTime - DateTime.Now).TotalSeconds);
                 }
             }

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e829111cccd604f4a946dbbbc97d7913, type: 3}
+  m_Name: Hunt 2
+  m_EditorClassIdentifier: 
+  MissionComplete:
+    m_PersistentCalls:
+      m_Calls: []
+  ID: 18
+  Active: 0
+  Offered: 0
+  Completed: 0
+  Name: Stop the Giant Moles from destroying the fall harvest
+  Description: 
+  Type: 2
+  Difficulty: 6
+  Rank: 0
+  BaseEXPValue: 0
+  BaseGoldValue: 0
+  BaseReputationValue: 0
+  EXPValue: 500
+  GoldValue: 50
+  ReputationValue: 5
+  AssignedAdventurers: []
+  TimeToCompleteInSeconds: 0
+  BaseSuccessChance: 90
