@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc21fb672447074fa406334334aef96, type: 3}
+  m_Name: Mags
+  m_EditorClassIdentifier: 
+  ID: 5
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: e5ee8ee30e94b6049baa00ac937f48a9, type: 3}
+  Name: Mags
+  Class: 0
+  Rank: 4
+  Level: 2
+  OnMission: 0
+  offered: 0
+  Recruited: 0
+  CurrentMission: 
+  currentMissionID: 0
+  EXP: 0
+  ReadyToLevel: 0
+  CostToRecruit: 0
+  health: 0
+  mana: 0
+  attack: 0
+  defense: 0
+  magic: 0
+  speed: 0
+  ActualHP: 0
+  ActualMana: 0
+  ActualAttack: 0
+  ActualDefense: 0
+  ActualMagic: 0
+  ActualSpeed: 0
+  ArmorItem: {fileID: 0}
+  WeaponItem: {fileID: 0}
+  AccessorySlot1: {fileID: 0}
+  AccessorySlot2: {fileID: 0}
+  Skills:
+  - {fileID: 0}
+  Head: Human#8A4836/0:0:0
+  Ears: Human#8A4836/0:0:0
+  Eyes: Human
+  Body: Human#8A4836/0:0:0
+  Hair: Hair14#3D3D3D/0:0:0
+  Armor: Link#FFFFFF/0:0:-27
+  Helmet: MusketeerHat [ShowEars]#FFFFFF/-52:0:-27
+  Weapon: ShortBow#FFFFFF/0:0:0
+  Firearm: 
+  Shield: 
+  Cape: 
+  Back: LeatherQuiver#FFFFFF/0:0:0
+  Mask: 
+  Horns: 
+  defaultWeapon: ShortBow#FFFFFF/0:0:0
+  defaultArmor: Link#FFFFFF/0:0:-27

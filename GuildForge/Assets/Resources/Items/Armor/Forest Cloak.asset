@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c1c2ebcc46b3f4d847597accd508eb, type: 3}
+  m_Name: Forest Cloak
+  m_EditorClassIdentifier: 
+  inStore: 0
+  ID: 28
+  Icon: {fileID: 2800000, guid: 7c4de62b4569b6948964ef82dbccf7c9, type: 3}
+  Name: Forest Cloak
+  itemtype: 1
+  itemRank: 0
+  Cost: 2500
+  characterBuilderName: ElfTunic#FFFFFF/0:36:-31
+  AtkBonus: 20
+  DefBonus: 6
+  HPBonus: 0
+  ManaBonus: 12
+  MagBonus: 0
+  SpdBonus: 8

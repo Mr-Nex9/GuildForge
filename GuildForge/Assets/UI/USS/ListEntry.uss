@@ -1,0 +1,19 @@
+.ListEntry {
+    flex-grow: 1;
+    background-color: rgb(172, 125, 73);
+    height: 10%;
+    width: 1080px;
+    min-height: 10%;
+    max-height: 10%;
+    border-bottom-width: 5px;
+    border-top-width: 5px;
+    border-right-width: 5px;
+    border-left-width: 5px;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-evenly;
+}

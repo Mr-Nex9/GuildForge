@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ed5a60028c97c6488e9fa699a58e463, type: 3}
+  m_Name: Blue Crystal Staff
+  m_EditorClassIdentifier: 
+  inStore: 0
+  ID: 11
+  Icon: {fileID: 2800000, guid: 1289401ab67655c4e9affe7cd5881008, type: 3}
+  Name: Blue Crystal Staff
+  itemtype: 0
+  itemRank: 0
+  Cost: 1500
+  characterBuilderName: ElderStaff#FFFFFF/-124:100:100
+  AtkBonus: 5
+  DefBonus: 0
+  HPBonus: 0
+  ManaBonus: 8
+  MagBonus: 15
+  SpdBonus: 0

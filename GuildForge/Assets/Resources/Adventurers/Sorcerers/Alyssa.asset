@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c24b67b50374fd4cbe9ff5bb6c5ea09, type: 3}
+  m_Name: Alyssa
+  m_EditorClassIdentifier: 
+  ID: 7
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: 49927d946eee80041ab8d6e0d03cd266, type: 3}
+  Name: Alyssa
+  Class: 2
+  Rank: 4
+  Level: 4
+  OnMission: 0
+  offered: 0
+  Recruited: 0
+  CurrentMission: 
+  currentMissionID: 0
+  EXP: 625
+  ReadyToLevel: 0
+  CostToRecruit: 962
+  health: 8
+  mana: 17
+  attack: 14
+  defense: 8
+  magic: 20
+  speed: 8
+  ActualHP: 8
+  ActualMana: 17
+  ActualAttack: 14
+  ActualDefense: 8
+  ActualMagic: 20
+  ActualSpeed: 8
+  ArmorItem: {fileID: 0}
+  WeaponItem: {fileID: 0}
+  AccessorySlot1: {fileID: 0}
+  AccessorySlot2: {fileID: 0}
+  Skills: []
+  Head: Human#E69C69/0:0:0
+  Ears: Human#E69C69/0:0:0
+  Eyes: Human
+  Body: Human#E69C69/0:0:0
+  Hair: Hair1#8A4836/0:0:0
+  Armor: BlueWizardTunic#FFFFFF/-160:6:0
+  Helmet: BlueWizzardHat#FFFFFF/0:0:0
+  Weapon: Stick#FFFFFF/0:0:0
+  Firearm: 
+  Shield: 
+  Cape: 
+  Back: 
+  Mask: 
+  Horns: 
+  defaultWeapon: Stick#FFFFFF/0:0:0
+  defaultArmor: BlueWizardTunic#FFFFFF/-160:6:0

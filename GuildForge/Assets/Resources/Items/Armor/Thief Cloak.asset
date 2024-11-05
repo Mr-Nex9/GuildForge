@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c1c2ebcc46b3f4d847597accd508eb, type: 3}
+  m_Name: Thief Cloak
+  m_EditorClassIdentifier: 
+  inStore: 0
+  ID: 36
+  Icon: {fileID: 2800000, guid: 401ff4e311afea14b85c01864c0bb5b1, type: 3}
+  Name: Thief Cloak
+  itemtype: 1
+  itemRank: 0
+  Cost: 2500
+  characterBuilderName: HolowKnight#FFFFFF/0:-100:0
+  AtkBonus: 6
+  DefBonus: 12
+  HPBonus: 0
+  ManaBonus: 0
+  MagBonus: 8
+  SpdBonus: 20

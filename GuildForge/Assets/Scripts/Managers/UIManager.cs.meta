@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0595c266389c01b4383971607d97b58d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - gameState: {fileID: 11400000, guid: f927e6ec532a2d74bbce682543b2f91c, type: 2}
+  - m_RosterListEntryTemplate: {instanceID: 0}
+  - m_NewQuestListEntryTemplate: {fileID: 9197481963319205126, guid: 73308c0352caf2045af39619f503db88, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

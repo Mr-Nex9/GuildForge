@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 7c24b67b50374fd4cbe9ff5bb6c5ea09
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - defaultIcon: {fileID: 2800000, guid: 49927d946eee80041ab8d6e0d03cd266, type: 3}
+  - Icon: {instanceID: 0}
+  - ArmorItem: {instanceID: 0}
+  - WeaponItem: {instanceID: 0}
+  - AccessorySlot1: {instanceID: 0}
+  - AccessorySlot2: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

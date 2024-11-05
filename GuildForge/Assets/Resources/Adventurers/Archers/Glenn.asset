@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc21fb672447074fa406334334aef96, type: 3}
+  m_Name: Glenn
+  m_EditorClassIdentifier: 
+  ID: 2
+  defaultIcon: {fileID: 0}
+  Icon: {fileID: 2800000, guid: e5ee8ee30e94b6049baa00ac937f48a9, type: 3}
+  Name: Glenn
+  Class: 0
+  Rank: 4
+  Level: 4
+  OnMission: 0
+  offered: 0
+  Recruited: 0
+  CurrentMission: 
+  currentMissionID: 0
+  EXP: 625
+  ReadyToLevel: 0
+  CostToRecruit: 930
+  health: 8
+  mana: 19
+  attack: 23
+  defense: 5
+  magic: 6
+  speed: 14
+  ActualHP: 8
+  ActualMana: 19
+  ActualAttack: 23
+  ActualDefense: 5
+  ActualMagic: 6
+  ActualSpeed: 14
+  ArmorItem: {fileID: 0}
+  WeaponItem: {fileID: 0}
+  AccessorySlot1: {fileID: 0}
+  AccessorySlot2: {fileID: 0}
+  Skills:
+  - {fileID: 0}
+  Head: Human#8A4836/0:0:0
+  Ears: Human#8A4836/0:0:0
+  Eyes: Human#8A4836/0:0:0
+  Body: Human#8A4836/0:0:0
+  Hair: Hair3#C42430/0:0:0
+  Armor: Link#FFFFFF/0:0:-27
+  Helmet: MusketeerHat [ShowEars]#FFFFFF/-52:0:-27
+  Weapon: ShortBow#FFFFFF/0:0:0
+  Firearm: 
+  Shield: 
+  Cape: 
+  Back: LeatherQuiver#FFFFFF/0:0:0
+  Mask: 
+  Horns: 
+  defaultWeapon: ShortBow#FFFFFF/0:0:0
+  defaultArmor: Link#FFFFFF/0:0:-27
